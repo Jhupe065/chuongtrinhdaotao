@@ -1,0 +1,31 @@
+#components-layout-demo-fixed-sider .logo {
+  height: 32px;
+  margin: 16px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.site-layout .site-layout-background {
+  background: #fff;
+  padding: 24px;
+  text-align: center;;
+}
+
+.ant-layout-sider {
+  background-color: #f0f2f5;
+}
+
+.header {
+  padding: 20px;
+  height: 70px;
+  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+}
+
+.logo {
+  height: 70px;
+}
+
+.site-layout {
+  margin-left: 200px;
+}
