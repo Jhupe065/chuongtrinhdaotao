@@ -189,7 +189,7 @@ export default function BangDiem(props) {
           setExcelFileError(null);
           setExcelFile(e.target.result);
         };
-        console.log("sadasd");
+        
       } else {
         setExcelFileError("Please select only excel file types");
         setExcelFile(null);
