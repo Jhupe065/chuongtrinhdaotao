@@ -9,6 +9,7 @@ import DmCTDT from "../components/Qly_CTDT/Danhmuc_CTDT";
 import KKT from "../components/Qly_CTDT/KhoiKT";
 import NdCTDT from "../components/Qly_CTDT/NoiDung_CTDT";
 import TaiKhoan from "../components/Qly_Nguoidung/TaiKhoan";
+import BangDiem from "../components/Qly_CTDT/BangDiem";
 
 const AppRouter = (props) => {
   
@@ -25,11 +26,11 @@ const AppRouter = (props) => {
       <Route path="/khoahoc" element={<KhoaHoc signOut={props.signOut}/>} />
       <Route path="/nganh" element={<Nganh signOut={props.signOut}/>} />
       <Route path="/mon" element={<Mon signOut={props.signOut}/>} />
+      <Route path="/bangdiem" element={<BangDiem signOut={props.signOut}/>} />
       <Route path="/khoiKT" element={<KKT signOut={props.signOut}/>} />
       <Route path="/ndCTDT" element={<NdCTDT signOut={props.signOut}/>} />
       <Route path="/dmCTDT" element={<DmCTDT signOut={props.signOut}/>} />
       <Route path="/taikhoan" element={<TaiKhoan signOut={props.signOut}/>} />
-
     </Routes>
   );
 };

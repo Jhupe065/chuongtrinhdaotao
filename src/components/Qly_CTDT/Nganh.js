@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import "../../App.css";
+import "../content.css";
 
-import { Table, Button, Input, Modal, Select } from "antd";
+import {
+  Table,
+  Button,
+  Modal,
+  Input,
+  notification,
+  Popconfirm,
+  Select,
+} from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -12,12 +21,10 @@ import Header from "../layouts/header";
 import Sider from "../layouts/sider";
 import Footer from "../layouts/footer";
 import { Layout } from "antd";
-import PATH_API from "../../API/path_api"
+import PATH_API from "../../API/path_api";
 
 const { Content } = Layout;
 const { Option } = Select;
-
-
 
 export default function Nganh(props) {
   const [loading, setLoading] = useState(false);
@@ -30,22 +37,19 @@ export default function Nganh(props) {
   const [editingData, setEditingData] = useState(null);
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-  
 
   // state du lieu them moi Nganh
   const [KhoaData, setKhoaData] = useState([]);
-  const [TenNganhTextInput, setTenNganhTextInput] = useState("");
-  const [MaNganhTextInput, setMaNganhTextInput] = useState("");
+  const [tenNganhTextInput, settenNganhTextInput] = useState("");
+  const [maNganhTextInput, setmaNganhTextInput] = useState("");
   const [selectedKhoa, setSelectedKhoa] = useState(null);
   const [selectedKhoaAdd, setSelectedKhoaAdd] = useState(null);
-
-
 
   const handleCancel = () => {
     setIsModalAddOpen(false);
     setIsModalEditOpen(false);
-    setMaNganhTextInput("");
-    setTenNganhTextInput("");
+    setmaNganhTextInput("");
+    settenNganhTextInput("");
   };
 
   const fetchData = (params = {}) => {
@@ -56,23 +60,21 @@ export default function Nganh(props) {
       return data;
     }
     fetchData().then((data) => {
-      if(selectedKhoa === null){
+      if (selectedKhoa === null) {
         setDataSource(data);
         setPagination({
           ...params.pagination,
         });
-      }
-      else{
-        const filtedData = data.filter((data)=>{
+      } else {
+        const filtedData = data.filter((data) => {
           return data.idKhoa === selectedKhoa;
-        })
+        });
         setDataSource(filtedData);
         setPagination({
           ...params.pagination,
         });
       }
       setLoading(false);
-        
     });
   };
 
@@ -83,7 +85,6 @@ export default function Nganh(props) {
   }
 
   useEffect(() => {
-    
     fetchDataSp("Khoa").then((data) => {
       setKhoaData(data);
     });
@@ -158,7 +159,7 @@ export default function Nganh(props) {
         return <SearchOutlined />;
       },
       onFilter: (value, record) => {
-        return record.MaNganh.toLowerCase().includes(value.toLowerCase());
+        return record.maNganh.toLowerCase().includes(value.toLowerCase());
       },
     },
     {
@@ -207,7 +208,7 @@ export default function Nganh(props) {
         return <SearchOutlined />;
       },
       onFilter: (value, record) => {
-        return record.TenNganh.toLowerCase().includes(value.toLowerCase());
+        return record.tenNganh.toLowerCase().includes(value.toLowerCase());
       },
     },
     {
@@ -223,35 +224,69 @@ export default function Nganh(props) {
                 onEditData(record);
               }}
             />
-            <DeleteOutlined
-              style={{ color: "red", marginLeft: "10px" }}
-              onClick={() => {
-                let text = "Bạn muốn xóa ngành " + record.TenNganh + " không? ";
-                if (window.confirm(text) === true) {
-                  setLoading(true);
-                  fetch(`${PATH_API}Nganh/${record.id}`, {
-                    method: "DELETE",
-                  })
-                    .then((response) => response.json())
-                    .then(() => {
-                      fetchData({
-                        pagination,
-                      });
-                    })
-                    .then(() => {
-                      console.log("Delete successful");
-                    })
-                    .catch((error) => {
-                      console.error("Error:", error);
+            <Popconfirm
+              title="Bạn có chắc chắn muốn xóa ngành này không?"
+              onConfirm={() => {
+                setLoading(true);
+                fetch(`${PATH_API}Nganh/${record.id}`, {
+                  method: "DELETE",
+                })
+                  .then((response) => response.json())
+                  .then(() => {
+                    fetchData({
+                      pagination,
                     });
-                  }
+                  })
+                  .then(() => {
+                    console.log("Delete successful");
+                  })
+                  .catch((error) => {
+                    console.error("Error:", error);
+                  });
               }}
-            />
+              onCancel={() => {}}
+              okText="Yes"
+              cancelText="No"
+            >
+              <DeleteOutlined style={{ color: "red", marginLeft: "10px" }} />
+            </Popconfirm>
           </>
         );
       },
     },
   ];
+
+  const ktraTrungLapAdd = (new_maNganh, new_tenNganh) => {
+    let listMaNganh = [];
+    let listTenNganh = [];
+    dataSource.forEach((data) => {
+      listMaNganh.push(data.maNganh);
+      listTenNganh.push(data.tenNganh);
+    });
+    if (
+      listMaNganh.includes(new_maNganh) ||
+      listTenNganh.includes(new_tenNganh)
+    )
+      return true;
+    else return false;
+  };
+
+  const ktraTrungLapEdit = (new_maNganh, new_tenNganh, id) => {
+    let listMaNganh = [];
+    let listTenNganh = [];
+    dataSource.forEach((data) => {
+      if (data.id !== id) {
+        listMaNganh.push(data.maNganh);
+        listTenNganh.push(data.tenNganh);
+      }
+    });
+    if (
+      listMaNganh.includes(new_maNganh) ||
+      listTenNganh.includes(new_tenNganh)
+    )
+      return true;
+    else return false;
+  };
 
   return (
     <Layout hasSider>
@@ -287,7 +322,6 @@ export default function Nganh(props) {
                       .localeCompare(optionB.children.toLowerCase())
                   }
                   onSelect={(value) => {
-                    
                     fetchDataSp("Nganh").then((data) => {
                       const new_dataSource = data.filter((data) => {
                         return data.idKhoa === value;
@@ -295,22 +329,19 @@ export default function Nganh(props) {
                       console.log(value);
                       setDataSource(new_dataSource);
                       setSelectedKhoa(value); //
-                     
                     });
                   }}
                   allowClear
-                  onClear={()=>{
-                    
+                  onClear={() => {
                     fetchDataSp("Nganh").then((data) => {
                       setDataSource(data);
-                      setSelectedKhoa(null); 
+                      setSelectedKhoa(null);
                     });
                   }}
                 >
                   {KhoaData.map((data) => {
-                    console.log(data.idKhoa);
                     return (
-                      <Option key={data.idKhoa} value={data.idKhoa}>
+                      <Option key={data.id} value={data.id}>
                         {data.tenKhoa}
                       </Option>
                     );
@@ -332,7 +363,7 @@ export default function Nganh(props) {
                 style={{ width: "100%" }}
                 columns={columns}
                 size="middle"
-                rowKey="MaNganh"
+                rowKey="maNganh"
                 loading={loading}
                 dataSource={dataSource}
                 pagination={pagination}
@@ -357,58 +388,109 @@ export default function Nganh(props) {
                   onSubmit={(e) => {
                     e.preventDefault();
                     setLoading(true);
-                    const new_MaNganh = e.target.elements.maNganh.value;
-                    const new_TenNganh = e.target.elements.tenNganh.value;
+                    const new_maNganh = e.target.elements.maNganh.value;
+                    const new_tenNganh = e.target.elements.tenNganh.value;
                     const new_idKhoa = selectedKhoaAdd;
-                    const new_data = {
-                      maNganh: new_MaNganh,
-                      maNganh: new_TenNganh,
-                      idKhoa: new_idKhoa
-                    };
-                  
-                    fetch(`${PATH_API}Nganh`, {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify(new_data),
-                    })
-                      .then((response) => response.json())
-                      .then(() => {
-                        fetchData({
-                          pagination,
-                        });
-                      })
-                      .catch((error) => {
-                        console.error("Error:", error);
+                    // Kiem tra so luong ki tu
+                    if (new_maNganh.length !== 2 || new_tenNganh.length > 255) {
+                      return notification.error({
+                        message: "Thêm không thành công",
+                        description:
+                          "Số lượng kí tự vượt quá giới hạn cho phép. Vui lòng nhập lại dữ liệu!",
+                        duration: 3,
+                        placement: "bottomRight",
                       });
-                    handleCancel();
-                    setSelectedKhoaAdd(null); 
+                    }
+                    // kiem tra trung lap
+                    if (ktraTrungLapAdd(new_maNganh, new_tenNganh)) {
+                      return notification.error({
+                        message: "Thêm không thành công",
+                        description:
+                          "Thông tin ngành đã tồn tại. Vui lòng nhập lại dữ liệu!",
+                        duration: 3,
+                        placement: "bottomRight",
+                      });
+                    }
+
+                    if (new_idKhoa === null) {
+                      return notification.error({
+                        message: "Thêm không thành công",
+                        description: "Vui lòng điền đầy đủ thông tin!",
+                        duration: 3,
+                        placement: "bottomRight",
+                      });
+                    }
+                    if (
+                      new_maNganh.length === 2 &&
+                      new_tenNganh.length <= 255 &&
+                      !ktraTrungLapAdd(
+                        new_maNganh,
+                        new_tenNganh && new_idKhoa !== null
+                      )
+                    ) {
+                      const new_data = {
+                        maNganh: new_maNganh,
+                        tenNganh: new_tenNganh,
+                        idKhoa: new_idKhoa,
+                      };
+
+                      fetch(`${PATH_API}Nganh`, {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(new_data),
+                      })
+                        .then((response) => response.json())
+                        .then(() => {
+                          fetchData({
+                            pagination,
+                          });
+                        })
+                        .catch((error) => {
+                          console.error("Error:", error);
+                        });
+                      handleCancel();
+                      setSelectedKhoaAdd(null);
+                      return notification["success"]({
+                        message: "",
+                        description: "Thêm mới thành công!",
+                        duration: 3,
+                        placement: "bottomRight",
+                      });
+                    }
+                    setLoading(false);
                   }}
                 >
-                  <div className="form-input form-input-center">
-                    <label htmlFor="MaNganh">Mã Khoa:</label>
-                    <Input
-                      id="add_MaNganh"
-                      name="MaNganh"
-                      value={TenNganhTextInput}
-                      onChange={(e) => {
-                        setTenNganhTextInput(e.target.value);
-                      }}
-                      required={true}
-                    />
+                  <div className="wrap">
+                    <div className="form-input form-input-center">
+                      <label htmlFor="maNganh">Mã Khoa:</label>
+                      <Input
+                        id="add_maNganh"
+                        name="maNganh"
+                        value={tenNganhTextInput}
+                        onChange={(e) => {
+                          settenNganhTextInput(e.target.value);
+                        }}
+                        required={true}
+                      />
+                    </div>
+                    <p className="note">(* Yêu cầu 2 kí tự)</p>
                   </div>
-                  <div className="form-input form-input-center">
-                    <label htmlFor="TenNganh">Tên Khoa:</label>
-                    <Input
-                      id="add_TenNganh"
-                      name="TenNganh"
-                      value={MaNganhTextInput}
-                      onChange={(e) => {
-                        setMaNganhTextInput(e.target.value);
-                      }}
-                      required={true}
-                    />
+                  <div className="wrap">
+                    <div className="form-input form-input-center">
+                      <label htmlFor="tenNganh">Tên Khoa:</label>
+                      <Input
+                        id="add_tenNganh"
+                        name="tenNganh"
+                        value={maNganhTextInput}
+                        onChange={(e) => {
+                          setmaNganhTextInput(e.target.value);
+                        }}
+                        required={true}
+                      />
+                    </div>
+                    <p className="note">(* Không vượt quá 255 kí tự)</p>
                   </div>
                   <div className="form-input form-input-center">
                     <label htmlFor="Khoa">Khoa:</label>
@@ -433,25 +515,28 @@ export default function Nganh(props) {
                       onSelect={(value) => {
                         setSelectedKhoaAdd(value);
                       }}
-                      
                     >
                       {KhoaData.map((data) => {
                         return (
-                          <Option key={data.idKhoa} value={data.idKhoa}>
+                          <Option key={data.id} value={data.id}>
                             {data.tenKhoa}
                           </Option>
                         );
                       })}
                     </Select>
                   </div>
-                  <Button type="primary" htmlType="submit">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    style={{ marginTop: "10px" }}
+                  >
                     Xác nhận
                   </Button>
                 </form>
               </Modal>
 
-               {/* Form Edit ********************************************************* */}
-               <Modal
+              {/* Form Edit ********************************************************* */}
+              <Modal
                 title="Sửa thông tin ngành"
                 open={isModalEditOpen}
                 onCancel={handleCancel}
@@ -468,32 +553,37 @@ export default function Nganh(props) {
                 closable={false}
               >
                 <div name="form-edit" className="form">
-                  <div className="form-input form-input-center" >
-                    <label htmlFor="edit_MaNganh">Mã ngành:</label>
-                    <Input
-                      name="edit_MaNganh"
-                      value={editingData?.MaNganh}
-                      onChange={(e) => {
-                        setEditingData((pre) => {
-                          return { ...pre, MaNganh: e.target.value };
-                        });
-                      }}
-                    />
+                  <div className="wrap">
+                    <div className="form-input form-input-center">
+                      <label htmlFor="edit_maNganh">Mã ngành:</label>
+                      <Input
+                        name="edit_maNganh"
+                        value={editingData?.maNganh}
+                        onChange={(e) => {
+                          setEditingData((pre) => {
+                            return { ...pre, maNganh: e.target.value };
+                          });
+                        }}
+                      />
+                    </div>
+                    <p className="note">(* Yêu cầu 2 kí tự)</p>
+                  </div>
+                  <div className="wrap">
+                    <div className="form-input form-input-center">
+                      <label htmlFor="edit_tenNganh">Tên ngành:</label>
+                      <Input
+                        name="edit_tenKhoa"
+                        value={editingData?.tenNganh}
+                        onChange={(e) => {
+                          setEditingData((pre) => {
+                            return { ...pre, tenNganh: e.target.value };
+                          });
+                        }}
+                      />
+                    </div>
+                    <p className="note">(* Không vượt quá 255 kí tự)</p>
                   </div>
                   <div className="form-input form-input-center">
-                    <label htmlFor="edit_TenNganh">Tên ngành:</label>
-                    <Input
-                      name="edit_TenKhoa"
-                      value={editingData?.TenNganh}
-                      onChange={(e) => {
-                        setEditingData((pre) => {
-                          return { ...pre, TenNganh: e.target.value };
-                        });
-                      }}
-                    />
-                  </div>
-                  <div className="form-input form-input-center">
-                    
                     <Select
                       defaultValue={editingData?.idKhoa}
                       name="chonKhoa"
@@ -517,12 +607,11 @@ export default function Nganh(props) {
                           return { ...pre, idKhoa: value };
                         });
                       }}
-                      
                     >
                       {KhoaData.map((data) => {
                         return (
-                          <Option key={data.idKhoa} value={data.idKhoa}>
-                            {data.TenKhoa}
+                          <Option key={data.id} value={data.id}>
+                            {data.tenKhoa}
                           </Option>
                         );
                       })}
@@ -533,30 +622,74 @@ export default function Nganh(props) {
                     type="primary"
                     htmlType="submit"
                     onClick={() => {
-                      dataSource.map((data) => {
-                        if (data.idNganh === editingData.idNganh) {
-                          setLoading(true);
-                          fetch(`${PATH_API}Nganh/${editingData.idNganh}`, {
-                            method: "PUT",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify(editingData),
-                          })
-                            .then((response) => response.json())
-                            .then(() => {
-                              fetchData({
-                                pagination,
-                              });
+                      if (
+                        editingData.maNganh.length !== 2 ||
+                        editingData.tenNganh.length > 255
+                      ) {
+                        return notification.error({
+                          message: "Sửa thông tin không thành công",
+                          description:
+                            "Số lượng kí tự không phù hợp với yêu cầu. Vui lòng nhập lại dữ liệu!",
+                          duration: 3,
+                          placement: "bottomRight",
+                        });
+                      }
+                      // kiem tra trung lap
+                      if (
+                        ktraTrungLapEdit(
+                          editingData.maNganh,
+                          editingData.tenNganh,
+                          editingData.id
+                        )
+                      ) {
+                        return notification.error({
+                          message: "Sửa thông tin không thành công",
+                          description:
+                            "Thông tin ngành đã tồn tại. Vui lòng nhập lại dữ liệu!",
+                          duration: 3,
+                          placement: "bottomRight",
+                        });
+                      }
+                      if (
+                        editingData.maNganh.length === 2 &&
+                        editingData.tenNganh.length < 255 &&
+                        !ktraTrungLapEdit(
+                          editingData.maNganh,
+                          editingData.tenNganh,
+                          editingData.id
+                        )
+                      ) {
+                        dataSource.map((data) => {
+                          if (data.id === editingData.id) {
+                            setLoading(true);
+                            fetch(`${PATH_API}Nganh/${editingData.id}`, {
+                              method: "PUT",
+                              headers: {
+                                "Content-Type": "application/json",
+                              },
+                              body: JSON.stringify(editingData),
                             })
-                            .catch((error) => {
-                              console.error("Error:", error);
-                            });
-                          return editingData;
-                        }
-                        return data;
-                      });
-                      resetEditing();
+                              .then((response) => response.json())
+                              .then(() => {
+                                fetchData({
+                                  pagination,
+                                });
+                              })
+                              .catch((error) => {
+                                console.error("Error:", error);
+                              });
+                            return editingData;
+                          }
+                          return data;
+                        });
+                        resetEditing();
+                        return notification["success"]({
+                          message: "",
+                          description: "Sửa thông tin thành công!",
+                          duration: 3,
+                          placement: "bottomRight",
+                        });
+                      }
                     }}
                   >
                     Xác nhận

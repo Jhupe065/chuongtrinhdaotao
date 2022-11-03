@@ -22,6 +22,7 @@ const sider = (props) => {
   }
 
   return (
+    
     <Sider className="Sider">
       <div className="logo-area" style={{cursor: "pointer"}} onClick={handleClickLogo }>
         <img src={logo} alt="logo" className="logo"  />
@@ -37,12 +38,39 @@ const sider = (props) => {
             <DashboardOutlined />
             <span>Dashboard</span>
             <Link to="/admin/" />
-          </Menu.Item>
-          <Menu.Item key="taikhoan">
-            <UserOutlined />
-            <span>Quản lý tài khoản</span>
-            <Link to="/admin/taikhoan" />
-          </Menu.Item>  
+          </Menu.Item>       
+
+
+          <SubMenu
+            key="User"
+            title={
+              <span>
+                <UserOutlined />
+                <span>Quản lý người dùng</span>
+              </span>
+            }
+          >
+            <Menu.ItemGroup key="User_itemGroup" title="">
+              <Menu.Item key="taikhoan" style={{ paddingLeft: "24px" }}>
+                <span>Quản lý tài khoản</span>
+                <Link to="/admin/taikhoan" />
+              </Menu.Item>
+              <Menu.Item key="nhanvien" style={{ paddingLeft: "24px" }}>
+                <span>Quản lý nhân viên</span>
+                {/* <Link to="/admin/khoahoc" /> */}
+              </Menu.Item>
+              <Menu.Item key="sinhvien" style={{ paddingLeft: "24px" }}>
+                <span>Quản lý sinh viên</span>
+                {/* <Link to="/admin/nganh" /> */}
+              </Menu.Item>
+              <Menu.Item key="chucvu" style={{ paddingLeft: "24px" }}>
+                <span>Quản lý chức vụ</span>
+                {/* <Link to="/admin/nganh" /> */}
+              </Menu.Item>
+             
+             
+            </Menu.ItemGroup>
+          </SubMenu>
 
           <SubMenu
             key="CTDT"
@@ -69,6 +97,10 @@ const sider = (props) => {
               <Menu.Item key="mon" style={{ paddingLeft: "24px" }}>
                 <span>Quản lý môn học</span>
                 <Link to="/admin/mon" />
+              </Menu.Item>
+              <Menu.Item key="bangdiem" style={{ paddingLeft: "24px" }}>
+                <span>Quản lý bảng điểm</span>
+                <Link to="/admin/bangdiem" />
               </Menu.Item>
               <Menu.Item key="khoiKT" style={{ paddingLeft: "24px" }}>
                 <span>Quản lý khối kiến thức</span>

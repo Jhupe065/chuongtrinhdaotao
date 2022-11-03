@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import "../../App.css";
+import "../content.css";
 
-import { Table, Button, Input, Modal } from "antd";
+import { Table, Button, Modal, Input, notification, Popconfirm } from "antd";
+
 import {
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import PATH_API from "../../API/path_api"
-
+import PATH_API from "../../API/path_api";
 
 import Header from "../../components/layouts/header";
 import Sider from "../../components/layouts/sider";
@@ -17,8 +18,6 @@ import Footer from "../../components/layouts/footer";
 import { Layout } from "antd";
 
 const { Content } = Layout;
-
-
 
 export default function KhoaHoc(props) {
   const [loading, setLoading] = useState(false);
@@ -31,12 +30,14 @@ export default function KhoaHoc(props) {
   const [editingData, setEditingData] = useState(null);
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-  const [TenKhoaHocTextInput, setTenKhoaHocTextInput] = useState("");
+  const [tenKhoaHocTextInput, settenKhoaHocTextInput] = useState("");
+  const [maKhoaHocTextInput, setmaKhoaHocTextInput] = useState("");
 
   const handleCancel = () => {
     setIsModalAddOpen(false);
     setIsModalEditOpen(false);
-    setTenKhoaHocTextInput("");
+    settenKhoaHocTextInput("");
+    setmaKhoaHocTextInput("");
   };
 
   const fetchData = (params = {}) => {
@@ -82,61 +83,11 @@ export default function KhoaHoc(props) {
 
   const columns = [
     {
-      title: "Mã Khóa học",
+      title: "Mã khóa học",
       dataIndex: "maKhoaHoc",
       key: "maKhoaHoc",
-
       sorter: (a, b) => a.maKhoaHoc.length - b.maKhoaHoc.length,
-      filterDropdown: ({
-        setSelectedKeys,
-        selectedKeys,
-        confirm,
-        clearFilters,
-      }) => {
-        return (
-          <>
-            <Input
-              style={{ background: "#e6f7ff" }}
-              autoFocus
-              placeholder="Tìm kiếm..."
-              value={selectedKeys[0]}
-              onChange={(e) => {
-                setSelectedKeys(e.target.value ? [e.target.value] : []);
-                confirm({ closeDropdown: false });
-              }}
-              onPressEnter={() => {
-                confirm();
-              }}
-              onBlur={() => {
-                confirm();
-              }}
-            ></Input>
-            <Button
-              onClick={() => {
-                clearFilters();
-                confirm();
-              }}
-              type="danger"
-            >
-              Reset
-            </Button>
-          </>
-        );
-      },
-      filterIcon: () => {
-        return <SearchOutlined />;
-      },
-      onFilter: (value, record) => {
-        return record.MaKhoa.toLowerCase().includes(value.toLowerCase());
-      },
     },
-    // {
-    //   title: "Mã khóa học",
-    //   dataIndex: "id",
-    //   key: "id",
-
-    //   sorter: (a, b) => a.id - b.id,
-    // },
     {
       title: "Tên khóa học",
       dataIndex: "tenKhoaHoc",
@@ -183,7 +134,7 @@ export default function KhoaHoc(props) {
         return <SearchOutlined />;
       },
       onFilter: (value, record) => {
-        return record.TenKhoaHoc.toLowerCase().includes(value.toLowerCase());
+        return record.tenKhoaHoc.toLowerCase().includes(value.toLowerCase());
       },
     },
     {
@@ -199,13 +150,10 @@ export default function KhoaHoc(props) {
                 onEditData(record);
               }}
             />
-            <DeleteOutlined
-              style={{ color: "red", marginLeft: "10px" }}
-              onClick={() => {
-                let text =
-                  "Bạn muốn xóa khóa học " + record.TenKhoaHoc + " không? ";
-                if (window.confirm(text) === true) {
-                  setLoading(true);
+             <Popconfirm
+              title="Bạn có chắc chắn muốn xóa khoa này không?"
+              onConfirm={() => {
+                setLoading(true);
                   fetch(`${PATH_API}KhoaHoc/${record.id}`, {
                     method: "DELETE",
                   })
@@ -221,14 +169,51 @@ export default function KhoaHoc(props) {
                     .catch((error) => {
                       console.error("Error:", error);
                     });
-                }
               }}
-            />
+              onCancel={() => {}}
+              okText="Yes"
+              cancelText="No"
+            >
+              <DeleteOutlined style={{ color: "red", marginLeft: "10px" }} />
+            </Popconfirm>
+            
           </>
         );
       },
     },
   ];
+
+  const ktraTrungLapAdd = (new_maKhoaHoc, new_tenKhoaHoc) => {
+    let listMaKhoaHoc = [];
+    let listTenKhoaHoc = [];
+    dataSource.forEach((data) => {
+      listMaKhoaHoc.push(data.maKhoaHoc);
+      listTenKhoaHoc.push(data.tenKhoaHoc);
+    });
+    if (
+      listMaKhoaHoc.includes(new_maKhoaHoc) ||
+      listTenKhoaHoc.includes(new_tenKhoaHoc)
+    )
+      return true;
+    else return false;
+  };
+
+  const ktraTrungLapEdit = (new_maKhoaHoc, new_tenKhoaHoc, id) => {
+    let listMaKhoaHoc = [];
+    let listTenKhoaHoc = [];
+    dataSource.forEach((data) => {
+      if (data.id !== id) {
+        listMaKhoaHoc.push(data.maKhoaHoc);
+        listTenKhoaHoc.push(data.tenKhoaHoc);
+      }
+    });
+    if (
+      listMaKhoaHoc.includes(new_maKhoaHoc) ||
+      listTenKhoaHoc.includes(new_tenKhoaHoc)
+    )
+      return true;
+    else return false;
+  };
 
   return (
     <Layout hasSider>
@@ -286,39 +271,93 @@ export default function KhoaHoc(props) {
                   onSubmit={(e) => {
                     e.preventDefault();
                     setLoading(true);
-
-                    const new_TenKhoaHoc = e.target.elements.TenKhoaHoc.value;
-                    const new_data = {
-                      TenKhoaHoc: new_TenKhoaHoc,
-                    };
-                    fetch(`${PATH_API}KhoaHoc`, {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify(new_data),
-                    })
-                      .then((response) => response.json())
-                      .then(() => {
-                        fetchData({
-                          pagination,
-                        });
-                      })
-                      .catch((error) => {
-                        console.error("Error:", error);
+                    const new_maKhoaHoc = e.target.elements.maKhoaHoc.value;
+                    const new_tenKhoaHoc = e.target.elements.tenKhoaHoc.value;
+                    // Kiem tra so luong ki tu
+                    if (
+                      new_maKhoaHoc.length !== 3 ||
+                      new_tenKhoaHoc.length > 255
+                    ) {
+                      return notification.error({
+                        message: "Thêm không thành công",
+                        description:
+                          "Số lượng kí tự không phù hợp với yêu cầu. Vui lòng nhập lại dữ liệu!",
+                        duration: 3,
+                        placement: "bottomRight",
                       });
-                    handleCancel();
+                    }
+                    // kiem tra trung lap
+                    if (ktraTrungLapAdd(new_maKhoaHoc, new_tenKhoaHoc)) {
+                      return notification.error({
+                        message: "Thêm không thành công",
+                        description:
+                          "Thông tin khóa học đã tồn tại. Vui lòng nhập lại dữ liệu!",
+                        duration: 3,
+                        placement: "bottomRight",
+                      });
+                    }
+
+                    if (
+                      new_maKhoaHoc.length === 3 &&
+                      new_tenKhoaHoc.length < 255 &&
+                      !ktraTrungLapAdd(new_maKhoaHoc, new_tenKhoaHoc)
+                    ) {
+                      const new_data = {
+                        maKhoaHoc: new_maKhoaHoc,
+                        tenKhoaHoc: new_tenKhoaHoc,
+                      };
+                      fetch(`${PATH_API}KhoaHoc`, {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(new_data),
+                      })
+                        .then((response) => response.json())
+                        .then(() => {
+                          fetchData({
+                            pagination,
+                          });
+                        })
+                        .catch((error) => {
+                          console.error("Error:", error);
+                        });
+                      handleCancel();
+                      return notification["success"]({
+                        message: "",
+                        description: "Thêm mới thành công!",
+                        duration: 3,
+                        placement: "bottomRight",
+                      });
+                    }
+                    setLoading(false);
                   }}
                 >
-                  <div className="form-input form-input-center">
-                    <label htmlFor="TenKhoaHoc">Tên khóa học:</label>
-                    <Input
-                      name="TenKhoaHoc"
-                      value={TenKhoaHocTextInput}
-                      onChange={(e) => {
-                        setTenKhoaHocTextInput(e.target.value);
-                      }}
-                    />
+                  <div className="wrap">
+                    <div className="form-input form-input-center">
+                      <label htmlFor="maKhoaHoc">Mã khóa học:</label>
+                      <Input
+                        name="maKhoaHoc"
+                        value={maKhoaHocTextInput}
+                        onChange={(e) => {
+                          setmaKhoaHocTextInput(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <p className="note">(* Yêu cầu 3 kí tự)</p>
+                  </div>
+                  <div className="wrap">
+                    <div className="form-input form-input-center">
+                      <label htmlFor="tenKhoaHoc">Tên khóa học:</label>
+                      <Input
+                        name="tenKhoaHoc"
+                        value={tenKhoaHocTextInput}
+                        onChange={(e) => {
+                          settenKhoaHocTextInput(e.target.value);
+                        }}
+                      />
+                    </div>
+                    <p className="note">(* Không vượt quá 255 kí tự)</p>
                   </div>
                   <Button type="primary" htmlType="submit">
                     Xác nhận
@@ -343,51 +382,117 @@ export default function KhoaHoc(props) {
                 closable={false}
               >
                 <div name="form-edit" className="form">
-                  <div className="form-input form-input-center">
-                    <label htmlFor="edit_TenKhoaHoc">Tên khóa học:</label>
-                    <Input
-                      name="edit_TenKhoaHoc"
-                      value={editingData?.TenKhoaHoc}
-                      onChange={(e) => {
-                        setEditingData((pre) => {
-                          return { ...pre, TenKhoaHoc: e.target.value };
-                        });
-                      }}
-                    />
-                  </div>
+                  <div className="wrap">
+                    <div className="form-input form-input-center">
+                      <label htmlFor="edit_maKhoaHoc">Mã khóa học:</label>
+                      <Input
+                        name="edit_maKhoaHoc"
+                        value={editingData?.maKhoaHoc}
+                        onChange={(e) => {
+                          setEditingData((pre) => {
+                            return { ...pre, maKhoaHoc: e.target.value };
+                          });
+                        }}
+                      />
+                    </div>
 
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    onClick={() => {
-                      dataSource.map((data) => {
-                        if (data.id === editingData.id) {
-                          setLoading(true);
-                          fetch(`${PATH_API}KhoaHoc/${editingData.id}`, {
-                            method: "PUT",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify(editingData),
-                          })
-                            .then((response) => response.json())
-                            .then(() => {
-                              fetchData({
-                                pagination,
-                              });
-                            })
-                            .catch((error) => {
-                              console.error("Error:", error);
+                    <p className="note">(* Yêu cầu 3 kí tự)</p>
+                  </div>
+                  <div className="wrap">
+                    <div name="form-edit" className="form">
+                      <div className="form-input form-input-center">
+                        <label htmlFor="edit_tenKhoaHoc">Tên khóa học:</label>
+                        <Input
+                          name="edit_tenKhoaHoc"
+                          value={editingData?.tenKhoaHoc}
+                          onChange={(e) => {
+                            setEditingData((pre) => {
+                              return { ...pre, tenKhoaHoc: e.target.value };
                             });
-                          return editingData;
+                          }}
+                        />
+                      </div>
+                      <p className="note">(* Không vượt quá 255 kí tự)</p>
+                    </div>
+
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      onClick={() => {
+                        // Kiem tra so luong ki tu
+                        if (
+                          editingData.maKhoaHoc.length !== 3 ||
+                          editingData.tenKhoaHoc.length > 255
+                        ) {
+                          return notification.error({
+                            message: "Sửa thông tin không thành công",
+                            description:
+                              "Số lượng kí tự không phù hợp với yêu cầu. Vui lòng nhập lại dữ liệu!",
+                            duration: 3,
+                            placement: "bottomRight",
+                          });
                         }
-                        return data;
-                      });
-                      resetEditing();
-                    }}
-                  >
-                    Xác nhận
-                  </Button>
+                        // kiem tra trung lap
+                        if (
+                          ktraTrungLapEdit(
+                            editingData.maKhoaHoc,
+                            editingData.tenKhoaHoc,
+                            editingData.id
+                          )
+                        ) {
+                          return notification.error({
+                            message: "Sửa thông tin không thành công",
+                            description:
+                              "Thông tin khóa học đã tồn tại. Vui lòng nhập lại dữ liệu!",
+                            duration: 3,
+                            placement: "bottomRight",
+                          });
+                        }
+                        if (
+                          editingData.maKhoaHoc.length === 3 &&
+                          editingData.tenKhoaHoc.length < 255 &&
+                          !ktraTrungLapEdit(
+                            editingData.maKhoaHoc,
+                            editingData.tenKhoaHoc,
+                            editingData.id
+                          )
+                        ) {
+                          dataSource.map((data) => {
+                            if (data.id === editingData.id) {
+                              setLoading(true);
+                              fetch(`${PATH_API}KhoaHoc/${editingData.id}`, {
+                                method: "PUT",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(editingData),
+                              })
+                                .then((response) => response.json())
+                                .then(() => {
+                                  fetchData({
+                                    pagination,
+                                  });
+                                })
+                                .catch((error) => {
+                                  console.error("Error:", error);
+                                });
+                              return editingData;
+                            }
+                            return data;
+                          });
+                          resetEditing();
+                          return notification["success"]({
+                            message: "",
+                            description: "Sửa thông tin thành công!",
+                            duration: 3,
+                            placement: "bottomRight",
+                          });
+                        }
+                      }}
+                    >
+                      Xác nhận
+                    </Button>
+                  </div>
                 </div>
               </Modal>
             </div>
