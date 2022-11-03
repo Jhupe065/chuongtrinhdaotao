@@ -72,9 +72,9 @@ export default function BangDiem(props) {
   const columns = [
     {
       title: "Mã sinh viên",
-      dataIndex: "idSinhVien",
-      key: "idSinhVien",
-      sorter: (a, b) => a.idSinhVien.length - b.idSinhVien.length,
+      dataIndex: "maSinhVien",
+      key: "maSinhVien",
+      sorter: (a, b) => a.maSinhVien.length - b.maSinhVien.length,
       filterDropdown: ({
         setSelectedKeys,
         selectedKeys,
@@ -115,15 +115,15 @@ export default function BangDiem(props) {
         return <SearchOutlined />;
       },
       onFilter: (value, record) => {
-        return record.idSinhVien.toLowerCase().includes(value.toLowerCase());
+        return record.maSinhVien.toLowerCase().includes(value.toLowerCase());
       },
     },
     {
       title: "Mã môn học",
-      dataIndex: "idMonHoc",
-      key: "idMonHoc",
+      dataIndex: "maMonHoc",
+      key: "maMonHoc",
       defaultSortOrder: "descend",
-      sorter: (a, b) => a.idMonHoc.length - b.idMonHoc.length,
+      sorter: (a, b) => a.maMonHoc.length - b.maMonHoc.length,
       filterDropdown: ({
         setSelectedKeys,
         selectedKeys,
@@ -164,7 +164,7 @@ export default function BangDiem(props) {
         return <SearchOutlined />;
       },
       onFilter: (value, record) => {
-        return record.idMonHoc.toLowerCase().includes(value.toLowerCase());
+        return record.maMonHoc.toLowerCase().includes(value.toLowerCase());
       },
     },
     {
@@ -207,22 +207,33 @@ export default function BangDiem(props) {
       const worksheetName = workbook.SheetNames[0];
       const worksheet = workbook.Sheets[worksheetName];
       const data = XLSX.utils.sheet_to_json(worksheet);
-      fetch(`${PATH_API}BangDiem`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+      let validatedData = [];
+      data.forEach((data)=>{
+        validatedData.push(
+          {
+            "maSinhVien": data.maSinhVien,
+            "maMonHoc": data.maMonHoc,
+            "Diem": data.Diem,
+          }
+        )
       })
-        .then((response) => response.json())
-        .then(() => {
-          fetchData({
-            pagination,
-          });
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      console.log(validatedData);
+      // fetch(`${PATH_API}BangDiem`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(validatedData),
+      // })
+      //   .then((response) => response.json())
+      //   .then(() => {
+      //     fetchData({
+      //       pagination,
+      //     });
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error:", error);
+      //   });
     } else {
       
       console.log("File rong~");
@@ -265,13 +276,13 @@ export default function BangDiem(props) {
                         {excelFileError}
                       </div>
                     )}
-                    <Button
+                    <button
                       type="submit"
                       className="btn-add"
                       style={{ marginTop: 5 + "px" }}
                     >
                       Submit
-                    </Button>
+                    </button>
                   </form>
                 </div>
               </div>
