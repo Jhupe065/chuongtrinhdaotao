@@ -22,7 +22,7 @@
 
 .menu-area {
     padding-top: 90px;
-    height: 90%;
+    height: auto;
 }
 
 
@@ -36,10 +36,9 @@
     background-color: white;
 }
 
-.btn-logout{
+.btn-logout1{
     display: flex;
     justify-content: center;
-   
 }
 
 .ant-form{

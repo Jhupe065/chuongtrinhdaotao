@@ -57,17 +57,17 @@ const sider = (props) => {
               </Menu.Item>
               <Menu.Item key="nhanvien" style={{ paddingLeft: "24px" }}>
                 <span>Quản lý nhân viên</span>
-                {/* <Link to="/admin/khoahoc" /> */}
+                <Link to="/admin/qlynhanvien" />
               </Menu.Item>
               <Menu.Item key="sinhvien" style={{ paddingLeft: "24px" }}>
                 <span>Quản lý sinh viên</span>
-                {/* <Link to="/admin/nganh" /> */}
+                <Link to="/admin/qlysinhvien" />
               </Menu.Item>
               <Menu.Item key="chucvu" style={{ paddingLeft: "24px" }}>
                 <span>Quản lý chức vụ</span>
-                {/* <Link to="/admin/nganh" /> */}
+                <Link to="/admin/chucvu" />
               </Menu.Item>
-             
+          
              
             </Menu.ItemGroup>
           </SubMenu>
@@ -118,7 +118,7 @@ const sider = (props) => {
           </SubMenu>
         </Menu>
       </div>
-      <div className="btn-logout">
+      <div className="btn-logout1">
         <Tooltip title="logout">
           <Button
             style={{ backgroundColor: "#9f9e9e73" }}

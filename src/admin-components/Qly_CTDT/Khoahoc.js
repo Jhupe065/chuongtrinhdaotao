@@ -12,9 +12,9 @@ import {
 } from "@ant-design/icons";
 import PATH_API from "../../API/path_api";
 
-import Header from "../../components/layouts/header";
-import Sider from "../../components/layouts/sider";
-import Footer from "../../components/layouts/footer";
+import Header from "../../admin-components/layouts/header";
+import Sider from "../../admin-components/layouts/sider";
+import Footer from "../../admin-components/layouts/footer";
 import { Layout } from "antd";
 
 const { Content } = Layout;
@@ -24,7 +24,7 @@ export default function KhoaHoc(props) {
   const [dataSource, setDataSource] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 5,
+    pageSize: 10,
   });
 
   const [editingData, setEditingData] = useState(null);
@@ -38,6 +38,7 @@ export default function KhoaHoc(props) {
     setIsModalEditOpen(false);
     settenKhoaHocTextInput("");
     setmaKhoaHocTextInput("");
+    setLoading(false)
   };
 
   const fetchData = (params = {}) => {
@@ -151,7 +152,7 @@ export default function KhoaHoc(props) {
               }}
             />
              <Popconfirm
-              title="Bạn có chắc chắn muốn xóa khoa này không?"
+              title="Bạn có chắc chắn muốn xóa khóa học này không?"
               onConfirm={() => {
                 setLoading(true);
                   fetch(`${PATH_API}KhoaHoc/${record.id}`, {
@@ -222,11 +223,7 @@ export default function KhoaHoc(props) {
         <Header />
         <Content
           className="content"
-          style={{
-            margin: "24px 16px 0",
-            overflow: "initial",
-            height: "550px",
-          }}
+         
         >
           <div className="site-layout-background">
             <div className="content-header">
@@ -245,7 +242,7 @@ export default function KhoaHoc(props) {
               <Table
                 style={{ width: "100%" }}
                 columns={columns}
-                size="middle"
+                size="small"
                 rowKey="id"
                 loading={loading}
                 dataSource={dataSource}
@@ -330,7 +327,7 @@ export default function KhoaHoc(props) {
                         placement: "bottomRight",
                       });
                     }
-                    setLoading(false);
+                    
                   }}
                 >
                   <div className="wrap">
@@ -419,6 +416,15 @@ export default function KhoaHoc(props) {
                       type="primary"
                       htmlType="submit"
                       onClick={() => {
+                        if(editingData.maKhoaHoc === "" || editingData.tenKhoaHoc === ""){
+                          return notification.error({
+                            message: "Sửa thông tin không thành công",
+                            description:
+                              "Vui lòng nhập đầy đủ thông tin!",
+                            duration: 3,
+                            placement: "bottomRight",
+                          });
+                        }
                         // Kiem tra so luong ki tu
                         if (
                           editingData.maKhoaHoc.length !== 3 ||
@@ -456,6 +462,7 @@ export default function KhoaHoc(props) {
                             editingData.tenKhoaHoc,
                             editingData.id
                           )
+                          
                         ) {
                           dataSource.map((data) => {
                             if (data.id === editingData.id) {

@@ -1,281 +1,570 @@
 {
   "KhoaHoc": [
     {
-      "TenKhoaHoc": "31",
+      "maKhoaHoc": "113",
+      "tenKhoaHoc": "31",
       "id": 1
     },
     {
-      "TenKhoaHoc": "32",
+      "maKhoaHoc": "2",
+      "tenKhoaHoc": "32",
       "id": 2
     },
     {
-      "TenKhoaHoc": "33",
+      "maKhoaHoc": "3",
+      "tenKhoaHoc": "33",
       "id": 3
     },
     {
-      "TenKhoaHoc": "34",
+      "maKhoaHoc": "4",
+      "tenKhoaHoc": "34",
       "id": 4
     },
     {
-      "TenKhoaHoc": "35",
+      "maKhoaHoc": "5",
+      "tenKhoaHoc": "35",
       "id": 5
     },
     {
-      "TenKhoaHoc": "30",
+      "maKhoaHoc": "6",
+      "tenKhoaHoc": "30",
       "id": 6
     }
   ],
   "MonHoc": [
     {
-      "MaMonHoc": "GZ101",
-      "TenMonHoc": "Tiếng Trung 1",
-      "SoTinChi": 2,
-      "DieuKienTienQuyet": "",
-      "SoGio": "54",
-      "HeSo": 1.5,
+      "maMonHoc": "GZ101",
+      "tenMonHoc": "Tiếng Trung 1",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
       "id": 1
     },
     {
-      "MaMonHoc": "CS100",
-      "TenMonHoc": "Tin đại cương",
-      "SoTinChi": 2,
-      "DieuKienTienQuyet": "",
-      "SoGio": "18LT+24TH",
-      "HeSo": 1.5,
+      "maMonHoc": "CS100",
+      "tenMonHoc": "Tin đại cương",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 42,
+      "heSo": 1.5,
       "id": 2
     },
     {
-      "MaMonHoc": "CS102",
-      "TenMonHoc": "Công dân số",
-      "SoTinChi": 2,
-      "DieuKienTienQuyet": "",
-      "SoGio": "30",
-      "HeSo": 1.5,
+      "maMonHoc": "CS101",
+      "tenMonHoc": "Công dân số",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 30,
+      "heSo": 1.5,
       "id": 3
     },
     {
-      "MaMonHoc": "CS110",
-      "TenMonHoc": "Kỹ thuật số",
-      "SoTinChi": 2,
-      "DieuKienTienQuyet": "MA101",
-      "SoGio": "18LT+24BT",
-      "HeSo": 1.5,
+      "maMonHoc": "CS110",
+      "tenMonHoc": "Kỹ thuật số",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "MA101",
+      "soGio": 42,
+      "heSo": 1.5,
       "id": 4
     },
     {
-      "MaMonHoc": "MA110",
-      "TenMonHoc": "Giải tích 1",
-      "SoTinChi": 3,
-      "DieuKienTienQuyet": "MA101",
-      "SoGio": 27,
-      "HeSo": 1.5,
+      "maMonHoc": "MA110",
+      "tenMonHoc": "Giải tích 1",
+      "soTinChi": 3,
+      "dieuKienTienQuyet": "MA101",
+      "soGio": 27,
+      "heSo": 1.5,
       "id": 5
     },
     {
-      "MaMonHoc": "MA101",
-      "TenMonHoc": "Logic, suy luận toán học và kỹ thuật đếm",
-      "SoTinChi": 3,
-      "DieuKienTienQuyet": "",
-      "SoGio": "27LT+36BT",
-      "HeSo": "1.3",
+      "maMonHoc": "MA101",
+      "tenMonHoc": "Logic, suy luận toán học và kỹ thuật đếm",
+      "soTinChi": 3,
+      "dieuKienTienQuyet": "",
+      "soGio": 63,
+      "heSo": 1.3,
       "id": 6
     },
     {
-      "MaMonHoc": "ML111",
-      "TenMonHoc": "Triết học Mác - Lênin",
-      "SoTinChi": 2,
-      "DieuKienTienQuyet": "",
-      "SoGio": 30,
-      "HeSo": 1,
+      "maMonHoc": "ML111",
+      "tenMonHoc": "Triết học Mác - Lênin",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 30,
+      "heSo": 1,
       "id": 7
     },
     {
-      "MaMonHoc": "ML112",
-      "TenMonHoc": "Kinh tế chính trị và CNXH khoa học",
-      "SoTinChi": 3,
-      "DieuKienTienQuyet": "ML111",
-      "SoGio": 45,
-      "HeSo": 1,
+      "maMonHoc": "ML112",
+      "tenMonHoc": "Kinh tế chính trị và CNXH khoa học",
+      "soTinChi": 3,
+      "dieuKienTienQuyet": "ML111",
+      "soGio": 45,
+      "heSo": 1,
       "id": 8
+    },
+    {
+      "maMonHoc": "NA151",
+      "tenMonHoc": "Khoa học môi trường",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 30,
+      "heSo": 1,
+      "id": 9
+    },
+    {
+      "maMonHoc": "ML203",
+      "tenMonHoc": "Đường lối cách mạng của Đảng CS Việt Nam",
+      "soTinChi": 3,
+      "dieuKienTienQuyet": "ML202",
+      "soGio": 45,
+      "heSo": 1,
+      "id": 10
+    },
+    {
+      "maMonHoc": "ML202",
+      "tenMonHoc": "Tư tưởng Hồ Chí Minh",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "ML112",
+      "soGio": 30,
+      "heSo": 1,
+      "id": 11
+    },
+    {
+      "maMonHoc": "EC101",
+      "tenMonHoc": "Kinh tế học đại cương",
+      "soTinChi": 3,
+      "dieuKienTienQuyet": "",
+      "soGio": 45,
+      "heSo": 1.2,
+      "id": 12
+    },
+    {
+      "maMonHoc": "VL101",
+      "tenMonHoc": "Tiếng Việt thực hành",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 30,
+      "heSo": 1,
+      "id": 13
+    },
+    {
+      "maMonHoc": "SH131",
+      "tenMonHoc": "Pháp luật đại cương",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 30,
+      "heSo": 1,
+      "id": 14
+    },
+    {
+      "maMonHoc": "GE101",
+      "tenMonHoc": "Tiếng Anh sơ cấp 1",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 15
+    },
+    {
+      "maMonHoc": "GE102",
+      "tenMonHoc": "Tiếng Anh sơ cấp 2",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "GE101",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 16
+    },
+    {
+      "maMonHoc": "GE103",
+      "tenMonHoc": "Tiếng Anh sơ cấp 3",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 17
+    },
+    {
+      "maMonHoc": "GE201",
+      "tenMonHoc": "Tiếng Anh sơ trung cấp 1",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 18
+    },
+    {
+      "maMonHoc": "GE202",
+      "tenMonHoc": "Tiếng Anh sơ trung cấp 2",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 19
+    },
+    {
+      "maMonHoc": "GE205",
+      "tenMonHoc": "Tiếng Anh sơ trung cấp 3",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 20
+    },
+    {
+      "maMonHoc": "GE301",
+      "tenMonHoc": "Tiếng Anh trung cấp 1",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 21
+    },
+    {
+      "maMonHoc": "GE303",
+      "tenMonHoc": "Tiếng Anh trung cấp 2",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 22
+    },
+    {
+      "maMonHoc": "GE304",
+      "tenMonHoc": "Tiếng Anh trung cấp 3",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 23
+    },
+    {
+      "maMonHoc": "GF101",
+      "tenMonHoc": "Tiếng Pháp 1",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 24
+    },
+    {
+      "maMonHoc": "GF102",
+      "tenMonHoc": "Tiếng Pháp 2",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 25
+    },
+    {
+      "maMonHoc": "GJ101",
+      "tenMonHoc": "Tiếng Nhật 1",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 26
+    },
+    {
+      "maMonHoc": "GJ102",
+      "tenMonHoc": "Tiếng Nhật 2",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 27
+    },
+    {
+      "maMonHoc": "GZ102",
+      "tenMonHoc": "Tiếng Trung 2",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 28
+    },
+    {
+      "maMonHoc": "GI101",
+      "tenMonHoc": "Tiếng Ý 1",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 0.75,
+      "id": 29
+    },
+    {
+      "maMonHoc": "GI102",
+      "tenMonHoc": "Tiếng Ý 2",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 0.75,
+      "id": 30
+    },
+    {
+      "maMonHoc": "GK101",
+      "tenMonHoc": "Tiếng Hàn 1",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 31
+    },
+    {
+      "maMonHoc": "GK102",
+      "tenMonHoc": "Tiếng Hàn 2",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "",
+      "soGio": 54,
+      "heSo": 1.5,
+      "id": 32
+    },
+    {
+      "maMonHoc": "PG100",
+      "tenMonHoc": "Giáo dục thể chất",
+      "soTinChi": 4,
+      "dieuKienTienQuyet": "",
+      "soGio": 100,
+      "heSo": 1.4,
+      "id": 33
+    },
+    {
+      "maMonHoc": "PG121",
+      "tenMonHoc": "Giáo dục quốc phòng",
+      "soTinChi": 4,
+      "dieuKienTienQuyet": "",
+      "soGio": 96,
+      "heSo": 1.2,
+      "id": 34
+    },
+    {
+      "maMonHoc": "MA104",
+      "tenMonHoc": "Số và cấu trúc đại số",
+      "soTinChi": 3,
+      "dieuKienTienQuyet": "",
+      "soGio": 63,
+      "heSo": 1.5,
+      "id": 35
+    },
+    {
+      "maMonHoc": "MA111",
+      "tenMonHoc": "Giải tích 2",
+      "soTinChi": 3,
+      "dieuKienTienQuyet": "",
+      "soGio": 63,
+      "heSo": 1.5,
+      "id": 36
+    },
+    {
+      "maMonHoc": "IP404",
+      "tenMonHoc": "Thực tập ngành CNTT",
+      "soTinChi": 2,
+      "dieuKienTienQuyet": "100 tín chỉ",
+      "soGio": 60,
+      "heSo": 1.3,
+      "id": 37
+    },
+    {
+      "maMonHoc": "IT499",
+      "tenMonHoc": "KLTN ngành CNTT",
+      "soTinChi": 6,
+      "dieuKienTienQuyet": "120 tín chỉ",
+      "soGio": 150,
+      "heSo": 3,
+      "id": 38
     }
   ],
   "KhoiKienThuc": [
     {
-      "TenKhoiKienThuc": "Giáo dục đại cương",
+      "maKhoiKienThuc": 1,
+      "tenKhoiKienThuc": "Giáo dục đại cương",
       "id": 1
     },
     {
-      "TenKhoiKienThuc": "Các học phần thuộc cơ sở khối ngành",
+      "maKhoiKienThuc": 2,
+      "tenKhoiKienThuc": "Các học phần thuộc cơ sở khối ngành",
       "id": 2
     },
     {
-      "TenKhoiKienThuc": "Các học phần bắt buộc của ngành",
+      "maKhoiKienThuc": 3,
+      "tenKhoiKienThuc": "Các học phần bắt buộc của ngành",
       "id": 3
     },
     {
-      "TenKhoiKienThuc": "Các học phần lựa chọn của ngành",
+      "maKhoiKienThuc": 4,
+      "tenKhoiKienThuc": "Các học phần lựa chọn của ngành",
       "id": 4
     },
     {
-      "TenKhoiKienThuc": "Thực tập, Khóa luận tốt nghiệp (KLTN) và Chuyên đề tốt nghiệp (CĐTN)",
+      "maKhoiKienThuc": 5,
+      "tenKhoiKienThuc": "Thực tập, Khóa luận tốt nghiệp (KLTN) và Chuyên đề tốt nghiệp (CĐTN)",
       "id": 5
     },
     {
-      "TenKhoiKienThuc": "Lựa chọn tự do",
+      "maKhoiKienThuc": 6,
+      "tenKhoiKienThuc": "Lựa chọn tự do",
       "id": 6
     }
   ],
   "Khoa": [
     {
-      "MaKhoa": "1",
-      "TenKhoa": "Toán - Tin học",
+      "maKhoa": "1",
+      "tenKhoa": "Toán - Tin học",
       "id": 1
     },
     {
-      "MaKhoa": "2",
-      "TenKhoa": "Ngoại ngữ",
+      "maKhoa": "2",
+      "tenKhoa": "Ngoại ngữ",
       "id": 3
     },
     {
-      "MaKhoa": "3",
-      "TenKhoa": "Du lịch",
+      "maKhoa": "3",
+      "tenKhoa": "Du lịch",
       "id": 4
     },
     {
-      "MaKhoa": "4",
-      "TenKhoa": "Kinh Tế - Quản lý",
+      "maKhoa": "4",
+      "tenKhoa": "Kinh Tế - Quản lý",
       "id": 6
     },
     {
-      "MaKhoa": "5",
-      "TenKhoa": "Khoa học sức khỏe",
+      "maKhoa": "5",
+      "tenKhoa": "Khoa học sức khỏe",
       "id": 7
     }
   ],
   "Nganh": [
     {
-      "MaNganh": "TT",
-      "TenNganh": "Công nghệ thông tin",
+      "maNganh": "TT",
+      "tenNganh": "Công nghệ thông tin",
       "idKhoa": 1,
       "id": 1
     },
     {
-      "MaNganh": "TI",
-      "TenNganh": "Hệ thống thông tin",
+      "maNganh": "TI",
+      "tenNganh": "Hệ thống thông tin",
       "idKhoa": 1,
       "id": 2
     },
     {
-      "MaNganh": "NA",
-      "TenNganh": "Ngôn ngữ Anh",
+      "maNganh": "NA",
+      "tenNganh": "Ngôn ngữ Anh",
       "idKhoa": 3,
       "id": 3
     },
     {
-      "MaNganh": "NJ",
-      "TenNganh": "Ngôn ngữ Nhật",
+      "maNganh": "NJ",
+      "tenNganh": "Ngôn ngữ Nhật",
       "idKhoa": 3,
       "id": 4
     },
     {
-      "MaNganh": "QT",
-      "TenNganh": "QT kinh doanh",
+      "maNganh": "QT",
+      "tenNganh": "QT kinh doanh",
       "idKhoa": 6,
       "id": 5
     },
     {
-      "MaNganh": "NC",
-      "TenNganh": "Ngôn ngữ Trung",
+      "maNganh": "NC",
+      "tenNganh": "Ngôn ngữ Trung",
       "idKhoa": 3,
       "id": 6
     },
     {
-      "MaNganh": "QTKS",
-      "TenNganh": "Quản trị dịch vụ du lịch - lữ hành",
+      "maNganh": "QTKS",
+      "tenNganh": "Quản trị dịch vụ du lịch - lữ hành",
       "idKhoa": 4,
       "id": 11
     },
     {
-      "MaNganh": "KT",
-      "TenNganh": "Kế toán",
+      "maNganh": "KT",
+      "tenNganh": "Kế toán",
       "idKhoa": 6,
       "id": 12
     },
     {
-      "MaNganh": "TCNH",
-      "TenNganh": "Tài chính - Ngân hàng",
+      "maNganh": "TCNH",
+      "tenNganh": "Tài chính - Ngân hàng",
       "idKhoa": 6,
       "id": 13
     },
     {
-      "MaNganh": "DD",
-      "TenNganh": "Điều dưỡng",
+      "maNganh": "DD",
+      "tenNganh": "Điều dưỡng",
       "idKhoa": 7,
       "id": 14
     },
     {
-      "MaNganh": "MT",
-      "TenNganh": "Mạng máy tính và truyền thông dữ liệu",
+      "maNganh": "MT",
+      "tenNganh": "Mạng máy tính và truyền thông dữ liệu",
       "idKhoa": 1,
       "id": 15
     }
   ],
   "CTDT": [
     {
-      "MaCTDT": "TT32",
-      "TenCTDT": "Công nghệ thông tin khóa 32",
+      "maCTDT": "TT32",
+      "tenCTDT": "Công nghệ thông tin khóa 32",
       "idNganh": 1,
       "idKhoaHoc": 2,
       "id": 1
     },
     {
-      "MaCTDT": "TI32",
-      "TenCTDT": "Hệ thống thông tin khóa 32",
+      "maCTDT": "TI32",
+      "tenCTDT": "Hệ thống thông tin khóa 32",
       "idNganh": 2,
       "idKhoaHoc": 2,
       "id": 2
     },
     {
-      "MaCTDT": "GE33",
-      "TenCTDT": "Ngôn ngữ Anh khóa 33",
+      "maCTDT": "GE33",
+      "tenCTDT": "Ngôn ngữ Anh khóa 33",
       "idNganh": 3,
       "idKhoaHoc": 3,
       "id": 3
     },
     {
-      "MaCTDT": "TT33",
-      "TenCTDT": "Công nghệ thông tin khóa 33",
+      "maCTDT": "TT33",
+      "tenCTDT": "Công nghệ thông tin khóa 33",
       "idNganh": 1,
       "idKhoaHoc": 3,
       "id": 4
     },
     {
-      "MaCTDT": "TT34",
-      "TenCTDT": "Công nghệ thông tin khóa 34",
+      "maCTDT": "TT34",
+      "tenCTDT": "Công nghệ thông tin khóa 34",
       "idNganh": 1,
       "idKhoaHoc": 4,
       "id": 5
     },
     {
-      "MaCTDT": "TT35",
-      "TenCTDT": "Công nghệ thông tin khóa 35",
+      "maCTDT": "TT35",
+      "tenCTDT": "Công nghệ thông tin khóa 35",
       "idNganh": 1,
       "idKhoaHoc": 5,
       "id": 6
     },
     {
-      "MaCTDT": "TI33",
-      "TenCTDT": "Hệ thống thông tin khóa 33",
+      "maCTDT": "TI33",
+      "tenCTDT": "Hệ thống thông tin khóa 33",
       "idNganh": 2,
       "idKhoaHoc": 3,
       "id": 7
     },
     {
-      "MaCTDT": "TE35",
-      "TenCTDT": "Hệ thống thông tin khóa 35",
+      "maCTDT": "TE35",
+      "tenCTDT": "Hệ thống thông tin khóa 35",
       "idNganh": 2,
       "idKhoaHoc": 5,
       "id": 8
+    },
+    {
+      "maCTDT": "TT30",
+      "tenCTDT": "Công nghệ thông tin khóa 30",
+      "idNganh": 1,
+      "idKhoaHoc": 6,
+      "id": 9
     }
   ],
   "NoiDung": [
@@ -386,6 +675,352 @@
       "idKhoiKT": 1,
       "idMonHoc": 2,
       "id": "8QRijwJ"
+    },
+    {
+      "idCTDT": 1,
+      "idKhoiKT": 5,
+      "idMonHoc": 37,
+      "id": "-giEsdaeCm"
+    },
+    {
+      "idCTDT": 1,
+      "idKhoiKT": 5,
+      "idMonHoc": 38,
+      "id": "rayI435345NRR"
+    }
+  ],
+  "BangDiem": [
+    {
+      "maSinhVien": "A34921",
+      "maMonHoc": "CS100",
+      "diem": 8,
+      "id": 1
+    },
+    {
+      "maSinhVien": "A34921",
+      "maMonHoc": "CS101",
+      "diem": 7,
+      "id": 2
+    },
+    {
+      "maSinhVien": "A34921",
+      "maMonHoc": "CS110",
+      "diem": 8,
+      "id": 3
+    },
+    {
+      "maSinhVien": "A34921",
+      "maMonHoc": "MA101",
+      "diem": 8,
+      "id": 4
+    },
+    {
+      "maSinhVien": "A34921",
+      "maMonHoc": "ML111",
+      "diem": 8,
+      "id": 5
+    },
+    {
+      "maSinhVien": "A34921",
+      "maMonHoc": "ML112",
+      "diem": 8,
+      "id": 6
+    },
+    {
+      "maSinhVien": "A34921",
+      "maMonHoc": "ML202",
+      "diem": 8,
+      "id": 7
+    }
+  ],
+  "ChucVu": [
+    {
+      "tenChucVu": "Admin",
+      "id": 1
+    },
+    {
+      "tenChucVu": "Phòng đào tạo",
+      "id": 2
+    },
+    {
+      "tenChucVu": "Khoa",
+      "id": 3
+    }
+  ],
+  "TaiKhoan": [
+    {
+      "tenTaiKhoan": "NV_Admin",
+      "matKhau": "admin",
+      "trangThai": 1,
+      "id": 1
+    },
+    {
+      "tenTaiKhoan": "username 1",
+      "matKhau": "password 1",
+      "trangThai": 0,
+      "id": 2
+    },
+    {
+      "tenTaiKhoan": "username 2",
+      "matKhau": "password 2",
+      "trangThai": 1,
+      "id": 3
+    },
+    {
+      "tenTaiKhoan": "username 3",
+      "matKhau": "password 3",
+      "trangThai": 1,
+      "id": 4
+    },
+    {
+      "tenTaiKhoan": "username 4",
+      "matKhau": "username 4",
+      "trangThai": 1,
+      "id": 5
+    },
+    {
+      "tenTaiKhoan": "username 5",
+      "matKhau": "username 5",
+      "trangThai": 1,
+      "id": 6
+    },
+    {
+      "tenTaiKhoan": "username 7",
+      "matKhau": "username 7",
+      "trangThai": 1,
+      "id": 7
+    },
+    {
+      "tenTaiKhoan": "username 6",
+      "matKhau": "username 6",
+      "trangThai": 1,
+      "id": 8
+    },
+    {
+      "tenTaiKhoan": "username 8",
+      "matKhau": "username 8",
+      "trangThai": 0,
+      "id": 9
+    },
+    {
+      "tenTaiKhoan": "SV_A34921",
+      "matKhau": "sinhvien1",
+      "trangThai": 1,
+      "id": 10
+    }
+  ],
+  "NhanVien": [
+    {
+      "maNhanVien": "NV1003",
+      "hoTen": "Nguyen Van A",
+      "ngaySinh": "10-03-2001",
+      "gioiTinh": 0,
+      "email": "Cg10301@gmail.com",
+      "idChucVu": 1,
+      "idTaiKhoan": 1,
+      "id": "C0VS-0f"
+    },
+    {
+      "maNhanVien": "NV0002",
+      "hoTen": "Nguyễn Thị Hân",
+      "ngaySinh": "03-08-2000",
+      "gioiTinh": 1,
+      "email": "hannt@example.com",
+      "idChucVu": 1,
+      "idTaiKhoan": 3,
+      "id": "4e3a-11-ed-a921-"
+    },
+    {
+      "maNhanVien": "NV0003",
+      "hoTen": "Nguyễn Minh Hoàng",
+      "ngaySinh": "08-11-1995",
+      "gioiTinh": 0,
+      "email": "hoangnm@example.com",
+      "idChucVu": 1,
+      "idTaiKhoan": 4,
+      "id": "1e8-1ed-a921"
+    },
+    {
+      "maNhanVien": "NV0001",
+      "hoTen": "Nguyễn Ngọc Hiếu",
+      "ngaySinh": "15-05-1998",
+      "gioiTinh": 0,
+      "email": "hieunn@example.com",
+      "idChucVu": 1,
+      "idTaiKhoan": 5,
+      "id": "5-a921-d8-d0-902-ef-9f1"
+    },
+    {
+      "maNhanVien": "NV0004",
+      "hoTen": "Nguyễn Thị Thảo",
+      "ngaySinh": "12-08-1996",
+      "gioiTinh": 1,
+      "email": "thaont@example.com",
+      "idChucVu": 3,
+      "idTaiKhoan": 6,
+      "id": "1e80-d8-d0-902-ef9-f1"
+    },
+    {
+      "maNhanVien": "NV0005",
+      "hoTen": "Nguyễn Văn Công",
+      "ngaySinh": "07-10-1995",
+      "gioiTinh": 0,
+      "email": "congnv@example.com",
+      "idChucVu": 2,
+      "idTaiKhoan": 7,
+      "id": "1e81f-8d090-2ef9-f1"
+    },
+    {
+      "maNhanVien": "NV0006",
+      "hoTen": "Phùng Gia Quốc",
+      "ngaySinh": "15-07-1998",
+      "gioiTinh": 0,
+      "email": "quocgia@example.com",
+      "idChucVu": 1,
+      "idTaiKhoan": 8,
+      "id": "5c-921-d8-02e-f9f1"
+    }
+  ],
+  "SinhVien": [
+    {
+      "maSinhVien": "a30010",
+      "hoTen": "Nguyễn Ngọc Tuấn",
+      "ngaySinh": "26-08-1999",
+      "gioiTinh": 0,
+      "lop": "NE29",
+      "email": "tuan@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce1f-0902e-f9f1"
+    },
+    {
+      "maSinhVien": "a31903",
+      "hoTen": "Trần Thị Thanh",
+      "ngaySinh": "12-11-2000",
+      "gioiTinh": 1,
+      "lop": "QT30",
+      "email": "thanh@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce214ea9-8df9f1"
+    },
+    {
+      "maSinhVien": "a37134",
+      "hoTen": "Nguyễn Minh Ánh",
+      "ngaySinh": "23-04-2000",
+      "gioiTinh": 1,
+      "lop": "TT32",
+      "email": "anh@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce22f714-d8d0902ef9f1"
+    },
+    {
+      "maSinhVien": "a40132",
+      "hoTen": "Nguyễn Khánh Ly",
+      "ngaySinh": "13-07-2002",
+      "gioiTinh": 1,
+      "lop": "NZ33",
+      "email": "khanhly@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce2389-a921-d8d0902ef9f1"
+    },
+    {
+      "maSinhVien": "a30101",
+      "hoTen": "Nguyễn Văn Hoàng",
+      "ngaySinh": "28-09-1998",
+      "gioiTinh": 0,
+      "lop": "NE29",
+      "email": "hoang@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce1fbd2-1-d8d0902ef9f1"
+    },
+    {
+      "maSinhVien": "a31403",
+      "hoTen": "Trần Thị Ngọc Mai",
+      "ngaySinh": "04-01-1999",
+      "gioiTinh": 1,
+      "lop": "QT30",
+      "email": "mai@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce214ea9-921-d8d0902ef9f1"
+    },
+    {
+      "maSinhVien": "a34034",
+      "hoTen": "Nguyễn Ngọc Ánh",
+      "ngaySinh": "26-06-2001",
+      "gioiTinh": 1,
+      "lop": "TT32",
+      "email": "anh@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce22f714-4f9f1"
+    },
+    {
+      "maSinhVien": "a32903",
+      "hoTen": "Đào Thị Cẩm Tú",
+      "ngaySinh": "12-11-2001",
+      "gioiTinh": 1,
+      "lop": "QT30",
+      "email": "thanh@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce214ea9-4e3b-02ef9f1"
+    },
+    {
+      "maSinhVien": "a36534",
+      "hoTen": "Đỗ Phương Phúc",
+      "ngaySinh": "23-04-2001",
+      "gioiTinh": 1,
+      "lop": "TT32",
+      "email": "phucdo@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce22f714-4e3b-1-0902ef9f1"
+    },
+    {
+      "maSinhVien": "a41032",
+      "hoTen": "Phùng Thị Khánh Ly",
+      "ngaySinh": "13-07-2002",
+      "gioiTinh": 1,
+      "lop": "NZ33",
+      "email": "khanhly@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce23-1ed-a921-d8d0902ef9f1"
+    },
+    {
+      "maSinhVien": "a29985",
+      "hoTen": "Nguyễn Cao Duy",
+      "ngaySinh": "28-11-1998",
+      "gioiTinh": 0,
+      "lop": "NE29",
+      "email": "hoang@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce1fbd27-4e3b-11ed-2ef9f1"
+    },
+    {
+      "maSinhVien": "a31503",
+      "hoTen": "Trần Ngọc Tuấn Anh",
+      "ngaySinh": "31-01-1999",
+      "gioiTinh": 0,
+      "lop": "QT30",
+      "email": "mai@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce214ea9-4e3b-11ed-a921-d8d09f1"
+    },
+    {
+      "maSinhVien": "a33498",
+      "hoTen": "Nguyễn Thị Lưu Ly",
+      "ngaySinh": "25-06-2002",
+      "gioiTinh": 1,
+      "lop": "TT32",
+      "email": "anh@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "ce22f714-4e3b-11ed-a921-02ef9f1"
+    },
+    {
+      "maSinhVien": "A34921",
+      "hoTen": "Dao minh Cuong",
+      "ngaySinh": "01-11-2002",
+      "gioiTinh": 0,
+      "lop": "TT32G1",
+      "email": "Cuong100301@gmail.com",
+      "idTaiKhoan": 10,
+      "id": "usrt6Za"
     }
   ]
 }

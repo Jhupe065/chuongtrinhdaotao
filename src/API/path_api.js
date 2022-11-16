@@ -1,5 +1,4 @@
 
-const PATH_API = "https://localhost:7068/api/";
+const PATH_API = "http://localhost:3333/";
 
 export default PATH_API;
-

@@ -1,95 +1,63 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react/jsx-pascal-case */
 import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import "../../App.css";
 import "../content.css";
 
-import {
-  Table,
-  Button,
-  Modal,
-  Input,
-  notification,
-  Popconfirm,
-  Select,
-} from "antd";
+import { Table, Button, Modal, Input, notification, Popconfirm } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import Header from "../layouts/header";
-import Sider from "../layouts/sider";
-import Footer from "../layouts/footer";
+
+import Header from "../../admin-components/layouts/header";
+import Sider from "../../admin-components/layouts/sider";
+import Footer from "../../admin-components/layouts/footer";
 import { Layout } from "antd";
 import PATH_API from "../../API/path_api";
 
 const { Content } = Layout;
-const { Option } = Select;
 
-export default function Nganh(props) {
+export default function Khoa(props) {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
   });
-
   const [editingData, setEditingData] = useState(null);
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-
-  // state du lieu them moi Nganh
-  const [KhoaData, setKhoaData] = useState([]);
-  const [tenNganhTextInput, settenNganhTextInput] = useState("");
-  const [maNganhTextInput, setmaNganhTextInput] = useState("");
-  const [selectedKhoa, setSelectedKhoa] = useState(null);
-  const [selectedKhoaAdd, setSelectedKhoaAdd] = useState(null);
+  const [tenKhoaTextInput, settenKhoaTextInput] = useState("");
+  const [maKhoaTextInput, setmaKhoaTextInput] = useState("");
 
   const handleCancel = () => {
+    setLoading(false);
     setIsModalAddOpen(false);
     setIsModalEditOpen(false);
-    setmaNganhTextInput("");
-    settenNganhTextInput("");
-    setLoading(false)
+    setmaKhoaTextInput("");
+    settenKhoaTextInput("");
   };
 
   const fetchData = (params = {}) => {
     setLoading(true);
     async function fetchData() {
-      const response = await fetch(`${PATH_API}Nganh`);
+      const response = await fetch(`${PATH_API}Khoa`);
       const data = await response.json();
       return data;
     }
     fetchData().then((data) => {
-      if (selectedKhoa === null) {
-        setDataSource(data);
-        setPagination({
-          ...params.pagination,
-        });
-      } else {
-        const filtedData = data.filter((data) => {
-          return data.idKhoa === selectedKhoa;
-        });
-        setDataSource(filtedData);
-        setPagination({
-          ...params.pagination,
-        });
-      }
+      setDataSource(data);
       setLoading(false);
+      setPagination({
+        ...params.pagination,
+      });
     });
   };
 
-  async function fetchDataSp(DataSp) {
-    const response = await fetch(`${PATH_API}${DataSp}`);
-    const data = await response.json();
-    return data;
-  }
-
   useEffect(() => {
-    fetchDataSp("Khoa").then((data) => {
-      setKhoaData(data);
-    });
     fetchData({
       pagination,
     });
@@ -116,11 +84,11 @@ export default function Nganh(props) {
 
   const columns = [
     {
-      title: "Mã ngành",
-      dataIndex: "maNganh",
-      key: "maNganh",
+      title: "Mã Khoa",
+      dataIndex: "maKhoa",
+      key: "maKhoa",
 
-      sorter: (a, b) => a.maNganh - b.maNganh,
+      sorter: (a, b) => a.maKhoa.length - b.maKhoa.length,
       filterDropdown: ({
         setSelectedKeys,
         selectedKeys,
@@ -161,15 +129,15 @@ export default function Nganh(props) {
         return <SearchOutlined />;
       },
       onFilter: (value, record) => {
-        return record.maNganh.toLowerCase().includes(value.toLowerCase());
+        return record.maKhoa.toLowerCase().includes(value.toLowerCase());
       },
     },
     {
-      title: "Tên ngành",
-      dataIndex: "tenNganh",
-      key: "tenNganh",
+      title: "Tên Khoa",
+      dataIndex: "tenKhoa",
+      key: "tenKhoa",
       defaultSortOrder: "descend",
-      sorter: (a, b) => a.tenNganh.length - b.tenNganh.length,
+      sorter: (a, b) => a.tenKhoa.length - b.tenKhoa.length,
       filterDropdown: ({
         setSelectedKeys,
         selectedKeys,
@@ -210,7 +178,7 @@ export default function Nganh(props) {
         return <SearchOutlined />;
       },
       onFilter: (value, record) => {
-        return record.tenNganh.toLowerCase().includes(value.toLowerCase());
+        return record.tenKhoa.toLowerCase().includes(value.toLowerCase());
       },
     },
     {
@@ -227,24 +195,24 @@ export default function Nganh(props) {
               }}
             />
             <Popconfirm
-              title="Bạn có chắc chắn muốn xóa ngành này không?"
+              title="Bạn có chắc chắn muốn xóa khoa này không?"
               onConfirm={() => {
                 setLoading(true);
-                  fetch(`${PATH_API}Nganh/${record.id}`, {
-                    method: "DELETE",
-                  })
-                    .then((response) => response.json())
-                    .then(() => {
-                      fetchData({
-                        pagination,
-                      });
-                    })
-                    .then(() => {
-                      console.log("Delete successful");
-                    })
-                    .catch((error) => {
-                      console.error("Error:", error);
+                fetch(`${PATH_API}Khoa/${record.id}`, {
+                  method: "DELETE",
+                })
+                  .then((response) => response.json())
+                  .then(() => {
+                    fetchData({
+                      pagination,
                     });
+                  })
+                  .then(() => {
+                    console.log("Delete successful");
+                  })
+                  .catch((error) => {
+                    console.error("Error:", error);
+                  });
               }}
               onCancel={() => {}}
               okText="Yes"
@@ -252,101 +220,47 @@ export default function Nganh(props) {
             >
               <DeleteOutlined style={{ color: "red", marginLeft: "10px" }} />
             </Popconfirm>
-            
           </>
         );
       },
     },
   ];
 
-  const ktraTrungLapAdd = (new_maNganh, new_tenNganh) => {
-    let listMaNganh = [];
-    let listTenNganh = [];
+  const ktraTrungLapAdd = (new_maKhoa, new_tenKhoa) => {
+    let listMaKhoa = [];
+    let listTenKhoa = [];
     dataSource.forEach((data) => {
-      listMaNganh.push(data.maNganh);
-      listTenNganh.push(data.tenNganh);
+      listMaKhoa.push(data.maKhoa);
+      listTenKhoa.push(data.tenKhoa);
     });
-    if (
-      listMaNganh.includes(new_maNganh) ||
-      listTenNganh.includes(new_tenNganh)
-    )
+    if (listMaKhoa.includes(new_maKhoa) || listTenKhoa.includes(new_tenKhoa))
       return true;
     else return false;
   };
 
-  const ktraTrungLapEdit = (new_maNganh, new_tenNganh, id) => {
-    let listMaNganh = [];
-    let listTenNganh = [];
+  const ktraTrungLapEdit = (new_maKhoa, new_tenKhoa, id) => {
+    let listMaKhoa = [];
+    let listTenKhoa = [];
     dataSource.forEach((data) => {
       if (data.id !== id) {
-        listMaNganh.push(data.maNganh);
-        listTenNganh.push(data.tenNganh);
+        listMaKhoa.push(data.maKhoa);
+        listTenKhoa.push(data.tenKhoa);
       }
     });
-    if (
-      listMaNganh.includes(new_maNganh) ||
-      listTenNganh.includes(new_tenNganh)
-    )
+    if (listMaKhoa.includes(new_maKhoa) || listTenKhoa.includes(new_tenKhoa))
       return true;
     else return false;
   };
 
   return (
     <Layout hasSider>
-      <Sider selectedKey="Nganh" signOut={props.signOut} />
+      <Sider selectedKey="Khoa" signOut={props.signOut} />
       <Layout className="site-layout">
         <Header />
-        <Content
-          className="content"
-         
-        >
+        <Content className="content">
           <div className="site-layout-background">
             <div className="content-header">
-              <h1 style={{ width: "200px" }}>Quản lý ngành</h1>
-              <div className="form-input form-input-center">
-                <label htmlFor="Khoa">Khoa:</label>
-                <Select
-                  placeholder="Tìm kiếm để chọn Khoa"
-                  showSearch
-                  style={{
-                    width: 200,
-                  }}
-                  optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    option.children.includes(input)
-                  }
-                  filterSort={(optionA, optionB) =>
-                    optionA.children
-                      .toLowerCase()
-                      .localeCompare(optionB.children.toLowerCase())
-                  }
-                  onSelect={(value) => {
-                    fetchDataSp("Nganh").then((data) => {
-                      const new_dataSource = data.filter((data) => {
-                        return data.idKhoa === value;
-                      });
-                      console.log(value);
-                      setDataSource(new_dataSource);
-                      setSelectedKhoa(value); //
-                    });
-                  }}
-                  allowClear
-                  onClear={() => {
-                    fetchDataSp("Nganh").then((data) => {
-                      setDataSource(data);
-                      setSelectedKhoa(null);
-                    });
-                  }}
-                >
-                  {KhoaData.map((data) => {
-                    return (
-                      <Option key={data.id} value={data.id}>
-                        {data.tenKhoa}
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </div>
+              <h1>Quản lý Khoa</h1>
               <Button
                 className="btn-add"
                 type="primary"
@@ -362,7 +276,7 @@ export default function Nganh(props) {
                 style={{ width: "100%" }}
                 columns={columns}
                 size="small"
-                rowKey="maNganh"
+                rowKey="maKhoa"
                 loading={loading}
                 dataSource={dataSource}
                 pagination={pagination}
@@ -371,7 +285,7 @@ export default function Nganh(props) {
               ></Table>
               {/* Form add ************************************************* */}
               <Modal
-                title="Thêm mới ngành"
+                title="Thêm mới Khoa"
                 open={isModalAddOpen}
                 onCancel={handleCancel}
                 footer={[
@@ -387,11 +301,10 @@ export default function Nganh(props) {
                   onSubmit={(e) => {
                     e.preventDefault();
                     setLoading(true);
-                    const new_maNganh = e.target.elements.maNganh.value;
-                    const new_tenNganh = e.target.elements.tenNganh.value;
-                    const new_idKhoa = selectedKhoaAdd;
+                    const new_maKhoa = e.target.elements.maKhoa.value;
+                    const new_tenKhoa = e.target.elements.tenKhoa.value;
                     // Kiem tra so luong ki tu
-                    if (new_maNganh.length !== 2 || new_tenNganh.length > 255) {
+                    if (new_maKhoa.length > 10 || new_tenKhoa.length > 255) {
                       return notification.error({
                         message: "Thêm không thành công",
                         description:
@@ -401,39 +314,26 @@ export default function Nganh(props) {
                       });
                     }
                     // kiem tra trung lap
-                    if (ktraTrungLapAdd(new_maNganh, new_tenNganh)) {
+                    if (ktraTrungLapAdd(new_maKhoa, new_tenKhoa)) {
                       return notification.error({
                         message: "Thêm không thành công",
                         description:
-                          "Thông tin ngành đã tồn tại. Vui lòng nhập lại dữ liệu!",
+                          "Thông tin khoa đã tồn tại. Vui lòng nhập lại dữ liệu!",
                         duration: 3,
                         placement: "bottomRight",
                       });
                     }
 
-                    if (new_idKhoa === null) {
-                      return notification.error({
-                        message: "Thêm không thành công",
-                        description: "Vui lòng điền đầy đủ thông tin!",
-                        duration: 3,
-                        placement: "bottomRight",
-                      });
-                    }
                     if (
-                      new_maNganh.length === 2 &&
-                      new_tenNganh.length <= 255 &&
-                      !ktraTrungLapAdd(
-                        new_maNganh,
-                        new_tenNganh && new_idKhoa !== null
-                      )
+                      new_maKhoa.length <= 10 &&
+                      new_tenKhoa.length <= 255 &&
+                      !ktraTrungLapAdd(new_maKhoa, new_tenKhoa)
                     ) {
                       const new_data = {
-                        maNganh: new_maNganh,
-                        tenNganh: new_tenNganh,
-                        idKhoa: new_idKhoa,
+                        maKhoa: new_maKhoa,
+                        tenKhoa: new_tenKhoa,
                       };
-
-                      fetch(`${PATH_API}Nganh`, {
+                      fetch(`${PATH_API}Khoa`, {
                         method: "POST",
                         headers: {
                           "Content-Type": "application/json",
@@ -450,7 +350,6 @@ export default function Nganh(props) {
                           console.error("Error:", error);
                         });
                       handleCancel();
-                      setSelectedKhoaAdd(null);
                       return notification["success"]({
                         message: "",
                         description: "Thêm mới thành công!",
@@ -458,94 +357,53 @@ export default function Nganh(props) {
                         placement: "bottomRight",
                       });
                     }
-                    
                   }}
                 >
                   <div className="wrap">
                     <div className="form-input form-input-center">
-                      <label htmlFor="maNganh">Mã Khoa:</label>
+                      <label htmlFor="maKhoa">Mã Khoa:</label>
                       <Input
-                        id="add_maNganh"
-                        name="maNganh"
-                        value={maNganhTextInput}
+                        id="add_maKhoa"
+                        name="maKhoa"
+                        value={maKhoaTextInput}
                         onChange={(e) => {
-                          setmaNganhTextInput(e.target.value);
+                          setmaKhoaTextInput(e.target.value);
                         }}
-                        required={true}
+                        required
                       />
                     </div>
-                    <p className="note">(* Yêu cầu 2 kí tự)</p>
+                    <p className="note">(* Không vượt quá 10 kí tự)</p>
                   </div>
                   <div className="wrap">
                     <div className="form-input form-input-center">
-                      <label htmlFor="tenNganh">Tên Khoa:</label>
+                      <label htmlFor="tenKhoa">Tên Khoa:</label>
                       <Input
-                        id="add_tenNganh"
-                        name="tenNganh"
-                        value={tenNganhTextInput}
+                        id="add_tenKhoa"
+                        name="tenKhoa"
+                        value={tenKhoaTextInput}
                         onChange={(e) => {
-                          settenNganhTextInput(e.target.value);
+                          settenKhoaTextInput(e.target.value);
                         }}
-                        required={true}
+                        required
                       />
                     </div>
                     <p className="note">(* Không vượt quá 255 kí tự)</p>
                   </div>
-                  <div className="form-input form-input-center">
-                    <label htmlFor="Khoa">Khoa:</label>
-                    <Select
-                      value={selectedKhoaAdd}
-                      name="chonKhoa"
-                      placeholder="Tìm kiếm để chọn Khoa"
-                      showSearch
-                      style={{
-                        width: 200,
-                      }}
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        option.children.includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        optionA.children
-                          .toLowerCase()
-                          .localeCompare(optionB.children.toLowerCase())
-                      }
-                      allowClear
-                      onClear={()=>{
-                        setSelectedKhoaAdd(null)
-                      }}
-                      onSelect={(value) => {
-                        setSelectedKhoaAdd(value);
-                      }}
-                    >
-                      {KhoaData.map((data) => {
-                        return (
-                          <Option key={data.id} value={data.id}>
-                            {data.tenKhoa}
-                          </Option>
-                        );
-                      })}
-                    </Select>
-                  </div>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    style={{ marginTop: "10px" }}
-                  >
+                  <Button type="primary" htmlType="submit">
                     Xác nhận
                   </Button>
                 </form>
               </Modal>
-
               {/* Form Edit ********************************************************* */}
               <Modal
-                title="Sửa thông tin ngành"
+                title="Sửa thông tin Khoa"
                 open={isModalEditOpen}
                 onCancel={handleCancel}
                 footer={[
                   <Button
                     key="back"
                     onClick={() => {
+                      setLoading(false);
                       setIsModalEditOpen(false);
                     }}
                   >
@@ -557,129 +415,91 @@ export default function Nganh(props) {
                 <div name="form-edit" className="form">
                   <div className="wrap">
                     <div className="form-input form-input-center">
-                      <label htmlFor="edit_maNganh">Mã ngành:</label>
+                      <label htmlFor="edit_maKhoa">Mã Khoa:</label>
                       <Input
-                        name="edit_maNganh"
-                        value={editingData?.maNganh}
+                        name="edit_maKhoa"
+                        value={editingData?.maKhoa}
                         onChange={(e) => {
                           setEditingData((pre) => {
-                            return { ...pre, maNganh: e.target.value };
+                            return { ...pre, maKhoa: e.target.value };
                           });
                         }}
+                        required
                       />
                     </div>
-                    <p className="note">(* Yêu cầu 2 kí tự)</p>
+                    <p className="note">(* Không vượt quá 10 kí tự)</p>
                   </div>
                   <div className="wrap">
                     <div className="form-input form-input-center">
-                      <label htmlFor="edit_tenNganh">Tên ngành:</label>
+                      <label htmlFor="edit_tenKhoa">Tên Khoa:</label>
                       <Input
                         name="edit_tenKhoa"
-                        value={editingData?.tenNganh}
+                        value={editingData?.tenKhoa}
                         onChange={(e) => {
                           setEditingData((pre) => {
-                            return { ...pre, tenNganh: e.target.value };
+                            return { ...pre, tenKhoa: e.target.value };
                           });
                         }}
+                        required
                       />
                     </div>
                     <p className="note">(* Không vượt quá 255 kí tự)</p>
                   </div>
-                  <div className="form-input form-input-center">
-                    <Select
-                      defaultValue={editingData?.idKhoa}
-                      name="chonKhoa"
-                      placeholder="Tìm kiếm để chọn Khoa"
-                      showSearch
-                      style={{
-                        width: 200,
-                      }}
-                      optionFilterProp="children"
-                      filterOption={(input, option) =>
-                        option.children.includes(input)
-                      }
-                      filterSort={(optionA, optionB) =>
-                        optionA.children
-                          .toLowerCase()
-                          .localeCompare(optionB.children.toLowerCase())
-                      }
-                      allowClear
-                      onClear={()=>{
-                        setEditingData((pre) => {
-                          return { ...pre, idKhoa: null };
-                        });
-                      }}
-                      onSelect={(value) => {
-                        setEditingData((pre) => {
-                          return { ...pre, idKhoa: value };
-                        });
-                      }}
-                    >
-                      {KhoaData.map((data) => {
-                        return (
-                          <Option key={data.id} value={data.id}>
-                            {data.tenKhoa}
-                          </Option>
-                        );
-                      })}
-                    </Select>
-                  </div>
-
                   <Button
                     type="primary"
                     htmlType="submit"
                     onClick={() => {
-                      if (
-                        editingData.maNganh.length !== 2 ||
-                        editingData.tenNganh.length > 255
-                      ) {
+                      setLoading(true);
+                     
+                      if(editingData.maKhoa === "" || editingData.tenKhoa === ""){
                         return notification.error({
                           message: "Sửa thông tin không thành công",
                           description:
-                            "Số lượng kí tự không phù hợp với yêu cầu. Vui lòng nhập lại dữ liệu!",
+                            "Vui lòng nhập đầy đủ thông tin!",
                           duration: 3,
                           placement: "bottomRight",
                         });
                       }
-                      // kiem tra trung lap
+                      if (
+                        editingData.maKhoa.length > 10 ||
+                        editingData.tenKhoa.length > 255
+                      ) {
+                        return notification.error({
+                          message: "Sửa thông tin không thành công",
+                          description:
+                            "Số lượng kí tự vượt quá giới hạn cho phép. Vui lòng nhập lại dữ liệu!",
+                          duration: 3,
+                          placement: "bottomRight",
+                        });
+                      }
                       if (
                         ktraTrungLapEdit(
-                          editingData.maNganh,
-                          editingData.tenNganh,
+                          editingData.maKhoa,
+                          editingData.tenKhoa,
                           editingData.id
                         )
                       ) {
                         return notification.error({
                           message: "Sửa thông tin không thành công",
                           description:
-                            "Thông tin ngành đã tồn tại. Vui lòng nhập lại dữ liệu!",
+                            "Thông tin khoa đã tồn tại. Vui lòng nhập lại dữ liệu!",
                           duration: 3,
                           placement: "bottomRight",
                         });
                       }
-                      if (editingData.idKhoa === null ) {
-                        return notification.error({
-                          message: "Sửa thông tin không thành công",
-                          description: "Vui lòng điền đầy đủ thông tin!",
-                          duration: 3,
-                          placement: "bottomRight",
-                        });
-                      }
-
                       if (
-                        editingData.maNganh.length === 2 &&
-                        editingData.tenNganh.length < 255 &&
+                        editingData.maKhoa.length <= 10 &&
+                        editingData.tenKhoa.length <= 255 &&
                         !ktraTrungLapEdit(
-                          editingData.maNganh,
-                          editingData.tenNganh,
+                          editingData.maKhoa,
+                          editingData.tenKhoa,
                           editingData.id
                         )
-                        && editingData.idKhoa !== null
+                      
                       ) {
                         dataSource.map((data) => {
                           if (data.id === editingData.id) {
-                            setLoading(true);
-                            fetch(`${PATH_API}Nganh/${editingData.id}`, {
+                            fetch(`${PATH_API}Khoa/${editingData.id}`, {
                               method: "PUT",
                               headers: {
                                 "Content-Type": "application/json",

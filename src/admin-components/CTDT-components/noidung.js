@@ -4,7 +4,7 @@ import React from "react";
 import "../content.css";
 
 export default function noidung(props) {
-  let i = 1
+  let i  = 1;
   return (
     <div>
       <div className="wrapper">
@@ -20,9 +20,10 @@ export default function noidung(props) {
           </strong>
         </div>
         <div className="wrapper-content">
-          {props.dataKhoiKT.map((dataKhoiKT) => {
+          {
+          props.dataKhoiKT.map((dataKhoiKT) => {
             return (
-              <div key={dataKhoiKT.idKhoiKienThuc} className="list">
+              <div key={dataKhoiKT.id} className="list">
                 <strong>
                   <p>
                     {i++}. {dataKhoiKT.tenKhoiKienThuc}
@@ -40,13 +41,13 @@ export default function noidung(props) {
                 </div>
                 <div className="content-list">
                   {props.dataNdCTDT.map((dataND) => {
-                    if (dataND.idKhoiKienThuc === dataKhoiKT.idKhoiKienThuc) {
+                    if (dataND.idKhoiKT === dataKhoiKT.id) {
                       const MH = props.dataMonHoc.filter((dataMH) => {
-                        return dataMH.idMonHoc === dataND.idMonHoc;
+                        return dataMH.id === dataND.idMonHoc;
                       });
                       
                       return (
-                        <div key={dataND.idNoiDung} className="monhoc">
+                        <div key={dataND.id} className="monhoc">
                           <p style={{ width: "15%" }}>
                             {MH[0].maMonHoc}
                           </p>

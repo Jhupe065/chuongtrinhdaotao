@@ -1,7 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import "../../App.css";
-import { Table, Button, Input, Modal, notification, Popconfirm } from "antd";
+import "../content.css";
+
+import { Table, Button, Modal, Input, notification, Popconfirm } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -14,34 +17,32 @@ import { Layout } from "antd";
 import PATH_API from "../../API/path_api";
 
 const { Content } = Layout;
-
-
-
-export default function Dashboard(props) {
+export default function ChucVu(props) {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
   });
+
   const [editingData, setEditingData] = useState(null);
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
-  const [tenKKTTextInput, settenKKTTextInput] = useState("");
-  const [maKKTTextInput, setmaKKTTextInput] = useState("");
+
+  const [tenChucVuTextInput, settenChucVuTextInput] = useState(""); //]
 
   const handleCancel = () => {
+    setLoading(false);
     setIsModalAddOpen(false);
     setIsModalEditOpen(false);
-    settenKKTTextInput("");
-    setmaKKTTextInput("");
-    setLoading(false);
+    // setidTextInput("");
+    // settenChucVuTextInput("");
   };
 
   const fetchData = (params = {}) => {
     setLoading(true);
     async function fetchData() {
-      const response = await fetch(`${PATH_API}KhoiKienThuc`);
+      const response = await fetch(`${PATH_API}ChucVu`);
       const data = await response.json();
       return data;
     }
@@ -81,62 +82,12 @@ export default function Dashboard(props) {
 
   const columns = [
     {
-      title: "Mã khối kiến thức",
-      dataIndex: "maKhoiKienThuc",
-      key: "maKhoiKienThuc",
-      defaultSortOrder: "ascend",
-      sorter: (a, b) => a.maKhoiKienThuc.length - b.maKhoiKienThuc.length,
-      filterDropdown: ({
-        setSelectedKeys,
-        selectedKeys,
-        confirm,
-        clearFilters,
-      }) => {
-        return (
-          <>
-            <Input
-              style={{ background: "#e6f7ff" }}
-              autoFocus
-              placeholder="Tìm kiếm..."
-              value={selectedKeys[0]}
-              onChange={(e) => {
-                setSelectedKeys(e.target.value ? [e.target.value] : []);
-                confirm({ closeDropdown: false });
-              }}
-              onPressEnter={() => {
-                confirm();
-              }}
-              onBlur={() => {
-                confirm();
-              }}
-            ></Input>
-            <Button
-              onClick={() => {
-                clearFilters();
-                confirm();
-              }}
-              type="danger"
-            >
-              Reset
-            </Button>
-          </>
-        );
-      },
-      filterIcon: () => {
-        return <SearchOutlined />;
-      },
-      onFilter: (value, record) => {
-        return record.maKhoiKienThuc
-          .toLowerCase()
-          .includes(value.toLowerCase());
-      },
-    },
-    {
-      title: "Tên khối kiến thức",
-      dataIndex: "tenKhoiKienThuc",
-      key: "tenKhoiKienThuc",
-
-      sorter: (a, b) => a.tenKhoiKienThuc.length - b.tenKhoiKienThuc.length,
+      title: "Tên chức vụ",
+      dataIndex: "tenChucVu",
+      key: "tenChucVu",
+      defaultSortOrder: "descend",
+      align: "center",
+      sorter: (a, b) => a.tenChucVu.length - b.tenChucVu.length,
       filterDropdown: ({
         setSelectedKeys,
         selectedKeys,
@@ -177,9 +128,7 @@ export default function Dashboard(props) {
         return <SearchOutlined />;
       },
       onFilter: (value, record) => {
-        return record.tenKhoiKienThuc
-          .toLowerCase()
-          .includes(value.toLowerCase());
+        return record.tenChucVu.toLowerCase().includes(value.toLowerCase());
       },
     },
     {
@@ -196,11 +145,10 @@ export default function Dashboard(props) {
               }}
             />
             <Popconfirm
-              title="Bạn có chắc chắn muốn xóa khối kiến thức này không?"
+              title="Bạn có chắc chắn muốn xóa thông tin chức vụ này không?"
               onConfirm={() => {
                 setLoading(true);
-
-                fetch(`${PATH_API}KhoiKienThuc/${record.id}`, {
+                fetch(`${PATH_API}ChucVu/${record.id}`, {
                   method: "DELETE",
                 })
                   .then((response) => response.json())
@@ -228,47 +176,35 @@ export default function Dashboard(props) {
     },
   ];
 
-  const ktraTrungLapAdd = (new_maKhoiKT, new_tenKhoiKT) => {
-    let listMaKhoiKT = [];
-    let listTenKhoiKT = [];
+  const ktraTrungLapAdd = (new_tenChucVu) => {
+    let listtenChucVu = [];
     dataSource.forEach((data) => {
-      listMaKhoiKT.push(data.maKhoiKienThuc);
-      listTenKhoiKT.push(data.tenKhoiKienThuc);
+      listtenChucVu.push(data.tenChucVu);
     });
-    if (
-      listMaKhoiKT.includes(new_maKhoiKT) ||
-      listTenKhoiKT.includes(new_tenKhoiKT)
-    )
-      return true;
+    if (listtenChucVu.includes(new_tenChucVu)) return true;
     else return false;
   };
 
-  const ktraTrungLapEdit = (new_maKhoiKT, new_tenKhoiKT, id) => {
-    let listMaKhoiKT = [];
-    let listTenKhoiKT = [];
+  const ktraTrungLapEdit = (new_tenChucVu, id) => {
+    let listtenChucVu = [];
     dataSource.forEach((data) => {
       if (data.id !== id) {
-        listMaKhoiKT.push(data.maKhoiKienThuc);
-        listTenKhoiKT.push(data.tenKhoiKienThuc);
+        listtenChucVu.push(data.tenChucVu);
       }
     });
-    if (
-      listMaKhoiKT.includes(new_maKhoiKT) ||
-      listTenKhoiKT.includes(new_tenKhoiKT)
-    )
-      return true;
+    if (listtenChucVu.includes(new_tenChucVu)) return true;
     else return false;
   };
 
   return (
     <Layout hasSider>
-      <Sider selectedKey="khoiKT" signOut={props.signOut} />
+      <Sider selectedKey="chucvu" signOut={props.signOut} />
       <Layout className="site-layout">
         <Header />
         <Content className="content">
           <div className="site-layout-background">
             <div className="content-header">
-              <h1>Quản lý khối kiến thức</h1>
+              <h1>Quản lý chức vụ</h1>
               <Button
                 className="btn-add"
                 type="primary"
@@ -291,9 +227,9 @@ export default function Dashboard(props) {
                 onChange={handleTableChange}
                 bordered
               ></Table>
-              {/* Form Add *********************************************** */}
+              {/* Form add ************************************************* */}
               <Modal
-                title="Thêm mới khối kiến thức"
+                title="Thêm mới chức vụ"
                 open={isModalAddOpen}
                 onCancel={handleCancel}
                 footer={[
@@ -309,46 +245,36 @@ export default function Dashboard(props) {
                   onSubmit={(e) => {
                     e.preventDefault();
                     setLoading(true);
-                    const new_TenKhoiKienThuc =
-                      e.target.elements.tenKhoiKienThuc.value;
-                    const new_MaKhoiKienThuc =
-                      e.target.elements.maKhoiKienThuc.value;
-
+                    const new_tenChucVu = e.target.elements.tenChucVu.value;
                     // Kiem tra so luong ki tu
-                    if (
-                      new_MaKhoiKienThuc.length !== 4 ||
-                      new_TenKhoiKienThuc.length > 255
-                    ) {
+                    if (new_tenChucVu.length > 255) {
                       return notification.error({
                         message: "Thêm không thành công",
                         description:
-                          "Số lượng kí tự không phù hợp với yêu cầu. Vui lòng nhập lại dữ liệu!",
+                          "Số lượng kí tự vượt quá giới hạn cho phép. Vui lòng nhập lại dữ liệu!",
                         duration: 3,
                         placement: "bottomRight",
                       });
                     }
                     // kiem tra trung lap
-                    if (
-                      ktraTrungLapAdd(new_MaKhoiKienThuc, new_TenKhoiKienThuc)
-                    ) {
+                    if (ktraTrungLapAdd(new_tenChucVu)) {
                       return notification.error({
                         message: "Thêm không thành công",
                         description:
-                          "Thông tin khối kiến thức đã tồn tại. Vui lòng nhập lại dữ liệu!",
+                          "Thông tin chức vụ đã tồn tại. Vui lòng nhập lại dữ liệu!",
                         duration: 3,
                         placement: "bottomRight",
                       });
                     }
+
                     if (
-                      new_MaKhoiKienThuc.length === 4 &&
-                      new_TenKhoiKienThuc.length <= 255 &&
-                      !ktraTrungLapAdd(new_MaKhoiKienThuc, new_TenKhoiKienThuc)
+                      new_tenChucVu.length <= 255 &&
+                      !ktraTrungLapAdd(new_tenChucVu)
                     ) {
                       const new_data = {
-                        maKhoiKienThuc: new_MaKhoiKienThuc,
-                        tenKhoiKienThuc: new_TenKhoiKienThuc,
+                        tenChucVu: new_tenChucVu,
                       };
-                      fetch(`${PATH_API}KhoiKienThuc`, {
+                      fetch(`${PATH_API}ChucVu`, {
                         method: "POST",
                         headers: {
                           "Content-Type": "application/json",
@@ -376,28 +302,15 @@ export default function Dashboard(props) {
                 >
                   <div className="wrap">
                     <div className="form-input form-input-center">
-                      <label htmlFor="maKhoiKienThuc">Mã khối kiến thức:</label>
+                      <label htmlFor="tenChucVu">Tên chức vụ:</label>
                       <Input
-                        name="maKhoiKienThuc"
-                        value={maKKTTextInput}
+                        id="add_tenChucVu"
+                        name="tenChucVu"
+                        value={tenChucVuTextInput}
                         onChange={(e) => {
-                          setmaKKTTextInput(e.target.value);
+                          settenChucVuTextInput(e.target.value);
                         }}
-                      />
-                    </div>
-                    <p className="note">(* Yêu cầu 4 kí tự)</p>
-                  </div>
-                  <div className="wrap">
-                    <div className="form-input form-input-center">
-                      <label htmlFor="tenKhoiKienThuc">
-                        Tên khối kiến thức:
-                      </label>
-                      <Input
-                        name="tenKhoiKienThuc"
-                        value={tenKKTTextInput}
-                        onChange={(e) => {
-                          settenKKTTextInput(e.target.value);
-                        }}
+                        required
                       />
                     </div>
                     <p className="note">(* Không vượt quá 255 kí tự)</p>
@@ -407,15 +320,16 @@ export default function Dashboard(props) {
                   </Button>
                 </form>
               </Modal>
-              {/* Form Edit******************************************************* */}
+              {/* Form Edit ********************************************************* */}
               <Modal
-                title="Sửa thông tin khối kiến thức"
+                title="Sửa thông tin chức vụ"
                 open={isModalEditOpen}
                 onCancel={handleCancel}
                 footer={[
                   <Button
                     key="back"
                     onClick={() => {
+                      setLoading(false);
                       setIsModalEditOpen(false);
                     }}
                   >
@@ -427,83 +341,73 @@ export default function Dashboard(props) {
                 <div name="form-edit" className="form">
                   <div className="wrap">
                     <div className="form-input form-input-center">
-                      <label htmlFor="edit_makhoiKT">Mã khối kiến thức:</label>
+                      <label htmlFor="edit_tenChucVu">Tên chức vụ:</label>
                       <Input
-                        name="edit_maKhoiKT"
-                        value={editingData?.maKhoiKienThuc}
+                        name="edit_tenChucVu"
+                        value={editingData?.tenChucVu}
                         onChange={(e) => {
                           setEditingData((pre) => {
-                            return { ...pre, maKhoiKienThuc: e.target.value };
+                            return { ...pre, tenChucVu: e.target.value };
                           });
                         }}
-                      />
-                    </div>
-                    <p className="note">(* Yêu cầu 4 kí tự)</p>
-                  </div>
-                  <div className="wrap">
-                    <div className="form-input form-input-center">
-                      <label htmlFor="edit_tenkhoiKT">
-                        Tên khối kiến thức:
-                      </label>
-                      <Input
-                        name="edit_tenKhoiKT"
-                        value={editingData?.tenKhoiKienThuc}
-                        onChange={(e) => {
-                          setEditingData((pre) => {
-                            return { ...pre, tenKhoiKienThuc: e.target.value };
-                          });
-                        }}
+                        required
                       />
                     </div>
                     <p className="note">(* Không vượt quá 255 kí tự)</p>
                   </div>
-
                   <Button
                     type="primary"
                     htmlType="submit"
                     onClick={() => {
-                      // Kiem tra so luong ki tu
-                      if (
-                        editingData.maKhoiKienThuc.length !== 4 ||
-                        editingData.tenKhoiKienThuc.length > 255
-                      ) {
+                      setLoading(true);
+                      if(editingData.tenChucVu === ""){
                         return notification.error({
                           message: "Sửa thông tin không thành công",
                           description:
-                            "Số lượng kí tự không phù hợp với yêu cầu. Vui lòng nhập lại dữ liệu!",
+                            "Vui lòng nhập đầy đủ thông tin!",
                           duration: 3,
                           placement: "bottomRight",
                         });
                       }
-                      // kiem tra trung lap
+
+                      if (
+                       
+                        editingData.tenChucVu.length > 50
+                      ) {
+                        return notification.error({
+                          message: "Sửa thông tin không thành công",
+                          description:
+                            "Số lượng kí tự vượt quá giới hạn cho phép. Vui lòng nhập lại dữ liệu!",
+                          duration: 3,
+                          placement: "bottomRight",
+                        });
+                      }
                       if (
                         ktraTrungLapEdit(
-                          editingData.maKhoiKienThuc,
-                          editingData.tenKhoiKienThuc,
+                        
+                          editingData.tenChucVu,
                           editingData.id
                         )
                       ) {
                         return notification.error({
                           message: "Sửa thông tin không thành công",
                           description:
-                            "Thông tin khối kiến thức đã tồn tại. Vui lòng nhập lại dữ liệu!",
+                            "Thông tin chức vụ đã tồn tại. Vui lòng nhập lại dữ liệu!",
                           duration: 3,
                           placement: "bottomRight",
                         });
                       }
                       if (
-                        editingData.maKhoiKienThuc.length === 4 &&
-                        editingData.tenKhoiKienThuc.length < 255 &&
+                        editingData.tenChucVu.length <= 255 &&
                         !ktraTrungLapEdit(
-                          editingData.maKhoiKienThuc,
-                          editingData.tenKhoiKienThuc,
+                          editingData.maKhoa,
+                          editingData.tenChucVu,
                           editingData.id
                         )
                       ) {
                         dataSource.map((data) => {
                           if (data.id === editingData.id) {
-                            setLoading(true);
-                            fetch(`${PATH_API}KhoiKienThuc/${editingData.id}`, {
+                            fetch(`${PATH_API}ChucVu/${editingData.id}`, {
                               method: "PUT",
                               headers: {
                                 "Content-Type": "application/json",

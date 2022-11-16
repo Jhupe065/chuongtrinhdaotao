@@ -696,7 +696,7 @@ export default function Dashboard(props) {
 
               {/* Form Edit ********************************************************* */}
               <Modal
-                title="Sửa thông tin ngành"
+                title="Sửa thông tin CTĐT"
                 open={isModalEditOpen}
                 onCancel={handleCancel}
                 footer={[
@@ -827,6 +827,15 @@ export default function Dashboard(props) {
                     type="primary"
                     htmlType="submit"
                     onClick={() => {
+                      if(editingData.maCTDT === "" || editingData.tenCTDT === ""){
+                        return notification.error({
+                          message: "Sửa thông tin không thành công",
+                          description:
+                            "Vui lòng nhập đầy đủ thông tin!",
+                          duration: 3,
+                          placement: "bottomRight",
+                        });
+                      }
                       // Kiem tra so luong ki tu
                       if (
                         editingData.maCTDT.length !== 4 ||
@@ -892,7 +901,7 @@ export default function Dashboard(props) {
                               .then(() => {
                                 fetchData({
                                   pagination,
-                                });
+                                });   
                               })
                               .catch((error) => {
                                 console.error("Error:", error);

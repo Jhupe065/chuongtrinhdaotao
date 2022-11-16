@@ -11,6 +11,6 @@ export default function footer() {
           backgroundColor: "white",
           
         }}
-      >Ant Design ©2018 Created by Ant UED</Footer>
+      ></Footer>
   )
 }

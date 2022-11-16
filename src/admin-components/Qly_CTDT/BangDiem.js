@@ -10,9 +10,9 @@ import PATH_API from "../../API/path_api";
 
 import * as XLSX from "xlsx";
 
-import Header from "../../components/layouts/header";
-import Sider from "../../components/layouts/sider";
-import Footer from "../../components/layouts/footer";
+import Header from "../../admin-components/layouts/header";
+import Sider from "../../admin-components/layouts/sider";
+import Footer from "../../admin-components/layouts/footer";
 import { Layout } from "antd";
 
 const { Content } = Layout;
@@ -169,10 +169,10 @@ export default function BangDiem(props) {
     },
     {
         title: "Điểm",
-        dataIndex: "Diem",
-        key: "Diem",
+        dataIndex: "diem",
+        key: "diem",
         defaultSortOrder: "descend",
-        sorter: (a, b) => a.Diem.length - b.Diem.length,
+        sorter: (a, b) => a.diem.length - b.diem.length,
       },
   ];
 
@@ -189,7 +189,7 @@ export default function BangDiem(props) {
           setExcelFileError(null);
           setExcelFile(e.target.result);
         };
-        
+       
       } else {
         setExcelFileError("Please select only excel file types");
         setExcelFile(null);
@@ -213,12 +213,12 @@ export default function BangDiem(props) {
           {
             "maSinhVien": data.maSinhVien,
             "maMonHoc": data.maMonHoc,
-            "Diem": data.Diem,
+            "diem": data.diem,
           }
         )
       })
       console.log(validatedData);
-      // fetch(`${PATH_API}BangDiem`, {
+      // fetch(`${PATH_API}Bangdiem`, {
       //   method: "POST",
       //   headers: {
       //     "Content-Type": "application/json",

@@ -43,6 +43,7 @@ export default function Mon(props) {
     setdktqTextInput("");
     setSoGioTextInput("");
     setHeSoTextInput("");
+    setLoading(false);
   };
 
   const fetchData = (params = {}) => {
@@ -426,7 +427,7 @@ export default function Mon(props) {
                         placement: "bottomRight",
                       });
                     }
-                    setLoading(false);
+                    
                   }}
                 >
                   <div className="wrap">
@@ -634,6 +635,16 @@ export default function Mon(props) {
                     type="primary"
                     htmlType="submit"
                     onClick={() => {
+                      if(editingData.maMonHoc === "" || editingData.tenMonHoc === "" ||
+                      editingData.soTinChi === ""  || editingData.soGio === "" || editingData.heSo === ""){
+                        return notification.error({
+                          message: "Thêm không thành công",
+                          description:
+                            "Vui lòng nhập đầy đủ thông tin!",
+                          duration: 3,
+                          placement: "bottomRight",
+                        });
+                      }
                       // Kiem tra so luong ki tu
                       if (
                         editingData.maMonHoc.length !== 5 ||

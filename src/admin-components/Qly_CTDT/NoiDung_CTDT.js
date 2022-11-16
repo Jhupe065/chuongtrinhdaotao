@@ -4,7 +4,7 @@ import "antd/dist/antd.css";
 import "../../App.css";
 import "../content.css";
 import PATH_API from "../../API/path_api";
-import { Table, Button, Modal, Input, Select, Spin, Alert } from "antd";
+import { Table, Button, Modal, Input, Select, Spin } from "antd";
 import {
   EyeOutlined,
   ExceptionOutlined,
@@ -14,24 +14,25 @@ import {
 } from "@ant-design/icons";
 
 import NoiDung from "../CTDT-components/noidung";
-// import EditNoiDung from "../CTDT-components/edit-NoiDung";
+// import EditNoiDung from "../CTDT-admin-components/edit-NoiDung";
 
-import Header from "../../components/layouts/header";
-import Sider from "../../components/layouts/sider";
-import Footer from "../../components/layouts/footer";
+import Header from "../../admin-components/layouts/header";
+import Sider from "../../admin-components/layouts/sider";
+import Footer from "../../admin-components/layouts/footer";
 import { Layout } from "antd";
 
 const { Content } = Layout;
 const { Option } = Select;
 
 export default function Dashboard(props) {
-  let i = 1
+  let i = 1;
+
   const [loading, setLoading] = useState(false);
   const [showEditNoiDungLoading, setShowEditNoiDungLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 5,
+    pageSize: 10,
   });
 
   const [isModalNdCTDTOpen, setIsModalNdCTDTOpen] = useState(false);
@@ -51,101 +52,101 @@ export default function Dashboard(props) {
   const [selectedNganh, setSelectedNganh] = useState(null);
   const [selectedKhoaHoc, setSelectedKhoaHoc] = useState(null);
 
-  //console.log(dataNdCTDT)
 
   const handleOk = () => {
-    setLoading(true);
-    let listDeleteNdCTDT = [...dataNdCTDTCu];
-    let listAddNdCTDT = [...dataNdCTDT];
+    // setLoading(true);
+    // let listDeleteNdCTDT = [...dataNdCTDTCu];
+    // let listAddNdCTDT = [...dataNdCTDT];
 
-    dataNdCTDTCu.map((dataCu) => {
-      listAddNdCTDT = [...listAddNdCTDT].filter((dataMoi) => {
-        return dataMoi.idNoiDung !== dataCu.idNoiDung;
-      });
-      return dataCu;
-    });
-    dataNdCTDT.map((dataMoi) => {
-      listDeleteNdCTDT = [...listDeleteNdCTDT].filter((dataCu) => {
-        return dataCu.idNoiDung !== dataMoi.idNoiDung;
-      });
-      return dataMoi;
-    });
+    // dataNdCTDTCu.map((dataCu) => {
+    //   listAddNdCTDT = [...listAddNdCTDT].filter((dataMoi) => {
+    //     return dataMoi.id !== dataCu.id;
+    //   });
+    //   return dataCu;
+    // });
+    // dataNdCTDT.map((dataMoi) => {
+    //   listDeleteNdCTDT = [...listDeleteNdCTDT].filter((dataCu) => {
+    //     return dataCu.id !== dataMoi.id;
+    //   });
+    //   return dataMoi;
+    // });
 
-    console.log("Moi", dataNdCTDT);
-    console.log("Cu", dataNdCTDTCu);
-    console.log("Del", listDeleteNdCTDT);
-    console.log("Add", listAddNdCTDT);
+    // console.log("Moi", dataNdCTDT);
+    // console.log("Cu", dataNdCTDTCu);
+    // console.log("Del", listDeleteNdCTDT);
+    // console.log("Add", JSON.stringify(listAddNdCTDT));
 
 
-    if (listDeleteNdCTDT.length > 0 && listAddNdCTDT.length === 0) {
-      fetch(`${PATH_API}NoiDung`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(listDeleteNdCTDT),
-      })
-        .then((response) => response.json())
-        .then(() => {
-          setLoading(false);
-          setIsModalEditCTDTOpen(false);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
-    if (listAddNdCTDT.length > 0 && listDeleteNdCTDT.length === 0) {
-      fetch(`${PATH_API}NoiDung`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(listAddNdCTDT),
-      })
-        .then((response) => response.json())
-        .then(() => {
-          setLoading(false);
-          setIsModalEditCTDTOpen(false);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
-    if (listDeleteNdCTDT.length > 0 && listAddNdCTDT.length > 0) {
-      fetch(`${PATH_API}NoiDung`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(listDeleteNdCTDT),
-      })
-        .then((response) => response.json())
-        .then(() => {
-          fetch(`${PATH_API}NoiDung`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(listAddNdCTDT),
-          })
-            .then((response) => response.json())
-            .then(() => {
-              setLoading(false);
-              setIsModalEditCTDTOpen(false);
-            })
-            .catch((error) => {
-              console.error("Error:", error);
-            });
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }
-    if(listDeleteNdCTDT.length === 0 && listAddNdCTDT.length === 0){
-      setLoading(false);
-      setIsModalEditCTDTOpen(false);
-    }
+    // if (listDeleteNdCTDT.length > 0 && listAddNdCTDT.length === 0) {
+    //   fetch(`${PATH_API}NoiDung`, {
+    //     method: "DELETE",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(listDeleteNdCTDT),
+    //   })
+    //     .then((response) => response.json())
+    //     .then(() => {
+    //       setLoading(false);
+    //       setIsModalEditCTDTOpen(false);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error:", error);
+    //     });
+    // }
+    // if (listAddNdCTDT.length > 0 && listDeleteNdCTDT.length === 0) {
+    //   fetch(`${PATH_API}NoiDung`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(listAddNdCTDT),
+    //   })
+    //     .then((response) => response.json())
+    //     .then(() => {
+    //       setLoading(false);
+    //       setIsModalEditCTDTOpen(false);
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error:", error);
+    //     });
+    // }
+    // if (listDeleteNdCTDT.length > 0 && listAddNdCTDT.length > 0) {
+    //   fetch(`${PATH_API}NoiDung`, {
+    //     method: "DELETE",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(listDeleteNdCTDT),
+    //   })
+    //     .then((response) => response.json())
+    //     .then(() => {
+    //       fetch(`${PATH_API}NoiDung`, {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //         body: JSON.stringify(listAddNdCTDT),
+    //       })
+    //         .then((response) => response.json())
+    //         .then(() => {
+    //           setLoading(false);
+    //           setIsModalEditCTDTOpen(false);
+    //         })
+    //         .catch((error) => {
+    //           console.error("Error:", error);
+    //         });
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error:", error);
+    //     });
+    // }
+    // if(listDeleteNdCTDT.length === 0 && listAddNdCTDT.length === 0){
+    //   setLoading(false);
+    //   setIsModalEditCTDTOpen(false);
+    // }
   };
+
   const handleCancel = () => {
     setIsModalEditCTDTOpen(false);
   };
@@ -195,8 +196,8 @@ export default function Dashboard(props) {
     });
   };
 
-  async function fetchDataSp(TableSp, idNoiDung = "") {
-    const response = await fetch(`${PATH_API}${TableSp}/${idNoiDung}`);
+  async function fetchDataSp(TableSp, id = "") {
+    const response = await fetch(`${PATH_API}${TableSp}/${id}`);
     const data = await response.json();
     return data;
   }
@@ -235,9 +236,9 @@ export default function Dashboard(props) {
   };
 
   const onWatchingNdCTDT = (record) => {
-    console.log(record)
+   
     async function fetchDataNd(TableSp, id) {
-      const response = await fetch(`${PATH_API}${TableSp}/filter?idCTDT=${id}`);
+      const response = await fetch(`${PATH_API}${TableSp}?idCTDT=${id}`);
       const data = await response.json();
       return data;
     }
@@ -246,10 +247,9 @@ export default function Dashboard(props) {
       setSelectedDataNganh(data);
       fetchDataSp("KhoaHoc", record.idKhoaHoc).then((data) => {
         setSelectedDataKhoaHoc(data);
-        fetchDataNd("NoiDung", record.idCTDT).then((data) => {
-          console.log(data)
+        fetchDataNd("NoiDung", record.id).then((data) => {
           setDataNdCTDT(data);
-          fetchDataNd("NoiDung", record.idCTDT).then((data) => {
+          fetchDataNd("NoiDung", record.id).then((data) => {
             setDataNdCTDTCu(data);
             setIsModalNdCTDTOpen(true);
             setShowEditNoiDungLoading(false);
@@ -261,21 +261,19 @@ export default function Dashboard(props) {
   };
 
   const onEditNdCTDT = (record) => {
-    
     async function fetchDataNd(TableSp, id) {
-      const response = await fetch(`${PATH_API}${TableSp}/filter?idCTDT=${id}`);
+      const response = await fetch(`${PATH_API}${TableSp}?idCTDT=${id}`);
       const data = await response.json();
       return data;
     }
     setShowEditNoiDungLoading(true);
-    
     fetchDataSp("Nganh", record.idNganh).then((data) => {
       setSelectedDataNganh(data);
       fetchDataSp("KhoaHoc", record.idKhoaHoc).then((data) => {
         setSelectedDataKhoaHoc(data);
-        fetchDataNd("NoiDung", record.idCTDT).then((data) => {
+        fetchDataNd("NoiDung", record.id).then((data) => {
           setDataNdCTDT(data);
-          fetchDataNd("NoiDung", record.idCTDT).then((data) => {
+          fetchDataNd("NoiDung", record.id).then((data) => {
             setDataNdCTDTCu(data);
             setIsModalEditCTDTOpen(true);
             setShowEditNoiDungLoading(false);
@@ -399,16 +397,14 @@ export default function Dashboard(props) {
             <EyeOutlined
               style={{ cursor: "pointer" }}
               onClick={() => {
-               
                 onWatchingNdCTDT(record);
-               
+                
               }}
             />
             <ExceptionOutlined
               style={{ color: "green", marginLeft: "10px" }}
               onClick={() => {
                 onEditNdCTDT(record);
-                
               }}
             />
           </>
@@ -494,7 +490,7 @@ export default function Dashboard(props) {
                 >
                   {dataNganh.map((data) => {
                     return (
-                      <Option key={data.idNganh} value={data.idNganh}>
+                      <Option key={data.id} value={data.id}>
                         {data.tenNganh}
                       </Option>
                     );
@@ -557,7 +553,7 @@ export default function Dashboard(props) {
                 >
                   {dataKhoaHoc.map((data) => {
                     return (
-                      <Option key={data.idKhoaHoc} value={data.idKhoaHoc}>
+                      <Option key={data.id} value={data.id}>
                         {data.tenKhoaHoc}
                       </Option>
                     );
@@ -568,7 +564,7 @@ export default function Dashboard(props) {
                 <Table
                   style={{ width: "100%" }}
                   columns={columns}
-                  size="middle"
+                  size="small"
                   rowKey="maCTDT"
                   loading={loading}
                   dataSource={dataSource}
@@ -586,7 +582,6 @@ export default function Dashboard(props) {
                   footer={null}
                 >
                   <NoiDung
-                    danhmuc={selectedDanhMuc}
                     selectedDataNganh={selectedDataNganh}
                     selectedDataKhoaHoc={selectedDataKhoaHoc}
                     dataKhoiKT={dataKhoiKT}
@@ -651,19 +646,19 @@ export default function Dashboard(props) {
                     <div className="wrapper-content">
                       {dataKhoiKT.map((dataKhoiKT) => {
                         function getIdKhoiKT() {
-                          return dataKhoiKT.idKhoiKienThuc;
+                          return dataKhoiKT.id;
                         }
 
                         let listMonHocTheoKKT = [];
                         let listMonHocConLai = [...dataMonHoc];
 
                         const new_NdCTDT = dataNdCTDT.filter((data) => {
-                          return data.idKhoiKienThuc === dataKhoiKT.idKhoiKienThuc;
+                          return data.idKhoiKT === dataKhoiKT.id;
                         });
 
                         dataMonHoc.forEach((dataMH) => {
                           new_NdCTDT.forEach((dataND) => {
-                            if (dataMH.idMonHoc === dataND.idMonHoc) {
+                            if (dataMH.id === dataND.idMonHoc) {
                               listMonHocTheoKKT = [
                                 ...listMonHocTheoKKT,
                                 dataMH,
@@ -675,7 +670,7 @@ export default function Dashboard(props) {
                         dataNdCTDT.map((dataND) => {
                           listMonHocConLai = [...listMonHocConLai].filter(
                             (dataMH) => {
-                              return dataMH.idMonHoc !== dataND.idMonHoc;
+                              return dataMH.id !== dataND.idMonHoc;
                             }
                           );
                           return dataND;
@@ -731,9 +726,9 @@ export default function Dashboard(props) {
                               return <SearchOutlined />;
                             },
                             onFilter: (value, record) => {
-                              return record.maMonHoc.toLowerCase().includes(
-                                value.toLowerCase()
-                              );
+                              return record.maMonHoc
+                                .toLowerCase()
+                                .includes(value.toLowerCase());
                             },
                           },
                           {
@@ -785,9 +780,9 @@ export default function Dashboard(props) {
                               return <SearchOutlined />;
                             },
                             onFilter: (value, record) => {
-                              return record.tenMonHoc.toLowerCase().includes(
-                                value.toLowerCase()
-                              );
+                              return record.tenMonHoc
+                                .toLowerCase()
+                                .includes(value.toLowerCase());
                             },
                           },
                           {
@@ -800,14 +795,14 @@ export default function Dashboard(props) {
                                   <ArrowRightOutlined
                                     style={{ marginLeft: "10px" }}
                                     onClick={() => {
-                                      let idKhoiKienThuc = getIdKhoiKT();
+                                      let idKhoiKT = getIdKhoiKT();
                                       const deleteND = dataNdCTDT.filter(
                                         (data) => {
                                           return (
                                             data.idCTDT ===
-                                              selectedDanhMuc.idCTDT &&
-                                            data.idKhoiKienThuc === idKhoiKienThuc &&
-                                            data.idMonHoc === record.idMonHoc
+                                              selectedDanhMuc.id &&
+                                            data.idKhoiKT === idKhoiKT &&
+                                            data.idMonHoc === record.id
                                           );
                                         }
                                       );
@@ -836,19 +831,20 @@ export default function Dashboard(props) {
                                   <ArrowLeftOutlined
                                     style={{ marginLeft: "10px" }}
                                     onClick={() => {
-                                      let idKhoiKienThuc = getIdKhoiKT();
+                                      let idKhoiKT = getIdKhoiKT();
+
                                       const AddND = {
-                                        idCTDT: selectedDanhMuc.idCTDT,
-                                        idKhoiKienThuc: idKhoiKienThuc,
-                                        idMonHoc: record.idMonHoc,
-                                        //idNoiDung: "",
+                                        idCTDT: selectedDanhMuc.id,
+                                        idKhoiKT: idKhoiKT,
+                                        idMonHoc: record.id,
+                                        // id: "",
                                       };
 
                                       // listAddNdCTDT.push(AddND);
                                       // setListAddNdCTDT([...listAddNdCTDT]);
 
                                       dataNdCTDT.push(AddND);
-                                      setDataNdCTDT([...dataNdCTDT]);
+                                      setDataNdCTDT([...dataNdCTDT]); 
                                     }}
                                   />
                                 </>
@@ -904,9 +900,9 @@ export default function Dashboard(props) {
                               return <SearchOutlined />;
                             },
                             onFilter: (value, record) => {
-                              return record.maMonHoc.toLowerCase().includes(
-                                value.toLowerCase()
-                              );
+                              return record.maMonHoc
+                                .toLowerCase()
+                                .includes(value.toLowerCase());
                             },
                           },
                           {
@@ -958,15 +954,15 @@ export default function Dashboard(props) {
                               return <SearchOutlined />;
                             },
                             onFilter: (value, record) => {
-                              return record.tenMonHoc.toLowerCase().includes(
-                                value.toLowerCase()
-                              );
+                              return record.tenMonHoc
+                                .toLowerCase()
+                                .includes(value.toLowerCase());
                             },
                           },
                         ];
 
                         return (
-                          <div key={dataKhoiKT.idKhoiKienThuc} className="list">
+                          <div key={dataKhoiKT.id} className="list">
                             <strong>
                               <p style={{ width: "30%" }}>
                                 {i++}. {dataKhoiKT.tenKhoiKienThuc}
@@ -980,7 +976,7 @@ export default function Dashboard(props) {
                                 style={{ width: "45%" }}
                                 columns={columnsMonHocTheoKKT}
                                 size="small"
-                                rowKey="idMonHoc"
+                                rowKey="maMonHoc"
                                 dataSource={listMonHocTheoKKT}
                                 pagination={false}
                                 scroll={{
@@ -993,7 +989,7 @@ export default function Dashboard(props) {
                                   style={{ width: "100%" }}
                                   columns={columnsMonHocConLai}
                                   size="small"
-                                  rowKey="idMonHoc"
+                                  rowKey="maMonHoc"
                                   dataSource={listMonHocConLai}
                                   pagination={false}
                                   scroll={{
