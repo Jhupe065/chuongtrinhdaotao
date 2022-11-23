@@ -388,9 +388,9 @@ export default function NhanVien(props) {
   return (
     <Spin tip="Loading..." spinning={showTTNVLoading} size="large">
       <Layout hasSider>
-        <Sider selectedKey="nhanvien" signOut={props.signOut} />
+        <Sider selectedKey="nhanvien" userInfo={props.userInfo} />
         <Layout className="site-layout">
-          <Header />
+          <Header userInfo={props.userInfo} signOut={props.signOut}/>
           <Content className="content">
             <div className="site-layout-background">
               <div className="content-header">

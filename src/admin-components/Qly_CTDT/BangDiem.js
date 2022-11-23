@@ -241,9 +241,9 @@ export default function BangDiem(props) {
   };
   return (
     <Layout hasSider>
-      <Sider selectedKey="KhoaHoc" signOut={props.signOut} />
+      <Sider selectedKey="bangdiem" userInfo={props.userInfo} />
       <Layout className="site-layout">
-        <Header />
+        <Header userInfo={props.userInfo} signOut={props.signOut}/>
         <Content className="content">
           <div className="site-layout-background">
             <div className="content-header">

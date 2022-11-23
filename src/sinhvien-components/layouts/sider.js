@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { React } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Layout, Menu, Tooltip, Button } from "antd";
+import { Layout, Menu } from "antd";
 import logo from "../../images/logo_TLU.png";
 import "./layout.css";
 import {
@@ -9,7 +9,6 @@ import {
   PieChartOutlined,
   UnorderedListOutlined,
   DashboardOutlined,
-  LogoutOutlined,
 } from "@ant-design/icons";
 
 const { Sider } = Layout;
@@ -58,17 +57,7 @@ const sider = (props) => {
           </Menu.Item>
         </Menu>
       </div>
-      <div className="btn-logout">
-        <Tooltip title="logout">
-          <Button
-            style={{ backgroundColor: "#9f9e9e73" }}
-            shape="circle"
-            icon={<LogoutOutlined />}
-            size="large"
-            onClick={() => props.signOut()}
-          />
-        </Tooltip>
-      </div>
+      
     </Sider>
   );
 };

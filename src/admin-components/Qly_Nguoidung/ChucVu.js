@@ -198,9 +198,9 @@ export default function ChucVu(props) {
 
   return (
     <Layout hasSider>
-      <Sider selectedKey="chucvu" signOut={props.signOut} />
+      <Sider selectedKey="chucvu" userInfo={props.userInfo} />
       <Layout className="site-layout">
-        <Header />
+        <Header userInfo={props.userInfo} signOut={props.signOut}/>
         <Content className="content">
           <div className="site-layout-background">
             <div className="content-header">

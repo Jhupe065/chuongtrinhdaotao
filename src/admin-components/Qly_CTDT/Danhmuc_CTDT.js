@@ -10,6 +10,7 @@ import {
   Modal,
   notification,
   Popconfirm,
+  Checkbox,
 } from "antd";
 import {
   EditOutlined,
@@ -33,6 +34,7 @@ export default function Dashboard(props) {
     pageSize: 10,
   });
 
+  const [editingCTDT_KKT, setEditingCTDT_KKT] = useState([]);
   const [editingData, setEditingData] = useState(null);
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
@@ -42,16 +44,34 @@ export default function Dashboard(props) {
   const [selectedNganh_Add, setSelectedNganh_Add] = useState(null);
   const [selectedKhoaHoc_Add, setSelectedKhoaHoc_Add] = useState(null);
 
+  const [dataKKT, setDataKKT] = useState([]);
   const [dataNganh, setDataNganh] = useState([]);
   const [dataKhoaHoc, setDataKhoaHoc] = useState([]);
   const [selectedNganh, setSelectedNganh] = useState(null);
   const [selectedKhoaHoc, setSelectedKhoaHoc] = useState(null);
 
+  const [options, setOptions] = useState([]);
   const handleCancel = () => {
     setIsModalAddOpen(false);
     setIsModalEditOpen(false);
     setMaDmCTDTTextInput("");
     setTenDmCTDTTextInput("");
+
+    let index = 0;
+    let option = [];
+    dataKKT.forEach((data) => {
+      option.push({
+        index: index++,
+        id: data.id,
+        tenKKT: data.tenKhoiKienThuc,
+        ghiChu: "",
+        ghiChuDisabled: true,
+        soTC: null,
+        soTCDisabled: true,
+        checked: false,
+      });
+    });
+    setOptions(option);
     setLoading(false);
   };
 
@@ -105,17 +125,39 @@ export default function Dashboard(props) {
     return data;
   }
 
+  async function fetchDataCTDT_KKT(idCTDT) {
+    const response = await fetch(`${PATH_API}CTDT_KKT?idCTDT=${idCTDT}`);
+    const data = await response.json();
+    return data;
+  }
+
   useEffect(() => {
-    fetchDataSp("Nganh").then((data) => {
-      setDataNganh(data);
-    });
-
-    fetchDataSp("KhoaHoc").then((data) => {
-      setDataKhoaHoc(data);
-    });
-
-    fetchData({
-      pagination,
+    fetchDataSp("Nganh").then((dataNganh) => {
+      setDataNganh(dataNganh);
+      fetchDataSp("KhoaHoc").then((dataKhoaHoc) => {
+        setDataKhoaHoc(dataKhoaHoc);
+        fetchDataSp("KhoiKienThuc").then((dataKKT) => {
+          setDataKKT(dataKKT);
+          let option = [];
+          let index = 0;
+          dataKKT.forEach((data) => {
+            option.push({
+              index: index++,
+              id: data.id,
+              tenKKT: data.tenKhoiKienThuc,
+              ghiChu: "",
+              ghiChuDisabled: true,
+              soTC: null,
+              soTCDisabled: true,
+              checked: false,
+            });
+          });
+          setOptions(option);
+          fetchData({
+            pagination,
+          });
+        });
+      });
     });
   }, []);
 
@@ -129,8 +171,49 @@ export default function Dashboard(props) {
   };
 
   const onEditData = (record) => {
-    setIsModalEditOpen(true);
-    setEditingData({ ...record });
+    setLoading(true);
+    let editingCTDT_KKT = [];
+
+    fetchDataCTDT_KKT(record.id).then((dataCTDT_KKT) => {
+      let index = 0;
+      let i = 1;
+      dataKKT.forEach((KKT) => {
+        dataCTDT_KKT.forEach((CTDT_KKT) => {
+          if (KKT.id === CTDT_KKT.idKhoiKienThuc) {
+            editingCTDT_KKT.push({
+              index: index++,
+              idCTDT_KKT: CTDT_KKT.id,
+              idKKT: KKT.id,
+              tenKKT: KKT.tenKhoiKienThuc,
+              ghiChu: CTDT_KKT.ghiChu,
+              ghiChuDisabled: false,
+              soTC: CTDT_KKT.soTinChi !== 0 ? CTDT_KKT.soTinChi : null,
+              soTCDisabled: false,
+              checked: true,
+            });
+          }
+        });
+        if (index < i) {
+          editingCTDT_KKT.push({
+            index: index++,
+            idCTDT_KKT: "",
+            idKKT: KKT.id,
+            tenKKT: KKT.tenKhoiKienThuc,
+            ghiChu: "",
+            ghiChuDisabled: true,
+            soTC: null,
+            soTCDisabled: true,
+            checked: false,
+          });
+        }
+        i++;
+      });
+
+      setEditingCTDT_KKT(editingCTDT_KKT);
+      setEditingData({ ...record });
+      setIsModalEditOpen(true);
+      setLoading(false);
+    });
   };
 
   const resetEditing = () => {
@@ -330,9 +413,9 @@ export default function Dashboard(props) {
 
   return (
     <Layout hasSider>
-      <Sider selectedKey="CTDT" signOut={props.signOut} />
+      <Sider selectedKey="dmCTDT" userInfo={props.userInfo}/>
       <Layout className="site-layout">
-        <Header />
+        <Header userInfo={props.userInfo}  signOut={props.signOut}/>
         <Content className="content">
           <div className="site-layout-background">
             <div className="content-header">
@@ -491,6 +574,8 @@ export default function Dashboard(props) {
               {/* Form add ************************************************* */}
               <Modal
                 title="Thêm mới danh mục CTĐT"
+                style={{ top: 50 }}
+                width={800}
                 open={isModalAddOpen}
                 onCancel={handleCancel}
                 footer={[
@@ -554,6 +639,7 @@ export default function Dashboard(props) {
                         idKhoaHoc: new_idKhoaHoc,
                       };
 
+                      //Xu ly submit
                       fetch(`${PATH_API}CTDT`, {
                         method: "POST",
                         headers: {
@@ -562,7 +648,28 @@ export default function Dashboard(props) {
                         body: JSON.stringify(new_data),
                       })
                         .then((response) => response.json())
-                        .then(() => {
+                        .then((data) => {
+                          console.log(data);
+                          const new_data_CTDT_KKT = [];
+                          options.forEach((dataCTDT_KKT) => {
+                            if (dataCTDT_KKT.checked) {
+                              new_data_CTDT_KKT.push({
+                                ghiChu: dataCTDT_KKT.ghiChu,
+                                soTinChi:
+                                  dataCTDT_KKT.soTC !== null
+                                    ? Number.parseInt(dataCTDT_KKT.soTC)
+                                    : 0,
+                                idCTDT: data.id,
+                                idKhoiKienThuc: dataCTDT_KKT.id,
+                              });
+                            }
+                          });
+
+                          console.log(new_data_CTDT_KKT);
+                          //
+                          // call api add nhiều CTDT_KKT với dữ liệu new_data_CTDT_KKT
+                          //
+                          //
                           fetchData({
                             pagination,
                           });
@@ -612,7 +719,10 @@ export default function Dashboard(props) {
                     </div>
                     <p className="note">(* Không vượt quá 255 kí tự)</p>
                   </div>
-                  <div className="form-input" style={{ paddingLeft: "107px" }}>
+                  <div
+                    className="form-input form-input-center"
+                    style={{ paddingLeft: "107px" }}
+                  >
                     <label htmlFor="Nganh">Ngành:</label>
                     <Select
                       value={selectedNganh_Add}
@@ -632,7 +742,7 @@ export default function Dashboard(props) {
                           .localeCompare(optionB.children.toLowerCase())
                       }
                       allowClear
-                      onClear={()=>{
+                      onClear={() => {
                         setSelectedNganh_Add(null);
                       }}
                       onSelect={(value) => {
@@ -648,7 +758,10 @@ export default function Dashboard(props) {
                       })}
                     </Select>
                   </div>
-                  <div className="form-input" style={{ paddingLeft: "90px" }}>
+                  <div
+                    className="form-input form-input-center"
+                    style={{ paddingLeft: "90px", paddingTop: "15px" }}
+                  >
                     <label htmlFor="KhoaHoc">Khóa học:</label>
                     <Select
                       value={selectedKhoaHoc_Add}
@@ -668,7 +781,7 @@ export default function Dashboard(props) {
                           .localeCompare(optionB.children.toLowerCase())
                       }
                       allowClear
-                      onClear={()=>{
+                      onClear={() => {
                         setSelectedKhoaHoc_Add(null);
                       }}
                       onSelect={(value) => {
@@ -684,6 +797,86 @@ export default function Dashboard(props) {
                       })}
                     </Select>
                   </div>
+                  <p style={{ paddingTop: "30px" }}>Lựa chọn cấu trúc CTĐT:</p>
+                  <div style={{ display: "flex" }}>
+                    <label>Tên khối kiến thức</label>
+                    <label style={{ paddingLeft: "200px" }}>Ghi chú</label>
+                    <label style={{ paddingLeft: "200px" }}>
+                      Số tín chỉ yêu cầu
+                    </label>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "20px",
+                      width: "100%",
+                    }}
+                  >
+                    {options.map((data) => {
+                      return (
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "20px",
+                            marginLeft: "30px",
+                          }}
+                          key={data.id}
+                        >
+                          <Checkbox
+                            key={data.id}
+                            value={data.id}
+                            style={{ width: "300px" }}
+                            onChange={(e) => {
+                              let option = [...options];
+
+                              if (e.target.checked) {
+                                option[data.index].ghiChuDisabled = false;
+                                option[data.index].soTCDisabled = false;
+                                option[data.index].checked = true;
+                              } else {
+                                option[data.index].ghiChuDisabled = true;
+                                option[data.index].soTCDisabled = true;
+                                option[data.index].checked = false;
+                              }
+
+                              setOptions(option);
+                            }}
+                            checked={data.checked}
+                          >
+                            {data.tenKKT}
+                          </Checkbox>
+                          <Input
+                            id={"ghichu" + data.id}
+                            placeholder="Ghi chú..."
+                            style={{ width: "240px", height: "33px" }}
+                            value={data.ghiChu}
+                            onChange={(e) => {
+                              let option = [...options];
+                              option[data.index].ghiChu = e.target.value;
+                              setOptions(option);
+                            }}
+                            disabled={data.ghiChuDisabled}
+                          ></Input>
+                          <Input
+                            id={"soTC" + data.id}
+                            style={{
+                              width: "40px",
+                              height: "33px",
+                              marginLeft: "40px",
+                            }}
+                            value={data.soTC}
+                            onChange={(e) => {
+                              let option = [...options];
+                              option[data.index].soTC = e.target.value;
+                              setOptions(option);
+                            }}
+                            disabled={data.soTCDisabled}
+                          ></Input>
+                        </div>
+                      );
+                    })}
+                  </div>
                   <Button
                     type="primary"
                     htmlType="submit"
@@ -697,6 +890,8 @@ export default function Dashboard(props) {
               {/* Form Edit ********************************************************* */}
               <Modal
                 title="Sửa thông tin CTĐT"
+                style={{ top: 50 }}
+                width={800}
                 open={isModalEditOpen}
                 onCancel={handleCancel}
                 footer={[
@@ -762,7 +957,7 @@ export default function Dashboard(props) {
                           .localeCompare(optionB.children.toLowerCase())
                       }
                       allowClear
-                      onClear={()=>{
+                      onClear={() => {
                         setEditingData((pre) => {
                           return { ...pre, idNganh: null };
                         });
@@ -802,7 +997,7 @@ export default function Dashboard(props) {
                           .localeCompare(optionB.children.toLowerCase())
                       }
                       allowClear
-                      onClear={()=>{
+                      onClear={() => {
                         setEditingData((pre) => {
                           return { ...pre, idKhoaHoc: null };
                         });
@@ -822,16 +1017,98 @@ export default function Dashboard(props) {
                       })}
                     </Select>
                   </div>
+                  <p style={{ paddingTop: "30px" }}>Lựa chọn cấu trúc CTĐT:</p>
+                  <div style={{ display: "flex" }}>
+                    <label>Tên khối kiến thức</label>
+                    <label style={{ paddingLeft: "200px" }}>Ghi chú</label>
+                    <label style={{ paddingLeft: "200px" }}>
+                      Số tín chỉ yêu cầu
+                    </label>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "20px",
+                      width: "100%",
+                    }}
+                  >
+                    {editingCTDT_KKT.map((data) => {
+                      return (
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "20px",
+                            marginLeft: "30px",
+                          }}
+                          key={data.index}
+                        >
+                          <Checkbox
+                            key={data.index}
+                            value={data.idKKT}
+                            style={{ width: "300px" }}
+                            onChange={(e) => {
+                              let option = [...editingCTDT_KKT];
+
+                              if (e.target.checked) {
+                                option[data.index].ghiChuDisabled = false;
+                                option[data.index].soTCDisabled = false;
+                                option[data.index].checked = true;
+                              } else {
+                                option[data.index].ghiChuDisabled = true;
+                                option[data.index].soTCDisabled = true;
+                                option[data.index].checked = false;
+                              }
+
+                              setEditingCTDT_KKT(option);
+                            }}
+                            checked={data.checked}
+                          >
+                            {data.tenKKT}
+                          </Checkbox>
+                          <Input
+                            id={"ghichu" + data.index}
+                            placeholder="Ghi chú..."
+                            style={{ width: "240px", height: "33px" }}
+                            value={data.ghiChu}
+                            onChange={(e) => {
+                              let option = [...editingCTDT_KKT];
+                              option[data.index].ghiChu = e.target.value;
+                              setEditingCTDT_KKT(option);
+                            }}
+                            disabled={data.ghiChuDisabled}
+                          ></Input>
+                          <Input
+                            id={"soTC" + data.index}
+                            style={{
+                              width: "40px",
+                              height: "33px",
+                              marginLeft: "40px",
+                            }}
+                            value={data.soTC}
+                            onChange={(e) => {
+                              let option = [...editingCTDT_KKT];
+                              option[data.index].soTC = e.target.value;
+                              setEditingCTDT_KKT(option);
+                            }}
+                            disabled={data.soTCDisabled}
+                          ></Input>
+                        </div>
+                      );
+                    })}
+                  </div>
 
                   <Button
                     type="primary"
                     htmlType="submit"
                     onClick={() => {
-                      if(editingData.maCTDT === "" || editingData.tenCTDT === ""){
+                      if (
+                        editingData.maCTDT === "" ||
+                        editingData.tenCTDT === ""
+                      ) {
                         return notification.error({
                           message: "Sửa thông tin không thành công",
-                          description:
-                            "Vui lòng nhập đầy đủ thông tin!",
+                          description: "Vui lòng nhập đầy đủ thông tin!",
                           duration: 3,
                           placement: "bottomRight",
                         });
@@ -901,11 +1178,80 @@ export default function Dashboard(props) {
                               .then(() => {
                                 fetchData({
                                   pagination,
-                                });   
+                                });
                               })
                               .catch((error) => {
                                 console.error("Error:", error);
                               });
+
+                            let listPOST = [];
+                            let listPUT = [];
+                            let listDELETE = [];
+                            editingCTDT_KKT.forEach((data) => {
+                              if (data.idCTDT_KKT !== "") {
+                                if (data.checked) {
+                                  listPUT.push({
+                                    ghiChu: data.ghiChu,
+                                    soTinChi: data.soTC !== null ? Number.parseInt(data.soTC):0,
+                                    idCTDT: editingData.id,
+                                    idKhoiKienThuc: data.idKKT,
+                                    id: data.idCTDT_KKT,
+                                  });
+                                } else {
+                                  listDELETE.push({
+                                    ghiChu: data.ghiChu,
+                                    soTinChi: data.soTC !== null ? Number.parseInt(data.soTC):0,
+                                    idCTDT: editingData.id,
+                                    idKhoiKienThuc: data.idKKT,
+                                    id: data.idCTDT_KKT,
+                                  });
+                                }
+                              } else if (
+                                data.idCTDT_KKT === "" &&
+                                data.checked
+                              ) {
+                                listPOST.push({
+                                  ghiChu: data.ghiChu,
+                                  soTinChi: data.soTC !== null ? Number.parseInt(data.soTC):0,
+                                  idCTDT: editingData.id,
+                                  idKhoiKienThuc: data.idKKT,
+                                });
+                              }
+                            });
+                            if(listDELETE.length){
+                              if(listPOST.length){
+                                if(listPUT.length){
+                                  console.log("call 3 api");
+                                  //call api del nhieu -> post nhieu -> put nhieu
+                                }
+                                else{
+                                  console.log("call del va post");
+                                }
+                              }
+                              else{
+                                if(listPUT.length){
+                                  console.log("call del va put");
+                                  //call api del nhieu -> post nhieu -> put nhieu
+                                }
+                                else{
+                                  console.log("call del");
+                                }
+                              }
+                            }else{
+                              if(listPOST.length){
+                                if(listPUT.length){
+                                  console.log("call post va put");
+                                }
+                                else{
+                                  console.log("call post");
+                                }
+                              }else{
+                                if(listPUT.length){
+                                  console.log("call put");
+                                }
+                              }
+                            }
+                            
                             return editingData;
                           }
                           return data;

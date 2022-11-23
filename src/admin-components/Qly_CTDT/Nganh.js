@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import "antd/dist/antd.css";
 import "../../App.css";
 import "../content.css";
-/*test git*/
 
 import {
   Table,
@@ -52,7 +51,7 @@ export default function Nganh(props) {
     setIsModalEditOpen(false);
     setmaNganhTextInput("");
     settenNganhTextInput("");
-    setLoading(false)
+    setLoading(false);
   };
 
   const fetchData = (params = {}) => {
@@ -90,9 +89,9 @@ export default function Nganh(props) {
   useEffect(() => {
     fetchDataSp("Khoa").then((data) => {
       setKhoaData(data);
-    });
-    fetchData({
-      pagination,
+      fetchData({
+        pagination,
+      });
     });
   }, []);
 
@@ -231,21 +230,21 @@ export default function Nganh(props) {
               title="Bạn có chắc chắn muốn xóa ngành này không?"
               onConfirm={() => {
                 setLoading(true);
-                  fetch(`${PATH_API}Nganh/${record.id}`, {
-                    method: "DELETE",
-                  })
-                    .then((response) => response.json())
-                    .then(() => {
-                      fetchData({
-                        pagination,
-                      });
-                    })
-                    .then(() => {
-                      console.log("Delete successful");
-                    })
-                    .catch((error) => {
-                      console.error("Error:", error);
+                fetch(`${PATH_API}Nganh/${record.id}`, {
+                  method: "DELETE",
+                })
+                  .then((response) => response.json())
+                  .then(() => {
+                    fetchData({
+                      pagination,
                     });
+                  })
+                  .then(() => {
+                    console.log("Delete successful");
+                  })
+                  .catch((error) => {
+                    console.error("Error:", error);
+                  });
               }}
               onCancel={() => {}}
               okText="Yes"
@@ -253,7 +252,6 @@ export default function Nganh(props) {
             >
               <DeleteOutlined style={{ color: "red", marginLeft: "10px" }} />
             </Popconfirm>
-            
           </>
         );
       },
@@ -294,13 +292,10 @@ export default function Nganh(props) {
 
   return (
     <Layout hasSider>
-      <Sider selectedKey="Nganh" signOut={props.signOut} />
+      <Sider selectedKey="nganh" userInfo={props.userInfo} />
       <Layout className="site-layout">
-        <Header />
-        <Content
-          className="content"
-         
-        >
+        <Header userInfo={props.userInfo} signOut={props.signOut} />
+        <Content className="content">
           <div className="site-layout-background">
             <div className="content-header">
               <h1 style={{ width: "200px" }}>Quản lý ngành</h1>
@@ -459,7 +454,6 @@ export default function Nganh(props) {
                         placement: "bottomRight",
                       });
                     }
-                    
                   }}
                 >
                   <div className="wrap">
@@ -512,8 +506,8 @@ export default function Nganh(props) {
                           .localeCompare(optionB.children.toLowerCase())
                       }
                       allowClear
-                      onClear={()=>{
-                        setSelectedKhoaAdd(null)
+                      onClear={() => {
+                        setSelectedKhoaAdd(null);
                       }}
                       onSelect={(value) => {
                         setSelectedKhoaAdd(value);
@@ -604,8 +598,6 @@ export default function Nganh(props) {
                           .toLowerCase()
                           .localeCompare(optionB.children.toLowerCase())
                       }
-                      
-                     
                       onSelect={(value) => {
                         setEditingData((pre) => {
                           return { ...pre, idKhoa: value };
@@ -626,19 +618,18 @@ export default function Nganh(props) {
                     type="primary"
                     htmlType="submit"
                     onClick={() => {
-                      if(editingData.maNganh !== "" || editingData.tenNganh)
-                      if (
-                        editingData.maNganh.length !== 2 ||
-                        editingData.tenNganh.length > 255
-                      ) {
-                        return notification.error({
-                          message: "Sửa thông tin không thành công",
-                          description:
-                            "Vui lòng nhập đầy đủ thông tin!",
-                          duration: 3,
-                          placement: "bottomRight",
-                        });
-                      }
+                      if (editingData.maNganh !== "" || editingData.tenNganh)
+                        if (
+                          editingData.maNganh.length !== 2 ||
+                          editingData.tenNganh.length > 255
+                        ) {
+                          return notification.error({
+                            message: "Sửa thông tin không thành công",
+                            description: "Vui lòng nhập đầy đủ thông tin!",
+                            duration: 3,
+                            placement: "bottomRight",
+                          });
+                        }
                       // kiem tra trung lap
                       if (
                         ktraTrungLapEdit(
@@ -655,7 +646,7 @@ export default function Nganh(props) {
                           placement: "bottomRight",
                         });
                       }
-                      if (editingData.idKhoa === null ) {
+                      if (editingData.idKhoa === null) {
                         return notification.error({
                           message: "Sửa thông tin không thành công",
                           description: "Vui lòng điền đầy đủ thông tin!",
@@ -671,9 +662,8 @@ export default function Nganh(props) {
                           editingData.maNganh,
                           editingData.tenNganh,
                           editingData.id
-                        )
-                        && editingData.idKhoa !== null
-                        
+                        ) &&
+                        editingData.idKhoa !== null
                       ) {
                         dataSource.map((data) => {
                           if (data.id === editingData.id) {

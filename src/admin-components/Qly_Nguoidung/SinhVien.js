@@ -359,9 +359,9 @@ export default function SinhVien(props) {
   return (
     <Spin tip="Loading..." spinning={showTTSVLoading} size="large">
       <Layout hasSider>
-        <Sider selectedKey="sinhvien" signOut={props.signOut} />
+        <Sider selectedKey="sinhvien" userInfo={props.userInfo} />
         <Layout className="site-layout">
-          <Header />
+          <Header userInfo={props.userInfo} signOut={props.signOut}/>
           <Content className="content">
             <div className="site-layout-background">
               <div className="content-header">

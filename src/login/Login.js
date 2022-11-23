@@ -9,7 +9,6 @@ export default function Login(props) {
   console.log("Login");
 
   const navigate = useNavigate();
-  const location = useLocation();
   // const from = location.state?.from?.pathname || "/admin/";
   // const from = location.state?.from?.pathname || "/admin/" ;
   const login = async (e) => {
@@ -37,7 +36,7 @@ export default function Login(props) {
             ngaySinh: "10-03-2001",
             gioiTinh: 0,
             email: "Cg10301@gmail.com",
-            idChucVu: 1,
+            idChucVu: 3,
             idTaiKhoan: 1,
             id: "C0VS-0f"
           });
@@ -49,7 +48,7 @@ export default function Login(props) {
             ngaySinh: "10-03-2001",
             gioiTinh: 0,
             email: "Cg10301@gmail.com",
-            idChucVu: 1,
+            idChucVu: 3,
             idTaiKhoan: 1,
             id: "C0VS-0f"
           }))

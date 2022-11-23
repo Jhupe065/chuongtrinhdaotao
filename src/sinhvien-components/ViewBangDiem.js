@@ -49,11 +49,13 @@ export default function ViewBangDiem(props) {
         let STT = 1;
         let tongSoTC = 0;
         let tbChungTichLuy = 0;
+        let tongDiem = 0;
         dataBangDiem.forEach((dataBD) => {
           dataMonHoc.forEach((dataMH) => {
             if (dataBD.maMonHoc === dataMH.maMonHoc) {
               tongSoTC+= dataMH.soTinChi
-              // tbChungTichLuy+= dataMH.tChungTichLuy 
+              tongDiem += dataBD.diem*dataMH.soTinChi
+              
               listData.push({
                 STT: STT++,
                 maHP: dataMH.maMonHoc,
@@ -64,6 +66,8 @@ export default function ViewBangDiem(props) {
             }
           });
         });
+        tbChungTichLuy = (tongDiem/tongSoTC).toFixed(2)
+        setTbChungTichLuy(tbChungTichLuy) 
         setTongSoTCTichLuy(tongSoTC);
         setDataSource(listData);
         setLoading(false);
@@ -122,9 +126,9 @@ export default function ViewBangDiem(props) {
 
   return (
     <Layout hasSider>
-      <Sider selectedKey="viewBD" signOut={props.signOut} />
+      <Sider selectedKey="viewBD" />
       <Layout className="site-layout">
-        <Header userInfo={props.userInfo} />
+        <Header userInfo={props.userInfo}  signOut={props.signOut}/>
         <Content className="content">
           <div className="site-layout-background">
             <div style={{ display: "flex", gap: "10%", paddingBottom: "30px" }}>
@@ -149,6 +153,7 @@ export default function ViewBangDiem(props) {
               ></Table>
             </div>
             <h1>Tổng số tín chỉ tích lũy: {tongSoTCTichLuy}</h1>
+            <h1>Trung bình chung tích lũy: {tbChungTichLuy}</h1>
           </div>
         </Content>
         <Footer />

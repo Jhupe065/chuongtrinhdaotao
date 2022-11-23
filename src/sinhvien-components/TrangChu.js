@@ -12,10 +12,10 @@ const { Content } = Layout;
 export default function TrangChu(props) {
   return (
     <Layout hasSider>
-      <Sider selectedKey="trangchu" signOut={props.signOut} />
+      <Sider selectedKey="trangchu"  />
       <Layout className="site-layout">
-        <Header userInfo={props.userInfo} />
-        <Content className="content">
+        <Header userInfo={props.userInfo} signOut={props.signOut} />
+        <Content className="content" >
           <div className="site-layout-background">
             <h1>Trang chủ</h1>
           </div>

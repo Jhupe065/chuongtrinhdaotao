@@ -11,9 +11,9 @@ const { Content } = Layout;
 export default function Dashboard(props) {
   return (
     <Layout hasSider>
-      <Sider selectedKey="dashboard" signOut={props.signOut}/>
+      <Sider selectedKey="dashboard" userInfo={props.userInfo}/>
       <Layout className="site-layout">
-        <Header  />
+        <Header userInfo={props.userInfo} signOut={props.signOut}/>
         <Content
           className="content"
         >

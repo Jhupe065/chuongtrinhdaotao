@@ -1,15 +1,55 @@
 import React from "react";
-import { Layout, Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-
+import { Layout, Avatar, Dropdown } from "antd";
+import { UserOutlined } from '@ant-design/icons';
 const { Header } = Layout;
 
 export default function header(props) {
+  const items = [
+    {
+      label: "Thông tin",
+      key: "0",
+    },
+    {
+      label: <div onClick={()=>{
+        props.signOut();
+      }}>Đăng xuất</div>,
+      key: "1",
+    }
+  ];
   return (
-    <Header className="header">
-      {/* <h1>{props.title}</h1> */}
-      <h1 style={{marginRight: "30px",  marginBottom: "0"}}>Hi, UserName</h1>
-      <Avatar style={{ float: "right" }} icon={<UserOutlined />} />
+    <Header className="header"  style={{
+      position: 'sticky',
+      top: 0,
+      zIndex: 1,
+      width: '100%',
+    }}>
+      <div>
+        <Dropdown
+          menu={{
+            items,
+          }}
+          trigger={["click"]}
+        >
+          <div
+            onClick={(e) => e.preventDefault()}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "20px",
+              cursor: "pointer",
+            }}
+          >
+            <Avatar
+              style={{
+                backgroundColor: "rgb(24 157 255 / 70%)",
+              }}
+              icon={<UserOutlined />}
+            />
+            <h1 style={{ display: "contents" }}>Hi, {props.userInfo.hoTen}</h1>
+          </div>
+        </Dropdown>
+      </div>
     </Header>
   );
 }

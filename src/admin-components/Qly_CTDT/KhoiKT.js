@@ -262,9 +262,9 @@ export default function Dashboard(props) {
 
   return (
     <Layout hasSider>
-      <Sider selectedKey="khoiKT" signOut={props.signOut} />
+      <Sider selectedKey="khoiKT"  userInfo={props.userInfo}/>
       <Layout className="site-layout">
-        <Header />
+        <Header userInfo={props.userInfo} signOut={props.signOut}/>
         <Content className="content">
           <div className="site-layout-background">
             <div className="content-header">

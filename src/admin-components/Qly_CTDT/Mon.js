@@ -289,9 +289,9 @@ export default function Mon(props) {
 
   return (
     <Layout hasSider>
-      <Sider selectedKey="mon" signOut={props.signOut} />
+      <Sider selectedKey="mon"  userInfo={props.userInfo} />
       <Layout className="site-layout">
-        <Header />
+        <Header userInfo={props.userInfo} signOut={props.signOut}/>
         <Content className="content">
           <div className="site-layout-background">
             <div className="content-header">

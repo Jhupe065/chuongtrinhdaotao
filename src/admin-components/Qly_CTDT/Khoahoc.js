@@ -218,9 +218,9 @@ export default function KhoaHoc(props) {
 
   return (
     <Layout hasSider>
-      <Sider selectedKey="KhoaHoc" signOut={props.signOut} />
+      <Sider selectedKey="khoahoc"  userInfo={props.userInfo}/>
       <Layout className="site-layout">
-        <Header />
+        <Header userInfo={props.userInfo} signOut={props.signOut}/>
         <Content
           className="content"
          

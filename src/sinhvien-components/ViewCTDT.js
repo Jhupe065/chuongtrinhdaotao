@@ -16,17 +16,51 @@ const { Option } = Select;
 export default function ViewCTDT(props) {
   let i = 1;
   const noiDung = useRef();
+
   const [loading, setLoading] = useState(false);
   const [dataKhoiKT, setDataKhoiKT] = useState([]);
   const [dataNganh, setDataNganh] = useState([]);
   const [dataKhoaHoc, setDataKhoaHoc] = useState([]);
   const [dataMonHoc, setDataMonHoc] = useState([]);
+  const [dataCTDT_KKT, setDataCTDT_KKT] = useState([]);
 
-  const [dataSource, setDataSource] = useState([]);
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10,
-  });
+  const [dataNd, setDataNd] = useState([
+    {
+      idCTDT_KKT: "-giESCm",
+      idMonHoc: 4,
+      id: "6d77a2-4d17a392",
+    },
+    {
+      idCTDT_KKT: "-giE45csdSCm",
+      idMonHoc: 1,
+      id: "YFauURU",
+    },
+    {
+      idCTDT_KKT: "-giE4-d-asdSCm",
+      idMonHoc: 2,
+      id: "NOq4mrm",
+    },
+    {
+      idCTDT_KKT: "-giESCm",
+      idMonHoc: 3,
+      id: "k-7IuJh",
+    },
+    {
+      idCTDT_KKT: "-giE-3-5-SCm",
+      idMonHoc: 6,
+      id: "YZWUoqD",
+    },
+    {
+      idCTDT_KKT: "-giEas-asdf4-SCm",
+      idMonHoc: 5,
+      id: "-giESCm",
+    },
+    {
+      idCTDT_KKT: "-giESCm",
+      idMonHoc: 7,
+      id: "-giEasdasd-asdSCm",
+    },
+  ]);
 
   const [selectedDataNganh, setSelectedDataNganh] = useState([]);
   const [selectedDataKhoaHoc, setSelectedDataKhoaHoc] = useState([]);
@@ -61,8 +95,14 @@ export default function ViewCTDT(props) {
     const data = await response.json();
     return data;
   }
-  async function fetchDataNd(TableSp, id) {
-    const response = await fetch(`${PATH_API}${TableSp}?idCTDT=${id}`);
+  // async function fetchDataNd(TableSp, id) {
+  //   const response = await fetch(`${PATH_API}${TableSp}?idCTDT=${id}`);
+  //   const data = await response.json();
+  //   return data;
+  // }
+
+  async function fetchDataCTDT_KKT(idCTDT) {
+    const response = await fetch(`${PATH_API}CTDT_KKT?idCTDT=${idCTDT}`);
     const data = await response.json();
     return data;
   }
@@ -70,9 +110,9 @@ export default function ViewCTDT(props) {
   return (
     <Spin tip="Loading..." spinning={loading} size="large">
       <Layout hasSider>
-        <Sider selectedKey="viewCTDT" signOut={props.signOut} />
+        <Sider selectedKey="viewCTDT" />
         <Layout className="site-layout">
-          <Header userInfo={props.userInfo} />
+          <Header userInfo={props.userInfo}  signOut={props.signOut}/>
           <Content className="content">
             <div className="site-layout-background" style={{ height: "580px" }}>
               <div
@@ -155,9 +195,9 @@ export default function ViewCTDT(props) {
                         selectedNganh !== null
                       ) {
                         setLoading(true);
-                        fetchDataCTDT().then((data) => {
-                          if (data.length === 0) {
-                            setLoading(false)
+                        fetchDataCTDT().then((dataCTDT) => {
+                          if (dataCTDT.length === 0) {
+                            setLoading(false);
                             return notification.error({
                               message: "",
                               description: "Dữ liệu CTĐT chưa được tạo!",
@@ -165,25 +205,43 @@ export default function ViewCTDT(props) {
                               placement: "bottomRight",
                             });
                           } else {
-                            fetchDataNd("NoiDung", data[0].id).then(
-                              (dataNd) => {
-                                setDataSource(dataNd);
-                                fetchDataSp("Nganh", selectedNganh).then(
-                                  (dataNganh) => {
-                                    setSelectedDataNganh(dataNganh);
-                                    fetchDataSp(
-                                      "KhoaHoc",
-                                      selectedKhoaHoc
-                                    ).then((dataKhoaHoc) => {
-                                      setSelectedDataKhoaHoc(dataKhoaHoc);
-                                      setLoading(false);
-                                      const el = noiDung.current;
-                                      el.hidden = false;
-                                    });
+                            // fetchDataNd("NoiDung", data[0].id).then((dataNd) => {
+                            // setDataSource(dataNd);
+                            fetchDataSp("Nganh", selectedNganh).then(
+                              (dataNganh) => {
+                                setSelectedDataNganh(dataNganh);
+                                fetchDataSp("KhoaHoc", selectedKhoaHoc).then(
+                                  (dataKhoaHoc) => {
+                                    setSelectedDataKhoaHoc(dataKhoaHoc);
+                                    let listCTDT_KKT = [];
+                                    fetchDataCTDT_KKT(dataCTDT[0].id).then(
+                                      (dataCTDT_KKT) => {
+                                        dataCTDT_KKT.forEach((CTDT_KKT) => {
+                                          dataKhoiKT.forEach((KKT) => {
+                                            if (
+                                              CTDT_KKT.idKhoiKienThuc === KKT.id
+                                            ) {
+                                              listCTDT_KKT.push({
+                                                id: CTDT_KKT.id,
+                                                tenKhoiKienThuc:
+                                                  KKT.tenKhoiKienThuc,
+                                                ghiChu: CTDT_KKT.ghiChu,
+                                                soTinChi: CTDT_KKT.soTinChi,
+                                              });
+                                            }
+                                          });
+                                        });
+                                        setDataCTDT_KKT(listCTDT_KKT);
+                                        setLoading(false);
+                                        const el = noiDung.current;
+                                        el.hidden = false;
+                                      }
+                                    );
                                   }
                                 );
                               }
                             );
+                            // });
                           }
                         });
                       }
@@ -218,70 +276,142 @@ export default function ViewCTDT(props) {
                   </strong>
                 </div>
                 <div className="wrapper-content">
-                  {dataKhoiKT.map((dataKhoiKT) => {
-                    return (
-                      <div key={dataKhoiKT.id} className="list">
-                        <strong>
-                          <p>
-                            {i++}. {dataKhoiKT.tenKhoiKienThuc}
-                          </p>
-                        </strong>
-                        <div className="toplist" >
-                          <p style={{ width: "15%" }}>Mã học phần</p>
-                          <p style={{ width: "25%", textAlign: "initial" }}>Tên học phần</p>
-                          <p style={{ width: "10%", textAlign: "center" }}>
-                            Số tín chỉ
-                          </p>
-                          <p style={{ width: "20%" }}>Điều kiện tiên quyết</p>
-                          <p style={{ width: "10%" }}>Số giờ</p>
-                          <p style={{ width: "10%", textAlign: "center" }}>
-                            Hệ số
-                          </p>
-                        </div>
-                        <div className="content-list" >
-                          {dataSource.map((dataND) => {
-                            if (dataND.idKhoiKT === dataKhoiKT.id) {
-                              const MH = dataMonHoc.filter((dataMH) => {
-                                return dataMH.id === dataND.idMonHoc;
-                              });
+                  {dataCTDT_KKT.map((CTDT_KKT) => {
+                    let checked = false;
+                    dataNd.every((ND) => {
+                      if (ND.idCTDT_KKT === CTDT_KKT.id) {
+                        checked = true;
+                        return false;
+                      }
+                      return true;
+                    });
+                    if (checked) {
+                      return (
+                        <div key={CTDT_KKT.id} className="list">
+                          {CTDT_KKT.soTinChi !== 0 ? (
+                            <div style={{ display: "flex" }}>
+                              <div style={{ display: "flex", gap: "10px" }}>
+                                <strong>
+                                  <p>
+                                    {i++}. {CTDT_KKT.tenKhoiKienThuc}:
+                                  </p>
+                                </strong>
+                                <p>
+                                  Chọn thêm {">="}
+                                  {CTDT_KKT.soTinChi} tín chỉ
+                                </p>
+                              </div>
+                            </div>
+                          ) : (
+                            <div style={{ display: "flex" }}>
+                              <strong>
+                                <p>
+                                  {i++}. {CTDT_KKT.tenKhoiKienThuc}
+                                </p>
+                              </strong>
+                            </div>
+                          )}
 
-                              return (
-                                <div key={dataND.id} className="monhoc">
-                                  <p style={{ width: "15%" }}>
-                                    {MH[0].maMonHoc}
-                                  </p>
-                                  <p style={{ width: "25%", textAlign: "initial" }}>
-                                    {MH[0].tenMonHoc}
-                                  </p>
-                                  <p
-                                    style={{
-                                      width: "10%",
-                                      textAlign: "center",
-                                    }}
-                                  >
-                                    {MH[0].soTinChi}
-                                  </p>
-                                  <p style={{ width: "20%" }}>
-                                    {MH[0].dieuKienTienQuyet}
-                                  </p>
-                                  <p style={{ width: "10%" }}>{MH[0].soGio}</p>
-                                  <p
-                                    style={{
-                                      width: "10%",
-                                      textAlign: "center",
-                                    }}
-                                  >
-                                    {MH[0].heSo}
-                                  </p>
-                                </div>
-                              );
-                            } else {
-                              return null;
-                            }
-                          })}
+                          <div className="toplist" style={{fontStyle: "italic"}}>
+                            <p style={{ width: "15%" }}>Mã học phần</p>
+                            <p style={{ width: "25%", textAlign: "initial" }}>
+                              Tên học phần
+                            </p>
+                            <p style={{ width: "10%", textAlign: "center" }}>
+                              Số tín chỉ
+                            </p>
+                            <p style={{ width: "20%" }}>Điều kiện tiên quyết</p>
+                            <p style={{ width: "10%" }}>Số giờ</p>
+                            <p style={{ width: "10%", textAlign: "center" }}>
+                              Hệ số
+                            </p>
+                          </div>
+                          <div className="content-list">
+                            {dataNd.map((dataND) => {
+                              if (dataND.idCTDT_KKT === CTDT_KKT.id) {
+                                const MH = dataMonHoc.filter((dataMH) => {
+                                  return dataMH.id === dataND.idMonHoc;
+                                });
+
+                                return (
+                                  <div key={dataND.id} className="monhoc">
+                                    <p style={{ width: "15%" }}>
+                                      {MH[0].maMonHoc}
+                                    </p>
+                                    <p
+                                      style={{
+                                        width: "25%",
+                                        textAlign: "initial",
+                                      }}
+                                    >
+                                      {MH[0].tenMonHoc}
+                                    </p>
+                                    <p
+                                      style={{
+                                        width: "10%",
+                                        textAlign: "center",
+                                      }}
+                                    >
+                                      {MH[0].soTinChi}
+                                    </p>
+                                    <p style={{ width: "20%" }}>
+                                      {MH[0].dieuKienTienQuyet}
+                                    </p>
+                                    <p style={{ width: "10%" }}>
+                                      {MH[0].soGio}
+                                    </p>
+                                    <p
+                                      style={{
+                                        width: "10%",
+                                        textAlign: "center",
+                                      }}
+                                    >
+                                      {MH[0].heSo}
+                                    </p>
+                                  </div>
+                                );
+                              } else {
+                                return null;
+                              }
+                            })}
+                          </div>
+                          <p style={{ fontSize: "12px", textAlign: "initial" }}>
+                            {CTDT_KKT.ghiChu ? "*" + CTDT_KKT.ghiChu : ""}
+                          </p>
                         </div>
-                      </div>
-                    );
+                      );
+                    } else {
+                      return (
+                        <div key={CTDT_KKT.id} className="list">
+                          {CTDT_KKT.soTinChi !== 0 ? (
+                            <div style={{ display: "flex" }}>
+                              <div style={{ display: "flex", gap: "10px" }}>
+                                <strong>
+                                  <p>
+                                    {i++}. {CTDT_KKT.tenKhoiKienThuc}:
+                                  </p>
+                                </strong>
+                                <p>
+                                  Chọn thêm {">="}
+                                  {CTDT_KKT.soTinChi} tín chỉ
+                                </p>
+                              </div>
+                            </div>
+                          ) : (
+                            <div style={{ display: "flex" }}>
+                              <strong>
+                                <p>
+                                  {i++}. {CTDT_KKT.tenKhoiKienThuc}
+                                </p>
+                              </strong>
+                            </div>
+                          )}
+                          <p style={{ fontSize: "12px", textAlign: "initial" }}>
+                            {CTDT_KKT.ghiChu ? "*" + CTDT_KKT.ghiChu : ""}
+                          </p>
+                        </div>
+                      );
+                    }
                   })}
                 </div>
               </div>

@@ -79,7 +79,7 @@
     },
     {
       "maMonHoc": "MA101",
-      "tenMonHoc": "Logic, suy luận toán học và kỹ thuật đếm",
+      "tenMonHoc": "Logic, suy luận toán học và kỹ thuật đếm ",
       "soTinChi": 3,
       "dieuKienTienQuyet": "",
       "soGio": 63,
@@ -532,13 +532,6 @@
       "id": 4
     },
     {
-      "maCTDT": "TT34",
-      "tenCTDT": "Công nghệ thông tin khóa 34",
-      "idNganh": 1,
-      "idKhoaHoc": 4,
-      "id": 5
-    },
-    {
       "maCTDT": "TT35",
       "tenCTDT": "Công nghệ thông tin khóa 35",
       "idNganh": 1,
@@ -567,126 +560,85 @@
       "id": 9
     }
   ],
-  "NoiDung": [
+  "CTDT_KKT": [
     {
+      "ghiChu": "Sinh vien co the...",
+      "soTinChi": 0,
       "idCTDT": 1,
-      "idKhoiKT": 2,
-      "idMonHoc": 4,
-      "id": "6d77a2e9-117a-4222-bb5e-52d84d17a392"
+      "idKhoiKienThuc": 1,
+      "id": "-giESCm"
     },
     {
-      "idCTDT": 4,
-      "idKhoiKT": 1,
+      "ghiChu": "",
+      "soTinChi": 0,
+      "idCTDT": 1,
+      "idKhoiKienThuc": 2,
+      "id": "-giE45csdSCm"
+    },
+    {
+      "ghiChu": "",
+      "soTinChi": 0,
+      "idCTDT": 1,
+      "idKhoiKienThuc": 3,
+      "id": "-giE4-d-asdSCm"
+    },
+    {
+      "ghiChu": "",
+      "soTinChi": 6,
+      "idCTDT": 1,
+      "idKhoiKienThuc": 4,
+      "id": "-giEas-asdf4-SCm"
+    },
+    {
+      "ghiChu": "",
+      "soTinChi": 0,
+      "idCTDT": 1,
+      "idKhoiKienThuc": 5,
+      "id": "-giE-3-5-SCm"
+    },
+    {
+      "ghiChu": "Giai thich ve dieu kien tien quyet: ...",
+      "soTinChi": 6,
+      "idCTDT": 1,
+      "idKhoiKienThuc": 6,
+      "id": "-giE4-asdasd-rt6-dSCm"
+    }
+  ],
+  "NoiDung": [
+    {
+      "idCTDT_KKT": "-giESCm",
+      "idMonHoc": 4,
+      "id": "6d77a2-4d17a392"
+    },
+    {
+      "idCTDT_KKT": "-giESCm",
       "idMonHoc": 1,
       "id": "YFauURU"
     },
     {
-      "idCTDT": 4,
-      "idKhoiKT": 1,
+      "idCTDT_KKT": "-giESCm",
       "idMonHoc": 2,
       "id": "NOq4mrm"
     },
     {
-      "idCTDT": 1,
-      "idKhoiKT": 3,
+      "idCTDT_KKT": "-giESCm",
       "idMonHoc": 3,
       "id": "k-7IuJh"
     },
     {
-      "idCTDT": 1,
-      "idKhoiKT": 2,
+      "idCTDT_KKT": "-giESCm",
       "idMonHoc": 6,
       "id": "YZWUoqD"
     },
     {
-      "idCTDT": 4,
-      "idKhoiKT": 2,
-      "idMonHoc": 6,
-      "id": "C0VS-0f"
-    },
-    {
-      "idCTDT": 4,
-      "idKhoiKT": 3,
-      "idMonHoc": 4,
-      "id": "KlwlMff"
-    },
-    {
-      "idCTDT": 4,
-      "idKhoiKT": 3,
+      "idCTDT_KKT": "-giESCm",
       "idMonHoc": 5,
       "id": "-giESCm"
     },
     {
-      "idCTDT": 1,
-      "idKhoiKT": 1,
-      "idMonHoc": 2,
-      "id": "xEx3iPQ"
-    },
-    {
-      "idCTDT": 1,
-      "idKhoiKT": 1,
-      "idMonHoc": 8,
-      "id": "x-Vm1Hj"
-    },
-    {
-      "idCTDT": 1,
-      "idKhoiKT": 1,
-      "idMonHoc": 1,
-      "id": "DWdQ2p9"
-    },
-    {
-      "idCTDT": 1,
-      "idKhoiKT": 1,
+      "idCTDT_KKT": "-giESCm",
       "idMonHoc": 7,
-      "id": "jyCAkzW"
-    },
-    {
-      "idCTDT": 1,
-      "idKhoiKT": 4,
-      "idMonHoc": 5,
-      "id": "B6RU6TF"
-    },
-    {
-      "idCTDT": 4,
-      "idKhoiKT": 1,
-      "idMonHoc": 8,
-      "id": "y7F0b3O"
-    },
-    {
-      "idCTDT": 4,
-      "idKhoiKT": 1,
-      "idMonHoc": 7,
-      "id": "1TBq-76"
-    },
-    {
-      "idCTDT": 8,
-      "idKhoiKT": 1,
-      "idMonHoc": 6,
-      "id": "bB9erTu"
-    },
-    {
-      "idCTDT": 8,
-      "idKhoiKT": 1,
-      "idMonHoc": 8,
-      "id": "rayINRR"
-    },
-    {
-      "idCTDT": 8,
-      "idKhoiKT": 1,
-      "idMonHoc": 2,
-      "id": "8QRijwJ"
-    },
-    {
-      "idCTDT": 1,
-      "idKhoiKT": 5,
-      "idMonHoc": 37,
-      "id": "-giEsdaeCm"
-    },
-    {
-      "idCTDT": 1,
-      "idKhoiKT": 5,
-      "idMonHoc": 38,
-      "id": "rayI435345NRR"
+      "id": "-giEasdasd-asdSCm"
     }
   ],
   "BangDiem": [
@@ -779,14 +731,14 @@
       "id": 5
     },
     {
-      "tenTaiKhoan": "username 5",
-      "matKhau": "username 5",
+      "tenTaiKhoan": "NV_Khoa",
+      "matKhau": "nvkhoa",
       "trangThai": 1,
       "id": 6
     },
     {
-      "tenTaiKhoan": "username 7",
-      "matKhau": "username 7",
+      "tenTaiKhoan": "NV_PhongDT",
+      "matKhau": "nvphongdt",
       "trangThai": 1,
       "id": 7
     },

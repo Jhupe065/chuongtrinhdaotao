@@ -39,44 +39,115 @@ export default function Dashboard(props) {
   const [isModalEditCTDTOpen, setIsModalEditCTDTOpen] = useState(false);
 
   const [dataMonHoc, setDataMonHoc] = useState([]);
-  const [dataNdCTDT, setDataNdCTDT] = useState([]);
+  const [dataNdCTDT, setDataNdCTDT] = useState([
+    {
+      idCTDT_KKT: "-giESCm",
+      idMonHoc: 4,
+      id: "6d77a2-4d17a392",
+    },
+    {
+      idCTDT_KKT: "-giE45csdSCm",
+      idMonHoc: 1,
+      id: "YFauURU",
+    },
+    {
+      idCTDT_KKT: "-giE4-d-asdSCm",
+      idMonHoc: 2,
+      id: "NOq4mrm",
+    },
+    {
+      idCTDT_KKT: "-giESCm",
+      idMonHoc: 3,
+      id: "k-7IuJh",
+    },
+    {
+      idCTDT_KKT: "-giE-3-5-SCm",
+      idMonHoc: 6,
+      id: "YZWUoqD",
+    },
+    {
+      idCTDT_KKT: "-giEas-asdf4-SCm",
+      idMonHoc: 5,
+      id: "-giESCm",
+    },
+    {
+      idCTDT_KKT: "-giESCm",
+      idMonHoc: 7,
+      id: "-giEasdasd-asdSCm",
+    },
+  ]);
   const [dataNganh, setDataNganh] = useState([]);
   const [dataKhoaHoc, setDataKhoaHoc] = useState([]);
-  const [dataKhoiKT, setDataKhoiKT] = useState([]);
+  const [dataCTDT_KKT, setDataCTDT_KKT] = useState([]);
+  const [dataKKT, setDataKKT] = useState([]);
   const [selectedDataNganh, setSelectedDataNganh] = useState([]);
   const [selectedDataKhoaHoc, setSelectedDataKhoaHoc] = useState([]);
 
-  const [dataNdCTDTCu, setDataNdCTDTCu] = useState([]);
+  const [dataNdCTDTCu, setDataNdCTDTCu] = useState([
+    {
+      idCTDT_KKT: "-giESCm",
+      idMonHoc: 4,
+      id: "6d77a2-4d17a392",
+    },
+    {
+      idCTDT_KKT: "-giE45csdSCm",
+      idMonHoc: 1,
+      id: "YFauURU",
+    },
+    {
+      idCTDT_KKT: "-giE4-d-asdSCm",
+      idMonHoc: 2,
+      id: "NOq4mrm",
+    },
+    {
+      idCTDT_KKT: "-giESCm",
+      idMonHoc: 3,
+      id: "k-7IuJh",
+    },
+    {
+      idCTDT_KKT: "-giE-3-5-SCm",
+      idMonHoc: 6,
+      id: "YZWUoqD",
+    },
+    {
+      idCTDT_KKT: "-giEas-asdf4-SCm",
+      idMonHoc: 5,
+      id: "-giESCm",
+    },
+    {
+      idCTDT_KKT: "-giESCm",
+      idMonHoc: 7,
+      id: "-giEasdasd-asdSCm",
+    },
+  ]);
 
   const [selectedDanhMuc, setSelectedDanhMuc] = useState(null);
   const [selectedNganh, setSelectedNganh] = useState(null);
   const [selectedKhoaHoc, setSelectedKhoaHoc] = useState(null);
 
-
   const handleOk = () => {
-    // setLoading(true);
-    // let listDeleteNdCTDT = [...dataNdCTDTCu];
-    // let listAddNdCTDT = [...dataNdCTDT];
+    setLoading(true);
+    let listDeleteNdCTDT = [...dataNdCTDTCu];
+    let listAddNdCTDT = [...dataNdCTDT];
 
-    // dataNdCTDTCu.map((dataCu) => {
-    //   listAddNdCTDT = [...listAddNdCTDT].filter((dataMoi) => {
-    //     return dataMoi.id !== dataCu.id;
-    //   });
-    //   return dataCu;
-    // });
-    // dataNdCTDT.map((dataMoi) => {
-    //   listDeleteNdCTDT = [...listDeleteNdCTDT].filter((dataCu) => {
-    //     return dataCu.id !== dataMoi.id;
-    //   });
-    //   return dataMoi;
-    // });
+    dataNdCTDTCu.map((dataCu) => {
+      listAddNdCTDT = [...listAddNdCTDT].filter((dataMoi) => {
+        return dataMoi.id !== dataCu.id;
+      });
+      return dataCu;
+    });
+    dataNdCTDT.map((dataMoi) => {
+      listDeleteNdCTDT = [...listDeleteNdCTDT].filter((dataCu) => {
+        return dataCu.id !== dataMoi.id;
+      });
+      return dataMoi;
+    });
 
-    // console.log("Moi", dataNdCTDT);
-    // console.log("Cu", dataNdCTDTCu);
-    // console.log("Del", listDeleteNdCTDT);
-    // console.log("Add", JSON.stringify(listAddNdCTDT));
-
-
+    console.log("Moi", dataNdCTDT);
+    console.log("Cu", dataNdCTDTCu);
+    console.log("Del", listDeleteNdCTDT);
+    console.log("Add", listAddNdCTDT);
+    ///Call api ////////////////////////////
     // if (listDeleteNdCTDT.length > 0 && listAddNdCTDT.length === 0) {
     //   fetch(`${PATH_API}NoiDung`, {
     //     method: "DELETE",
@@ -141,15 +212,21 @@ export default function Dashboard(props) {
     //       console.error("Error:", error);
     //     });
     // }
-    // if(listDeleteNdCTDT.length === 0 && listAddNdCTDT.length === 0){
-    //   setLoading(false);
-    //   setIsModalEditCTDTOpen(false);
-    // }
+    if (listDeleteNdCTDT.length === 0 && listAddNdCTDT.length === 0) {
+      setLoading(false);
+      setIsModalEditCTDTOpen(false);
+    }
   };
 
   const handleCancel = () => {
     setIsModalEditCTDTOpen(false);
   };
+
+  async function fetchDataNd(TableSp, id) {
+    const response = await fetch(`${PATH_API}${TableSp}?idCTDT=${id}`);
+    const data = await response.json();
+    return data;
+  }
 
   const fetchData = (params = {}) => {
     setLoading(true);
@@ -202,27 +279,30 @@ export default function Dashboard(props) {
     return data;
   }
 
+  async function fetchDataCTDT_KKT(idCTDT) {
+    const response = await fetch(`${PATH_API}CTDT_KKT?idCTDT=${idCTDT}`);
+    const data = await response.json();
+    return data;
+  }
+
   useEffect(() => {
-    fetchDataSp("Nganh").then((data) => {
-      setDataNganh(data);
-    });
-
-    fetchDataSp("KhoaHoc").then((data) => {
-      setDataKhoaHoc(data);
-    });
-    fetchDataSp("KhoiKienThuc").then((data) => {
-      setDataKhoiKT(data);
-    });
-    fetchDataSp("NoiDung").then((data) => {
-      setDataNdCTDT(data);
-    });
-
-    fetchDataSp("MonHoc").then((data) => {
-      setDataMonHoc(data);
-    });
-
-    fetchData({
-      pagination,
+    fetchDataSp("Nganh").then((dataNganh) => {
+      setDataNganh(dataNganh);
+      fetchDataSp("KhoaHoc").then((dataKH) => {
+        setDataKhoaHoc(dataKH);
+        // fetchDataSp("NoiDung").then((dataND) => {
+        // setDataNdCTDT(dataND);
+        fetchDataSp("MonHoc").then((dataMH) => {
+          setDataMonHoc(dataMH);
+          fetchDataSp("KhoiKienThuc").then((dataKKT) => {
+            setDataKKT(dataKKT);
+            fetchData({
+              pagination,
+            });
+          });
+          // });
+        });
+      });
     });
   }, []);
 
@@ -236,49 +316,68 @@ export default function Dashboard(props) {
   };
 
   const onWatchingNdCTDT = (record) => {
-   
-    async function fetchDataNd(TableSp, id) {
-      const response = await fetch(`${PATH_API}${TableSp}?idCTDT=${id}`);
-      const data = await response.json();
-      return data;
-    }
     setShowEditNoiDungLoading(true);
     fetchDataSp("Nganh", record.idNganh).then((data) => {
       setSelectedDataNganh(data);
       fetchDataSp("KhoaHoc", record.idKhoaHoc).then((data) => {
         setSelectedDataKhoaHoc(data);
-        fetchDataNd("NoiDung", record.id).then((data) => {
-          setDataNdCTDT(data);
-          fetchDataNd("NoiDung", record.id).then((data) => {
-            setDataNdCTDTCu(data);
-            setIsModalNdCTDTOpen(true);
-            setShowEditNoiDungLoading(false);
-            setSelectedDanhMuc(record);
+        fetchDataCTDT_KKT(record.id).then((dataCTDT_KKT) => {
+          let listCTDT_KKT = [];
+          dataCTDT_KKT.forEach((CTDT_KKT) => {
+            dataKKT.forEach((KKT) => {
+              if (CTDT_KKT.idKhoiKienThuc === KKT.id) {
+                listCTDT_KKT.push({
+                  id: CTDT_KKT.id,
+                  tenKhoiKienThuc: KKT.tenKhoiKienThuc,
+                  ghiChu: CTDT_KKT.ghiChu,
+                  soTinChi: CTDT_KKT.soTinChi,
+                });
+              }
+            });
           });
+          setDataCTDT_KKT(listCTDT_KKT);
+          // fetchDataNd("NoiDung", record.id).then((data) => {
+          // setDataNdCTDT(data);
+
+          setIsModalNdCTDTOpen(true);
+          setShowEditNoiDungLoading(false);
+          setSelectedDanhMuc(record);
         });
+        // });
       });
     });
   };
 
   const onEditNdCTDT = (record) => {
-    async function fetchDataNd(TableSp, id) {
-      const response = await fetch(`${PATH_API}${TableSp}?idCTDT=${id}`);
-      const data = await response.json();
-      return data;
-    }
     setShowEditNoiDungLoading(true);
     fetchDataSp("Nganh", record.idNganh).then((data) => {
       setSelectedDataNganh(data);
       fetchDataSp("KhoaHoc", record.idKhoaHoc).then((data) => {
-        setSelectedDataKhoaHoc(data);
-        fetchDataNd("NoiDung", record.id).then((data) => {
-          setDataNdCTDT(data);
-          fetchDataNd("NoiDung", record.id).then((data) => {
-            setDataNdCTDTCu(data);
-            setIsModalEditCTDTOpen(true);
-            setShowEditNoiDungLoading(false);
-            setSelectedDanhMuc(record);
+        fetchDataCTDT_KKT(record.id).then((dataCTDT_KKT) => {
+          let listCTDT_KKT = [];
+          dataCTDT_KKT.forEach((CTDT_KKT) => {
+            dataKKT.forEach((KKT) => {
+              if (CTDT_KKT.idKhoiKienThuc === KKT.id) {
+                listCTDT_KKT.push({
+                  id: CTDT_KKT.id,
+                  tenKhoiKienThuc: KKT.tenKhoiKienThuc,
+                  ghiChu: CTDT_KKT.ghiChu,
+                  soTinChi: CTDT_KKT.soTinChi,
+                });
+              }
+            });
           });
+          setDataCTDT_KKT(listCTDT_KKT);
+          setSelectedDataKhoaHoc(data);
+          // fetchDataNd("NoiDung", record.id).then((data) => {
+          // setDataNdCTDT(data);
+          // fetchDataNd("NoiDung", record.id).then((data) => {
+          // setDataNdCTDTCu(data);
+          setIsModalEditCTDTOpen(true);
+          setShowEditNoiDungLoading(false);
+          setSelectedDanhMuc(record);
+          // });
+          // });
         });
       });
     });
@@ -398,7 +497,6 @@ export default function Dashboard(props) {
               style={{ cursor: "pointer" }}
               onClick={() => {
                 onWatchingNdCTDT(record);
-                
               }}
             />
             <ExceptionOutlined
@@ -416,9 +514,9 @@ export default function Dashboard(props) {
   return (
     <Spin tip="Loading..." spinning={showEditNoiDungLoading} size="large">
       <Layout hasSider>
-        <Sider selectedKey="ndCTDT" signOut={props.signOut} />
+        <Sider selectedKey="ndCTDT" userInfo={props.userInfo} />
         <Layout className="site-layout">
-          <Header />
+          <Header userInfo={props.userInfo} signOut={props.signOut}/>
           <Content
             className="content"
             style={{
@@ -584,7 +682,7 @@ export default function Dashboard(props) {
                   <NoiDung
                     selectedDataNganh={selectedDataNganh}
                     selectedDataKhoaHoc={selectedDataKhoaHoc}
-                    dataKhoiKT={dataKhoiKT}
+                    dataCTDT_KKT={dataCTDT_KKT}
                     dataNdCTDT={dataNdCTDT}
                     dataMonHoc={dataMonHoc}
                   />
@@ -603,7 +701,7 @@ export default function Dashboard(props) {
                 selectedDataNganh={selectedDataNganh}
                 selectedDataKhoaHoc={selectedDataKhoaHoc}
                 selectedDanhMuc={selectedDanhMuc}
-                dataKhoiKT={dataKhoiKT}
+                CTDT_KKT={CTDT_KKT}
                 dataNdCTDT={dataNdCTDT}
                 dataMonHoc={dataMonHoc}
                 
@@ -644,25 +742,26 @@ export default function Dashboard(props) {
                       </strong>
                     </div>
                     <div className="wrapper-content">
-                      {dataKhoiKT.map((dataKhoiKT) => {
-                        function getIdKhoiKT() {
-                          return dataKhoiKT.id;
+                      {dataCTDT_KKT.map((CTDT_KKT) => {
+                        function getIdCTDT_KKT() {
+                          return CTDT_KKT.id;
                         }
 
-                        let listMonHocTheoKKT = [];
+                        let listMonHocTheoCTDT_KKT = [];
                         let listMonHocConLai = [...dataMonHoc];
 
                         const new_NdCTDT = dataNdCTDT.filter((data) => {
-                          return data.idKhoiKT === dataKhoiKT.id;
+                          return data.idCTDT_KKT === CTDT_KKT.id;
                         });
 
                         dataMonHoc.forEach((dataMH) => {
                           new_NdCTDT.forEach((dataND) => {
                             if (dataMH.id === dataND.idMonHoc) {
-                              listMonHocTheoKKT = [
-                                ...listMonHocTheoKKT,
+                              listMonHocTheoCTDT_KKT = [
+                                ...listMonHocTheoCTDT_KKT,
                                 dataMH,
                               ];
+                              
                             }
                           });
                         });
@@ -676,7 +775,9 @@ export default function Dashboard(props) {
                           return dataND;
                         });
 
-                        const columnsMonHocTheoKKT = [
+                       
+
+                        const columnsMonHocTheoCTDT_KKT = [
                           {
                             title: "Mã môn học",
                             dataIndex: "maMonHoc",
@@ -795,13 +896,11 @@ export default function Dashboard(props) {
                                   <ArrowRightOutlined
                                     style={{ marginLeft: "10px" }}
                                     onClick={() => {
-                                      let idKhoiKT = getIdKhoiKT();
+                                      let idCTDT_KKT = getIdCTDT_KKT();
                                       const deleteND = dataNdCTDT.filter(
                                         (data) => {
                                           return (
-                                            data.idCTDT ===
-                                              selectedDanhMuc.id &&
-                                            data.idKhoiKT === idKhoiKT &&
+                                            data.idCTDT_KKT === idCTDT_KKT &&
                                             data.idMonHoc === record.id
                                           );
                                         }
@@ -831,11 +930,10 @@ export default function Dashboard(props) {
                                   <ArrowLeftOutlined
                                     style={{ marginLeft: "10px" }}
                                     onClick={() => {
-                                      let idKhoiKT = getIdKhoiKT();
+                                      let idCTDT_KKT = getIdCTDT_KKT();
 
                                       const AddND = {
-                                        idCTDT: selectedDanhMuc.id,
-                                        idKhoiKT: idKhoiKT,
+                                        idCTDT_KKT: idCTDT_KKT,
                                         idMonHoc: record.id,
                                         // id: "",
                                       };
@@ -844,7 +942,7 @@ export default function Dashboard(props) {
                                       // setListAddNdCTDT([...listAddNdCTDT]);
 
                                       dataNdCTDT.push(AddND);
-                                      setDataNdCTDT([...dataNdCTDT]); 
+                                      setDataNdCTDT([...dataNdCTDT]);
                                     }}
                                   />
                                 </>
@@ -962,10 +1060,10 @@ export default function Dashboard(props) {
                         ];
 
                         return (
-                          <div key={dataKhoiKT.id} className="list">
+                          <div key={CTDT_KKT.id} className="list">
                             <strong>
-                              <p style={{ width: "30%" }}>
-                                {i++}. {dataKhoiKT.tenKhoiKienThuc}
+                              <p >
+                                {i++}. {CTDT_KKT.tenKhoiKienThuc}
                               </p>
                             </strong>
                             <div
@@ -974,10 +1072,10 @@ export default function Dashboard(props) {
                             >
                               <Table
                                 style={{ width: "45%" }}
-                                columns={columnsMonHocTheoKKT}
+                                columns={columnsMonHocTheoCTDT_KKT}
                                 size="small"
                                 rowKey="maMonHoc"
-                                dataSource={listMonHocTheoKKT}
+                                dataSource={listMonHocTheoCTDT_KKT}
                                 pagination={false}
                                 scroll={{
                                   y: 150,
