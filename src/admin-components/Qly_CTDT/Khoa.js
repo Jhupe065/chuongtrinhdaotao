@@ -88,7 +88,8 @@ export default function Khoa(props) {
       dataIndex: "maKhoa",
       key: "maKhoa",
 
-      sorter: (a, b) => a.maKhoa.length - b.maKhoa.length,
+      sorter: (a, b) => a.maKhoa > b.maKhoa,
+      
       filterDropdown: ({
         setSelectedKeys,
         selectedKeys,

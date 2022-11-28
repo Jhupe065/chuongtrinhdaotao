@@ -974,5 +974,25 @@
       "idTaiKhoan": 10,
       "id": "usrt6Za"
     }
+  ],
+  "LuatThayThe": [
+    {
+      "idCTDT": 1,
+      "monBiThayThe": "GF101, GF102",
+      "monThayThe": "GJ101, GJ102",
+      "id": "asduybqc"
+    },
+    {
+      "idCTDT": 1,
+      "monBiThayThe": "GF101, GF102",
+      "monThayThe": "GZ101, GZ102",
+      "id": "-giE-3-5-SCm"
+    },
+    {
+      "idCTDT": 1,
+      "monBiThayThe": "GF101, GF102",
+      "monThayThe": "GK101, GK102",
+      "id": "0ujGL7y"
+    }
   ]
 }

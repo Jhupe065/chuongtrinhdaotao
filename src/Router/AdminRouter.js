@@ -13,7 +13,7 @@ import BangDiem from "../admin-components/Qly_CTDT/BangDiem";
 import NhanVien from "../admin-components/Qly_Nguoidung/NhanVien";
 import SinhVien from "../admin-components/Qly_Nguoidung/SinhVien";
 import ChucVu from "../admin-components/Qly_Nguoidung/ChucVu";
-
+import LuatTT from "../admin-components/Qly_CTDT/LuatThayThe";
 
 const AdminRouter = (props) => {
 
@@ -28,6 +28,7 @@ const AdminRouter = (props) => {
       <Route path="/khoiKT" element={<KKT signOut={props.signOut} userInfo={props.userInfo} />} />
       <Route path="/ndCTDT" element={<NdCTDT signOut={props.signOut} userInfo={props.userInfo} />} />
       <Route path="/dmCTDT" element={<DmCTDT signOut={props.signOut} userInfo={props.userInfo} />} />
+      <Route path="/luatTT" element={<LuatTT signOut={props.signOut} userInfo={props.userInfo} />} />
       <Route path="/taikhoan" element={<TaiKhoan signOut={props.signOut} userInfo={props.userInfo} />} />
       <Route path="/qlynhanvien" element={<NhanVien signOut={props.signOut} userInfo={props.userInfo} />} />
       <Route path="/qlysinhvien" element={<SinhVien signOut={props.signOut} userInfo={props.userInfo} />} />

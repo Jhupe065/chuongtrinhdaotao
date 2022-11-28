@@ -36,7 +36,7 @@ export default function Login(props) {
             ngaySinh: "10-03-2001",
             gioiTinh: 0,
             email: "Cg10301@gmail.com",
-            idChucVu: 3,
+            idChucVu: 1,
             idTaiKhoan: 1,
             id: "C0VS-0f"
           });
@@ -48,7 +48,7 @@ export default function Login(props) {
             ngaySinh: "10-03-2001",
             gioiTinh: 0,
             email: "Cg10301@gmail.com",
-            idChucVu: 3,
+            idChucVu: 1,
             idTaiKhoan: 1,
             id: "C0VS-0f"
           }))

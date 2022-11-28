@@ -31,7 +31,6 @@ const sider = (props) => {
   useEffect(() => {
     fetchDataSp("ChucVu", props.userInfo.idChucVu).then((data) => {
       setChucVu(data.tenChucVu);
-      console.log(data);
     });
   });
 
@@ -128,6 +127,10 @@ const sider = (props) => {
                   <span>Quản lý nội dung CTĐT</span>
                   <Link to="/admin/ndCTDT" />
                 </Menu.Item>
+                <Menu.Item key="luatTT" style={{ paddingLeft: "24px" }}>
+                  <span>Quản lý luật thay thế môn học</span>
+                  <Link to="/admin/luatTT" />
+                </Menu.Item>
               </Menu.ItemGroup>
             </SubMenu>
           </Menu>
@@ -178,6 +181,10 @@ const sider = (props) => {
               <span>Quản lý nội dung CTĐT</span>
               <Link to="/admin/ndCTDT" />
             </Menu.Item>
+            <Menu.Item key="luatTT" style={{ paddingLeft: "24px" }}>
+                  <span>Quản lý luật thay thế môn học</span>
+                  <Link to="/admin/luatTT" />
+                </Menu.Item>
           </Menu>
         ) : (
           <></>
@@ -215,6 +222,10 @@ const sider = (props) => {
                 <span>Quản lý nội dung CTĐT</span>
                 <Link to="/admin/ndCTDT" />
               </Menu.Item>
+              <Menu.Item key="luatTT" style={{ paddingLeft: "24px" }}>
+                  <span>Quản lý luật thay thế môn học</span>
+                  <Link to="/admin/luatTT" />
+                </Menu.Item>
             </Menu>
           ) : (
             <></>
