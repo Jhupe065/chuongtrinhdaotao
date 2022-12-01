@@ -176,6 +176,18 @@ export default function XetTN(props) {
       id: "079567ab-39cb-44aa-af27-98f97cc6586c",
     },
     {
+      idCTDT_KKT: "giESCm",
+      idMonHoc: 31,
+      mucDo: 2,
+      id: "625e96ed-4641-4635-886a-2bb728712",
+    },
+    {
+      idCTDT_KKT: "giESCm",
+      idMonHoc: 32,
+      mucDo: 2,
+      id: "079ab-39cb-44aa-af27-98f97cc6586c",
+    },
+    {
       idCTDT_KKT: "giE45csdSCm",
       idMonHoc: 35,
       mucDo: 0,
@@ -342,7 +354,6 @@ export default function XetTN(props) {
   };
 
   const xetMonThayThe = (maMonHoc, NN2Bac1 = []) => {
-    
     let listMTTDaHoc = [];
     let listNN2Bac1DaHoc = [];
     if (maMonHoc === "GF101" || maMonHoc === "GF102") {
@@ -371,9 +382,9 @@ export default function XetTN(props) {
             bangDiem.forEach((data) => {
               if (data.maMonHoc === arrMTT[index]) {
                 const maMHNN2Bac1 = data.maMonHoc.slice(0, 2) + "101";
-              
+
                 if (NN2Bac1.includes(maMHNN2Bac1)) {
-                  listMTTDaHoc.push(data.maMonHoc)
+                  listMTTDaHoc.push(data.maMonHoc);
                 }
               }
             });
@@ -382,7 +393,6 @@ export default function XetTN(props) {
       }
     }
     if (maMonHoc !== "GF101" && maMonHoc !== "GF102") {
-    
       dataMHThayThe.forEach((data) => {
         const index = strToArray(data.nhomBiThayThe).indexOf(maMonHoc);
         const arrMBTT = strToArray(data.nhomBiThayThe);
@@ -398,7 +408,7 @@ export default function XetTN(props) {
         }
       });
     }
-    
+
     return [listMTTDaHoc, listNN2Bac1DaHoc];
   };
 
@@ -566,7 +576,18 @@ export default function XetTN(props) {
                                         if (data.maMonHoc === "GF101") {
                                           check = true;
                                           NN2Bac1 = xetNN2Bac1DaHoc();
-                                          
+
+                                          tongSoTCHT += dataCTDT.soTinChi;
+                                          return (
+                                            data.maMonHoc !== dataCTDT.maMonHoc
+                                          );
+                                        }
+                                        if (
+                                          data.maMonHoc === "GF102" &&
+                                          NN2Bac1.length !== 0
+                                        ) {
+                                          check = true;
+
                                           return (
                                             data.maMonHoc !== dataCTDT.maMonHoc
                                           );
@@ -589,21 +610,21 @@ export default function XetTN(props) {
                                     const new_data = xetMonThayThe(
                                       dataCTDT.maMonHoc,
                                       NN2Bac1
-                                    )
+                                    );
                                     NN2Bac1 = new_data[1];
                                     const listMH = new_data[0];
-                                    new_dataBangDiem.filter((BD)=>{
-                                     
-                                      let delMH = ""
-                                      listMH.forEach((MH)=>{
-                                        if(BD.maMonHoc === MH){
-                                          
+                                    
+                                    new_dataBangDiem = new_dataBangDiem.filter((BD) => {
+                                      let delMH = "";
+                                      listMH.forEach((MH) => {
+                                        if (BD.maMonHoc === MH) {
                                           delMH = MH;
-                                          tongSoTCHT += dataCTDT.soTinChi;
+                                          tongSoTCHT += BD.soTinChi;
                                         }
-                                      })
+                                      });
                                       return BD.maMonHoc !== delMH;
-                                    })
+                                    });
+                                    console.log(new_dataBangDiem);
                                   }
                                 }
 
@@ -658,6 +679,8 @@ export default function XetTN(props) {
                                 KL_TongSoTCHT += tongSoTCHT;
                               }
 
+                              
+
                               /// in ra
                               data.push({
                                 key: key++,
@@ -679,6 +702,8 @@ export default function XetTN(props) {
                                 ) + "%",
                               Action: 0,
                             });
+
+                            console.log(new_dataBangDiem);
                             // console.log(data);
                             // console.log("listMonHocTuChon", listMHKoBatBuoc);
                             // console.log("LuatThayTheMonHoc", dataMHThayThe);
