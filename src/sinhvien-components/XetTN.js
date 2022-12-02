@@ -243,7 +243,7 @@ export default function XetTN(props) {
       idMonHoc: 55,
       mucDo: 2,
       id: "8e68e66a-c8b8-44f6-a801-543f4ab864a7",
-    }
+    },
   ]);
 
   async function fetchDataSp(TableSp, id = "") {
@@ -403,7 +403,6 @@ export default function XetTN(props) {
             bangDiem.forEach((data) => {
               if (data.maMonHoc === MTT) {
                 check = true;
-                // console.log("vao day r");
                 // listMTTDaHoc = [];
               }
             });
@@ -420,6 +419,7 @@ export default function XetTN(props) {
         return true;
       });
     }
+    
     return [listMTTDaHoc, listNN2Bac1DaHoc];
   };
 
@@ -941,45 +941,48 @@ export default function XetTN(props) {
                                   const DKNN2 = xetDieuKienNN2();
                                   let checkNN2 = DKNN2[0];
                                   let maMonNN2 = DKNN2[1];
-                                  console.log(DKNN2);
+
                                   //Xem sv da hoc mon co mucDo === 1 chua
                                   new_dataBangDiem = new_dataBangDiem.filter(
                                     (dataBD) => {
                                       if (
                                         dataBD.maMonHoc === dataCTDT.maMonHoc
                                       ) {
-                                        console.log(dataBD);
                                         if (
                                           !checkNN2 &&
                                           (dataBD.maMonHoc === "GF101" ||
                                             dataBD.maMonHoc === "GF102")
                                         ) {
                                           if (dataBD.maMonHoc === "GF101") {
+                                            
                                             check = true;
-                                            NN2Bac1 = xetNN2Bac1DaHoc();
+                                            // NN2Bac1 = xetNN2Bac1DaHoc();
                                             tongSoTCHT += dataCTDT.soTinChi;
                                             listMHTheoKKT.push(dataBD);
-                                            return (
-                                              dataBD.maMonHoc !==
-                                              dataCTDT.maMonHoc
-                                            );
-                                          } else if (
-                                            dataBD.maMonHoc === "GF102" &&
-                                            NN2Bac1.length !== 0
-                                          ) {
-                                            check = true;
-                                            listMHTheoKKT.push(dataBD);
-                                            tongSoTCHT += dataCTDT.soTinChi;
                                             return (
                                               dataBD.maMonHoc !==
                                               dataCTDT.maMonHoc
                                             );
                                           }
+                                         
+                                          if (
+                                            dataBD.maMonHoc === "GF102" 
+                                          ) {
+                                            
+                                            check = true;
+                                            listMHTheoKKT.push(dataBD);
+                                            tongSoTCHT += dataCTDT.soTinChi;
+
+                                            return (
+                                              dataBD.maMonHoc !==
+                                              dataCTDT.maMonHoc
+                                            );
+                                          }
+                                          return true;
                                         } else if (
                                           dataBD.maMonHoc !== "GF101" &&
                                           dataBD.maMonHoc !== "GF102"
                                         ) {
-                                          console.log(dataBD);
                                           check = true;
                                           tongSoTCHT += dataCTDT.soTinChi;
                                           listMHTheoKKT.push(dataBD);
@@ -1004,7 +1007,7 @@ export default function XetTN(props) {
                                     );
                                     NN2Bac1 = new_data[1];
                                     const listMH = new_data[0];
-                                    console.log(new_data);
+                                    
                                     // console.log(listMH);
                                     new_dataBangDiem = new_dataBangDiem.filter(
                                       (dataBD) => {
@@ -1137,7 +1140,6 @@ export default function XetTN(props) {
                               Action: 0,
                             });
 
-                            console.log(new_dataBangDiem);
                             // console.log(data);
 
                             setDataSource(data);
