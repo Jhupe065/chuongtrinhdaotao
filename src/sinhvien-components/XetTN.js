@@ -323,6 +323,7 @@ export default function XetTN(props) {
   const xetDieuKienNN2 = () => {
     let check = false;
     let maMon = "";
+
     bangDiem.forEach((data1) => {
       if (
         data1.maMonHoc.slice(0, 1) === "G" &&
@@ -344,85 +345,77 @@ export default function XetTN(props) {
         });
       }
     });
+
     return [check, maMon];
   };
 
+  /// ham xet mon thay the moi
   const xetMonThayThe = (maMonHoc, NN2Bac1 = [], maMHNN2 = "") => {
     let listMTTDaHoc = [];
-    let listNN2Bac1DaHoc = [];
-    if (maMonHoc === "GF101" || maMonHoc === "GF102") {
-      if (maMonHoc === "GF101") {
-        dataMHThayThe.forEach((data) => {
-          const index = strToArray(data.nhomBiThayThe).indexOf(maMonHoc);
-          const arrMBTT = strToArray(data.nhomBiThayThe);
-          const arrMTT = strToArray(data.nhomThayThe);
-          if (arrMBTT[index] === maMonHoc) {
-            bangDiem.forEach((data) => {
-              if (
-                data.maMonHoc === arrMTT[index] &&
-                data.maMonHoc === maMHNN2 + "101"
-              ) {
-                listNN2Bac1DaHoc = xetNN2Bac1DaHoc();
-                listMTTDaHoc.push(data.maMonHoc);
-              }
-            });
-          }
-        });
-      } else {
-        dataMHThayThe.forEach((data) => {
-          const index = strToArray(data.nhomBiThayThe).indexOf(maMonHoc);
-          const arrMBTT = strToArray(data.nhomBiThayThe);
-          const arrMTT = strToArray(data.nhomThayThe);
 
-          if (arrMBTT[index] === maMonHoc) {
-            bangDiem.forEach((data) => {
-              if (
-                data.maMonHoc === arrMTT[index] &&
-                data.maMonHoc === maMHNN2 + "102"
-              ) {
-                const maMHNN2Bac1 = data.maMonHoc.slice(0, 2) + "101";
+    let checkDK = "";
 
-                if (NN2Bac1.includes(maMHNN2Bac1)) {
-                  listMTTDaHoc.push(data.maMonHoc);
-                }
-              }
-            });
-          }
-        });
-      }
-    }
-    if (maMonHoc !== "GF101" && maMonHoc !== "GF102") {
-      dataMHThayThe.every((data) => {
-        const index = strToArray(data.nhomBiThayThe).indexOf(maMonHoc);
-        const arrMBTT = strToArray(data.nhomBiThayThe);
-        const arrMTT = strToArray(data.nhomThayThe);
-        let countNBofArrMTT = 0;
-        if (arrMBTT[index] === maMonHoc) {
-          let check = false;
-          arrMTT.forEach((MTT) => {
-            bangDiem.forEach((data) => {
-              if (data.maMonHoc === MTT) {
-                check = true;
-                // listMTTDaHoc = [];
-              }
-            });
-            if (check) {
-              listMTTDaHoc.push(MTT);
-              countNBofArrMTT++;
+    dataMHThayThe.every((data) => {
+      const arrMBTT = strToArray(data.nhomBiThayThe);
+      if (arrMBTT.includes(maMonHoc)) {
+        let countNBofArrMBTT = 0;
+        arrMBTT.forEach((MBTT) => {
+          bangDiem.every((BD) => {
+            if (BD.maMonHoc === MBTT) {
+              countNBofArrMBTT += 1;
+              return false;
             }
+            return true;
           });
-        }
-        if (countNBofArrMTT === arrMTT.length) {
+        });
+        if (countNBofArrMBTT === arrMBTT.length) {
+          checkDK = "DahocxongMBTT";
           return false;
         }
+        return true;
+      }
+      return true;
+    });
 
+    if (checkDK === "") {
+      dataMHThayThe.every((data) => {
+        const arrMBTT = strToArray(data.nhomBiThayThe);
+        const arrMTT = strToArray(data.nhomThayThe);
+        if (arrMBTT.includes(maMonHoc)) {
+          listMTTDaHoc = [];
+          let countNBofArrMBTT = 0;
+          let check = false;
+          arrMTT.forEach((MTT) => {
+            bangDiem.every((BD) => {
+              if (BD.maMonHoc === MTT) {
+                check = true;
+                return false;
+              }
+              return true;
+            });
+            if (check) {
+              countNBofArrMBTT += 1;
+              listMTTDaHoc.push(MTT);
+              check = false;
+            }
+          });
+          if (countNBofArrMBTT === arrMTT.length) {
+            checkDK = "DahocxongMTT";
+            return false;
+          }
+          return true;
+        }
         return true;
       });
     }
-    
-    return [listMTTDaHoc, listNN2Bac1DaHoc];
-  };
 
+    if (checkDK !== "DahocxongMTT" && checkDK !== "DahocxongMBTT") {
+      checkDK = "";
+    }
+
+    return [checkDK, listMTTDaHoc];
+  };
+///////////////////
   const handleCancel = () => {
     setIsDetailOpen(false);
     setHeaderModalText("");
@@ -731,6 +724,72 @@ export default function XetTN(props) {
                   });
                 }
               });
+
+              const checkNN2 = xetDieuKienNN2();
+
+              if (
+                record.KKT === "Các học phần lựa chọn của ngành" &&
+                record.SoTCHT >= record.soTCToiThieu
+              ) {
+                listSource = listSource.filter((data) => {
+                  return data.trangThai === "Đã hoàn thành";
+                });
+              }
+
+              dataMHThayThe.forEach((MHTT) => {
+                listSource.forEach((ND) => {
+                  const index = strToArray(MHTT.nhomBiThayThe).indexOf(
+                    ND.maMonHoc
+                  );
+                  const arrMBTT = strToArray(MHTT.nhomBiThayThe);
+
+                  const arrMTT = strToArray(MHTT.nhomThayThe);
+                  if (checkNN2[0] && record.KKT === "Giáo dục đại cương") {
+                    listSource = listSource.filter((new_ND) => {
+                      if (
+                        new_ND.maMonHoc.slice(0, 2) !== checkNN2[1] &&
+                        new_ND.maMonHoc.slice(0, 2) !== "GE" &&
+                        (arrMBTT.includes(new_ND.maMonHoc) ||
+                          arrMTT.includes(new_ND.maMonHoc))
+                      ) {
+                        return false;
+                      }
+                      return true;
+                    });
+                  }
+
+                  if (
+                    arrMBTT.length > 1 &&
+                    arrMBTT[index] === ND.maMonHoc &&
+                    ND.trangThai === "Đã hoàn thành" &&
+                    record.KKT !== "Lựa chọn tự do"
+                  ) {
+                    listSource = listSource.filter((new_ND) => {
+                      if (new_ND.maMonHoc === arrMTT[index]) {
+                        return new_ND.maMonHoc !== arrMTT[index];
+                      }
+                      return true;
+                    });
+                  }
+                  if (
+                    arrMBTT.length === 1 &&
+                    arrMBTT[0] === ND.maMonHoc &&
+                    ND.trangThai === "Đã hoàn thành" &&
+                    record.KKT !== "Lựa chọn tự do"
+                  ) {
+                    arrMTT.forEach((MTT) => {
+                      listSource = listSource.filter((new_ND) => {
+                        if (MTT === new_ND.maMonHoc) {
+                          return new_ND.maMonHoc !== MTT;
+                        }
+                        return true;
+                      });
+                      return true;
+                    });
+                  }
+                });
+              });
+
               setDetailDataSource(listSource);
               setIsDetailOpen(true);
             }}
@@ -876,7 +935,11 @@ export default function XetTN(props) {
                       let new_dataCTDT = [];
 
                       fetchDataCTDT().then((dataCTDT) => {
-                        //call api get data luatthaythemonhoc voi idCTDT = dataCTDT.id
+                        // fetchDataQuery(
+                        //   "MonThayThe",
+                        //   "idCTDT",
+                        //   dataCTDT[0].id
+                        // ).then((dataMonThayThe) => {
                         // fetchDataNd(dataCTDT[0].id).then((dataNd) => {
                         fetchDataCTDT_KKT(dataCTDT[0].id).then(
                           (dataCTDT_KKT) => {
@@ -921,110 +984,88 @@ export default function XetTN(props) {
                             });
 
                             ///////////////////////////////////////////
-                            console.log(new_dataCTDT);
                             listCTDT_KKT.forEach((dataCTDT_KKT) => {
                               /// Xu ly thuat toan
+                              let listNdTheoCTDT_KKT = [];
+                              
+                              new_dataCTDT.forEach((CTDT)=>{
+                                if(CTDT.idCTDT_KKT === dataCTDT_KKT.id) {
+                                  listNdTheoCTDT_KKT.push(CTDT)
+                                }
+                              })
+                              
                               let tongSoTC = 0;
                               let tongSoTCHT = 0;
                               let mucDoHoanThanh = "";
-                              let NN2Bac1 = [];
 
                               let listMHTheoKKT = [];
-
+                              // xu ly mon thay the moi
                               new_dataCTDT.forEach((dataCTDT) => {
                                 if (
                                   dataCTDT.mucDo === 1 &&
                                   dataCTDT.idCTDT_KKT === dataCTDT_KKT.id
                                 ) {
                                   tongSoTC += dataCTDT.soTinChi;
-                                  let check = false;
-                                  const DKNN2 = xetDieuKienNN2();
-                                  let checkNN2 = DKNN2[0];
-                                  let maMonNN2 = DKNN2[1];
+                                  
 
-                                  //Xem sv da hoc mon co mucDo === 1 chua
-                                  new_dataBangDiem = new_dataBangDiem.filter(
-                                    (dataBD) => {
-                                      if (
-                                        dataBD.maMonHoc === dataCTDT.maMonHoc
-                                      ) {
-                                        if (
-                                          !checkNN2 &&
-                                          (dataBD.maMonHoc === "GF101" ||
-                                            dataBD.maMonHoc === "GF102")
-                                        ) {
-                                          if (dataBD.maMonHoc === "GF101") {
-                                            
-                                            check = true;
-                                            // NN2Bac1 = xetNN2Bac1DaHoc();
-                                            tongSoTCHT += dataCTDT.soTinChi;
-                                            listMHTheoKKT.push(dataBD);
-                                            return (
-                                              dataBD.maMonHoc !==
-                                              dataCTDT.maMonHoc
-                                            );
-                                          }
-                                         
-                                          if (
-                                            dataBD.maMonHoc === "GF102" 
-                                          ) {
-                                            
-                                            check = true;
-                                            listMHTheoKKT.push(dataBD);
-                                            tongSoTCHT += dataCTDT.soTinChi;
-
-                                            return (
-                                              dataBD.maMonHoc !==
-                                              dataCTDT.maMonHoc
-                                            );
-                                          }
-                                          return true;
-                                        } else if (
-                                          dataBD.maMonHoc !== "GF101" &&
-                                          dataBD.maMonHoc !== "GF102"
-                                        ) {
-                                          check = true;
-                                          tongSoTCHT += dataCTDT.soTinChi;
+                                  console.log(dataCTDT.maMonHoc);
+                                  console.log(
+                                    xetMonThayThe(dataCTDT.maMonHoc)[0]
+                                  );
+                                  
+                                    if (
+                                      xetMonThayThe(
+                                        dataCTDT.maMonHoc
+                                      )[0] === "DahocxongMBTT"
+                                    ) {
+                                      tongSoTCHT += dataCTDT.soTinChi;
+                                      new_dataBangDiem = new_dataBangDiem.filter((dataBD)=>{
+                                        if(dataBD.maMonHoc === dataCTDT.maMonHoc){
                                           listMHTheoKKT.push(dataBD);
-                                          return (
-                                            dataBD.maMonHoc !==
-                                            dataCTDT.maMonHoc
-                                          );
+                                          return dataBD.maMonHoc !== dataCTDT.maMonHoc;
                                         }
                                         return true;
-                                      }
-                                      return true;
+                                      })
                                     }
-                                  );
-
-                                  // console.log(new_dataBangDiem); danh sach bang diem con lai
-                                  if (!check) {
-                                    // goi ham xu ly mon thay the
-                                    const new_data = xetMonThayThe(
-                                      dataCTDT.maMonHoc,
-                                      NN2Bac1,
-                                      maMonNN2
-                                    );
-                                    NN2Bac1 = new_data[1];
-                                    const listMH = new_data[0];
-                                    
-                                    // console.log(listMH);
-                                    new_dataBangDiem = new_dataBangDiem.filter(
-                                      (dataBD) => {
-                                        let delMH = "";
-                                        listMH.forEach((MH) => {
-                                          if (dataBD.maMonHoc === MH) {
-                                            delMH = MH;
-                                            tongSoTCHT += dataBD.soTinChi;
-                                            listMHTheoKKT.push(dataBD);
-                                          }
-                                        });
-                                        return dataBD.maMonHoc !== delMH;
+                                    if (
+                                      xetMonThayThe(
+                                        dataCTDT.maMonHoc
+                                      )[0] === "DahocxongMTT"
+                                    ) {
+                                      
+                                      const listMTT = xetMonThayThe(
+                                        dataCTDT.maMonHoc
+                                      )[1];
+                                      new_dataBangDiem = new_dataBangDiem.filter(
+                                        (dataBD) => {
+                                          let delMH = "";
+                                          listMTT.forEach((MH) => {
+                                            if (dataBD.maMonHoc === MH) {
+                                              delMH = MH;
+                                              tongSoTCHT += dataBD.soTinChi;
+                                              listMHTheoKKT.push(dataBD);
+                                            }
+                                          });
+                                          return dataBD.maMonHoc !== delMH;
+                                        })
+                                     
+                                    } else {
+                                      
+                                      new_dataBangDiem = new_dataBangDiem.filter((dataBD)=>{
+                                        if(dataBD.maMonHoc === dataCTDT.maMonHoc){
+                                          listMHTheoKKT.push(dataBD);
+                                          tongSoTCHT += dataCTDT.soTinChi;
+                                          return dataBD.maMonHoc !== dataCTDT.maMonHoc;
+                                        }
+                                        return true;
+                                      })
                                       }
-                                    );
-                                  }
-                                }
 
+                                  console.log(new_dataBangDiem);
+
+                                 
+                                }
+                                ///////////////////
                                 // Xu ly cac mon hoc co mucDo = 0
                                 if (
                                   dataCTDT_KKT.id === dataCTDT.idCTDT_KKT &&
@@ -1047,13 +1088,10 @@ export default function XetTN(props) {
                                   // console.log(new_dataBangDiem); danh sach bang diem con lai
                                 }
                                 if (
-                                  dataCTDT_KKT.tenKhoiKienThuc ===
-                                    "Các học phần lựa chọn của ngành" &&
-                                  dataCTDT.idCTDT_KKT === dataCTDT_KKT.id &&
-                                  dataCTDT.mucDo === 2
+                                  dataCTDT_KKT.soTinChi > 0
+                                    &&
+                                  dataCTDT.idCTDT_KKT === dataCTDT_KKT.id 
                                 ) {
-                                  // listMHKoBatBuoc.push(dataCTDT.maMonHoc);
-
                                   new_dataBangDiem = new_dataBangDiem.filter(
                                     (dataBD) => {
                                       if (
@@ -1076,9 +1114,9 @@ export default function XetTN(props) {
                               KL_TongSoTCHT += tongSoTCHT;
                               mucDoHoanThanh =
                                 Math.round((tongSoTCHT / tongSoTC) * 100) + "%";
+                              
                               if (
-                                dataCTDT_KKT.tenKhoiKienThuc ===
-                                "Các học phần lựa chọn của ngành"
+                                dataCTDT_KKT.soTinChi > 0
                               ) {
                                 tongSoTC = ">=" + dataCTDT_KKT.soTinChi;
                                 mucDoHoanThanh =
@@ -1090,8 +1128,7 @@ export default function XetTN(props) {
                                 KL_TongSoTCHT += tongSoTCHT;
                               }
                               if (
-                                dataCTDT_KKT.tenKhoiKienThuc ===
-                                "Lựa chọn tự do"
+                                listNdTheoCTDT_KKT.length === 0
                               ) {
                                 tongSoTC = ">=" + dataCTDT_KKT.soTinChi;
                                 // console.log(new_dataBangDiem);
@@ -1112,10 +1149,7 @@ export default function XetTN(props) {
                                 KL_TongSoTCHT += tongSoTCHT;
                               }
 
-                              console.log(
-                                dataCTDT_KKT.tenKhoiKienThuc,
-                                listMHTheoKKT
-                              );
+                              
                               /// in ra
                               data.push({
                                 key: key++,
@@ -1124,6 +1158,7 @@ export default function XetTN(props) {
                                 SoTCHT: tongSoTCHT,
                                 MucDoHT: mucDoHoanThanh,
                                 listMHDaHoanThanh: listMHTheoKKT,
+                                soTCToiThieu: dataCTDT_KKT.soTinChi,
                                 idCTDT_KKT: dataCTDT_KKT.id,
                                 Action: 1,
                               });
@@ -1140,14 +1175,13 @@ export default function XetTN(props) {
                               Action: 0,
                             });
 
-                            // console.log(data);
 
                             setDataSource(data);
                             setLoading(false);
-                            //Call api lay bangDiem moi
                           }
                         );
                       });
+                      // });
                     }
                   }}
                 >
