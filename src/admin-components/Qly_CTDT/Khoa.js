@@ -5,7 +5,7 @@ import "antd/dist/antd.css";
 import "../../App.css";
 import "../content.css";
 
-import { Table, Button, Modal, Input, notification, Popconfirm } from "antd";
+import { Table, Button, Modal, Input, notification, Popconfirm, Select } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -20,6 +20,8 @@ import PATH_API from "../../API/path_api";
 
 const { Content } = Layout;
 
+const { Option } = Select;
+
 export default function Khoa(props) {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
@@ -32,6 +34,9 @@ export default function Khoa(props) {
   const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const [tenKhoaTextInput, settenKhoaTextInput] = useState("");
   const [maKhoaTextInput, setmaKhoaTextInput] = useState("");
+  const [selectedNhanVien, setSelectedNhanVien] = useState(null);
+
+  const [dataNhanVien, setDataNhanVien] = useState([]);
 
   const handleCancel = () => {
     setLoading(false);
@@ -39,6 +44,7 @@ export default function Khoa(props) {
     setIsModalEditOpen(false);
     setmaKhoaTextInput("");
     settenKhoaTextInput("");
+    setSelectedNhanVien(null); 
   };
 
   const fetchData = (params = {}) => {
@@ -49,7 +55,21 @@ export default function Khoa(props) {
       return data;
     }
     fetchData().then((data) => {
-      setDataSource(data);
+      let listKhoa = [];
+      data.forEach((khoa)=>{
+        params.dataNV.forEach((NV)=>{
+          if(khoa.idNhanVien === NV.id){
+            listKhoa.push({
+              id: khoa.id,
+              maKhoa: khoa.maKhoa,
+              tenKhoa: khoa.tenKhoa,
+              maNhanVien: NV.maNhanVien,
+              idNhanVien: NV.id
+            })
+          }
+        })
+      })
+      setDataSource(listKhoa);
       setLoading(false);
       setPagination({
         ...params.pagination,
@@ -57,9 +77,19 @@ export default function Khoa(props) {
     });
   };
 
+  async function fetchDataSp(DataSp) {
+    const response = await fetch(`${PATH_API}${DataSp}`);
+    const data = await response.json();
+    return data;
+  }
+
   useEffect(() => {
-    fetchData({
-      pagination,
+    fetchDataSp("NhanVien").then((data) => {
+      setDataNhanVien(data);
+      fetchData({
+        pagination,
+        dataNV: data
+      });
     });
   }, []);
 
@@ -183,6 +213,11 @@ export default function Khoa(props) {
       },
     },
     {
+      key:"maNhanVien",
+      title: "Mã nhân viên",
+      dataIndex: "maNhanVien"
+    },
+    {
       key: "action",
       title: "",
       align: "center",
@@ -206,6 +241,7 @@ export default function Khoa(props) {
                   .then(() => {
                     fetchData({
                       pagination,
+                      dataNV: dataNhanVien
                     });
                   })
                   .then(() => {
@@ -304,6 +340,7 @@ export default function Khoa(props) {
                     setLoading(true);
                     const new_maKhoa = e.target.elements.maKhoa.value;
                     const new_tenKhoa = e.target.elements.tenKhoa.value;
+                    const new_idNV = selectedNhanVien;
                     // Kiem tra so luong ki tu
                     if (new_maKhoa.length > 10 || new_tenKhoa.length > 255) {
                       return notification.error({
@@ -325,6 +362,16 @@ export default function Khoa(props) {
                       });
                     }
 
+                    if(new_idNV === null){
+                      return notification.error({
+                        message: "Thêm không thành công",
+                        description:
+                          "Vui lòng nhập đầy đủ thông tin!",
+                        duration: 3,
+                        placement: "bottomRight",
+                      });
+                    }
+
                     if (
                       new_maKhoa.length <= 10 &&
                       new_tenKhoa.length <= 255 &&
@@ -333,6 +380,7 @@ export default function Khoa(props) {
                       const new_data = {
                         maKhoa: new_maKhoa,
                         tenKhoa: new_tenKhoa,
+                        idNhanVien: new_idNV
                       };
                       fetch(`${PATH_API}Khoa`, {
                         method: "POST",
@@ -345,6 +393,7 @@ export default function Khoa(props) {
                         .then(() => {
                           fetchData({
                             pagination,
+                            dataNV: dataNhanVien
                           });
                         })
                         .catch((error) => {
@@ -389,6 +438,42 @@ export default function Khoa(props) {
                       />
                     </div>
                     <p className="note">(* Không vượt quá 255 kí tự)</p>
+                  </div>
+                  <div className="form-input form-input-center">
+                    <label htmlFor="nhanvien">Nhân viên:</label>
+                    <Select
+                      value={selectedNhanVien}
+                      placeholder="Tìm kiếm để chọn nhân viên"
+                      showSearch
+                      style={{
+                        width: 200,
+                      }}
+                      optionFilterProp="children"
+                      filterOption={(input, option) =>
+                        option.children.includes(input)
+                      }
+                      filterSort={(optionA, optionB) =>{
+                        
+                        optionA.children
+                          .toLowerCase()
+                          .localeCompare(optionB.children.toLowerCase())}
+                      }
+                      allowClear
+                      onClear={() => {
+                        setSelectedNhanVien(null);
+                      }}
+                      onSelect={(value) => {
+                        setSelectedNhanVien(value);
+                      }}
+                    >
+                      {dataNhanVien.map((data) => {
+                        return (
+                          <Option key={data.id} value={data.id}>
+                             {data.maNhanVien}
+                          </Option>
+                        );
+                      })}
+                    </Select>
                   </div>
                   <Button type="primary" htmlType="submit">
                     Xác nhận
@@ -446,13 +531,45 @@ export default function Khoa(props) {
                     </div>
                     <p className="note">(* Không vượt quá 255 kí tự)</p>
                   </div>
+                  <div className="form-input form-input-center">
+                    <Select
+                      value={editingData?.idNhanVien}
+                      placeholder="Tìm kiếm để chọn nhân viên"
+                      showSearch
+                      style={{
+                        width: 200,
+                      }}
+                      optionFilterProp="children"
+                      filterOption={(input, option) =>
+                        option.children.includes(input)
+                      }
+                      filterSort={(optionA, optionB) =>
+                        optionA.children
+                          .toLowerCase()
+                          .localeCompare(optionB.children.toLowerCase())
+                      }
+                      onSelect={(value) => {
+                        setEditingData((pre) => {
+                          return { ...pre, idNhanVien: value };
+                        });
+                      }}
+                    >
+                      {dataNhanVien.map((data) => {
+                        return (
+                          <Option key={data.id} value={data.id}>
+                            {data.maNhanVien}
+                          </Option>
+                        );
+                      })}
+                    </Select>
+                  </div>
                   <Button
                     type="primary"
                     htmlType="submit"
                     onClick={() => {
                       setLoading(true);
                      
-                      if(editingData.maKhoa === "" || editingData.tenKhoa === ""){
+                      if(editingData.maKhoa === "" || editingData.tenKhoa === "" || editingData.idNhanVien === null){
                         return notification.error({
                           message: "Sửa thông tin không thành công",
                           description:
@@ -500,17 +617,24 @@ export default function Khoa(props) {
                       ) {
                         dataSource.map((data) => {
                           if (data.id === editingData.id) {
+                            const new_editingData = {
+                              id: editingData.id,
+                              maKhoa: editingData.maKhoa,
+                              tenKhoa: editingData.tenKhoa,
+                              idNhanVien: editingData.idNhanVien,
+                            }
                             fetch(`${PATH_API}Khoa/${editingData.id}`, {
                               method: "PUT",
                               headers: {
                                 "Content-Type": "application/json",
                               },
-                              body: JSON.stringify(editingData),
+                              body: JSON.stringify(new_editingData),
                             })
                               .then((response) => response.json())
                               .then(() => {
                                 fetchData({
                                   pagination,
+                                  dataNV: dataNhanVien
                                 });
                               })
                               .catch((error) => {
